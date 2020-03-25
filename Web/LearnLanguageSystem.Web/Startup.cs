@@ -9,6 +9,7 @@
     using LearnLanguageSystem.Data.Repositories;
     using LearnLanguageSystem.Data.Seeding;
     using LearnLanguageSystem.Services.Data;
+    using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Services.Messaging;
     using LearnLanguageSystem.Web.ViewModels;
@@ -33,6 +34,8 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
@@ -71,7 +74,9 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IContestsService, ContestsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
