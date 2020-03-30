@@ -1,0 +1,33 @@
+﻿@model LearnLanguageSystem.Web.ViewModels.Contests.ContestViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //todo: change name functionality
+    //todo: add questions functionality
+}
+
+<h1>Edit</h1>
+
+<form>
+    <label>Name</label>
+    <input type="text" value="@Model.Name" asp-for="Name" />
+
+    <button class="btn btn-primary" asp-controller="Contests" asp-action="ChangeName" asp-route-id="@Model.Id">Edit Name</button> @*todo: with hidden input*@
+</form>
+
+@if (Model.Questions.Any())
+{
+    foreach (var question in Model.Questions)
+    {
+        //todo: questions edit
+        <p>@question.Content</p>
+    }
+}
+else
+{
+    <p>no questions added</p>
+}
+
+<a class="btn btn-primary" asp-controller="Questions" asp-action="Add" asp-route-id="@Model.Id">Add questions</a> @*todo: with hidden input*@

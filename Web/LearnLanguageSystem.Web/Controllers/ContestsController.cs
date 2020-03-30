@@ -1,17 +1,15 @@
 ﻿namespace LearnLanguageSystem.Web.Controllers
 {
-    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Contests;
-    using LearnLanguageSystem.Web.InputModels.Contests;
-    using LearnLanguageSystem.Web.InputModels.Questions;
     using LearnLanguageSystem.Web.ViewModels.Contests;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ContestsController : Controller
+    public class ContestsController : BaseController
     {
         private readonly IContestsService contestsService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -30,7 +28,31 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(ContestInputModel model)
+        public async Task<IActionResult> Create(string name)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var contestId = await this.contestsService.CreateAsync(name, user.Id);
+
+            return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
+        }
+
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var contest = this.contestsService.GetById<ContestViewModel>(id);
+
+            return this.View(contest);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit()
         {
             return this.View();
         }
@@ -49,13 +71,20 @@
         }
 
         [Authorize]
-        public IActionResult MyContests()
+        public async Task<IActionResult> MyContests()
         {
-            var userId = this.userManager.GetUserId(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
 
-            var model = this.contestsService.GetCreatedContests<ContestViewModel>(userId);
+            var model = this.contestsService.GetOwned<ContestViewModel>(user.Id);
 
-            return this.View();
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> ChangeName(string id, string name)
+        {
+            await this.contestsService.ChangeNameAsync(id, name);
+
+            return this.RedirectToAction(nameof(this.MyContests)); // todo: ajax
         }
     }
 }

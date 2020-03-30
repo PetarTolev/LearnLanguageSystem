@@ -7,41 +7,8 @@
 <h1>Create</h1>
 
 <form asp-controller="Contests" asp-action="Create">
-
-    <div class="question-card">
-        <h3 id="title">Question 1</h3>
-
-        <div class="input-group">
-            <label class="input-group-text">Question Content</label>
-            <input type="text" class="form-control" asp-for="@Model.Questions[0].Content"/>
-        </div>
-        <hr/>
-
-        <div class="input-group">
-            <label class="input-group-text">Answer 1</label>
-            <input type="text" class="form-control" asp-for="@Model.Questions[0].QuestionOne"/>
-        </div>
-
-        <div class="input-group">
-            <label class="input-group-text">Answer 2</label>
-            <input type="text" class="form-control" asp-for="@Model.Questions[0].QuestionTwo"/>
-        </div>
-
-        <div class="input-group">
-            <label class="input-group-text">Answer 3</label>
-            <input type="text" class="form-control" asp-for="@Model.Questions[0].QuestionThree"/>
-        </div>
-
-        <div class="input-group">
-            <label class="input-group-text">Answer 4</label>
-            <input type="text" class="form-control" asp-for="@Model.Questions[0].QuestionFour"/>
-        </div>
-        <br/>
-    </div>
-
-    <div class="button-group">
-        <br />
-        <button type="button" class="btn btn-secondary" id="addQuestion">Add Question</button>
-        <button class="btn btn-primary">Create Contest</button>
-    </div>
+    <label>Name</label>
+    <input type="text" asp-for="Name"/>
+    
+    <button class="btn btn-primary">Create</button>
 </form>

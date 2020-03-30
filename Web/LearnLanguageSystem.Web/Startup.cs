@@ -1,4 +1,6 @@
-﻿namespace LearnLanguageSystem.Web
+﻿using LearnLanguageSystem.Services.Data.Answers;
+
+namespace LearnLanguageSystem.Web
 {
     using System.Reflection;
 
@@ -10,6 +12,7 @@
     using LearnLanguageSystem.Data.Seeding;
     using LearnLanguageSystem.Services.Data;
     using LearnLanguageSystem.Services.Data.Contests;
+    using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Services.Messaging;
     using LearnLanguageSystem.Web.ViewModels;
@@ -77,6 +80,8 @@
 
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IContestsService, ContestsService>();
+            services.AddTransient<IQuestionsService, QuestionsService>();
+            services.AddTransient<IAnswersService, AnswersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

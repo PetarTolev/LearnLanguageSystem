@@ -1,15 +1,17 @@
 ﻿namespace LearnLanguageSystem.Web.InputModels.Questions
 {
+    using LearnLanguageSystem.Web.InputModels.Answers;
+
     public class QuestionInputModel
     {
         public string Content { get; set; }
 
-        public string QuestionOne { get; set; }
+        public AnswerInputModel One { get; set; }
 
-        public string QuestionTwo { get; set; }
+        public AnswerInputModel Two { get; set; }
 
-        public string QuestionThree { get; set; }
+        public AnswerInputModel Three { get; set; }
 
-        public string QuestionFour { get; set; }
+        public AnswerInputModel Four { get; set; }
     }
 }

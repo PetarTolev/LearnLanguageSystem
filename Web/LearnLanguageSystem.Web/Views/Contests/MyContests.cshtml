@@ -1,6 +1,19 @@
-﻿@{
+﻿@model IEnumerable<LearnLanguageSystem.Web.ViewModels.Contests.ContestViewModel>
+
+@{
     ViewData["Title"] = "My Contests";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>My Contests</h1>
+<div class="list-group w-25">
+    @foreach (var contest in Model)
+    {
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <a asp-controller="Contests" asp-action="Edit" asp-route-id="@contest.Id">@contest.Name</a>
+            <span class="badge badge-primary badge-pill">@contest.Questions.Count</span>
+        </div>
+
+        //todo: add creation time
+    }
+</div>

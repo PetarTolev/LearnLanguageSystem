@@ -14,6 +14,8 @@ namespace LearnLanguageSystem.Data.Models.Contest
             this.Questions = new HashSet<Question>();
         }
 
+        public string Name { get; set; }
+
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }

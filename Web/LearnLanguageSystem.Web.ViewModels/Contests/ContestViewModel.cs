@@ -8,6 +8,10 @@
 
     public class ContestViewModel : IMapFrom<Contest>
     {
-        public IEnumerable<QuestionViewModel> Questions { get; set; }
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public ICollection<QuestionViewModel> Questions { get; set; }
     }
 }

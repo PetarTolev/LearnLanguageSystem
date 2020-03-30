@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Common.Repositories;
     using LearnLanguageSystem.Data.Models.Contest;
@@ -16,18 +17,44 @@
             this.contestsRepository = contestsRepository;
         }
 
-        public IEnumerable<T> GetCreatedContests<T>(string userId)
+        public IEnumerable<T> GetOwned<T>(string userId)
         {
-            return this.contestsRepository
+            var contests = this.contestsRepository
                 .All()
                 .Where(c => c.CreatorId == userId)
                 .To<T>()
                 .ToList();
+
+            return contests;
         }
 
-        public void Create<T>(List<T> fields)
+        public async Task<string> CreateAsync(string name, string userId)
         {
-            throw new System.NotImplementedException();
+            var contest = new Contest
+            {
+                CreatorId = userId,
+                Name = name,
+            };
+
+            await this.contestsRepository.AddAsync(contest);
+            await this.contestsRepository.SaveChangesAsync();
+
+            return contest.Id;
+        }
+
+        public T GetById<T>(string contestId)
+        {
+            var contest = this.contestsRepository.All().Where(x => x.Id == contestId).To<T>().FirstOrDefault();
+
+            return contest;
+        }
+
+        public async Task ChangeNameAsync(string id, string newName)
+        {
+            var contest = this.contestsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            contest.Name = newName;
+            await this.contestsRepository.SaveChangesAsync();
         }
     }
 }

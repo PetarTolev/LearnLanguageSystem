@@ -19,21 +19,21 @@ $(document).ready(function(){
         $(card).find(`input#Questions_${previousIndex}__Content`).attr("name", `Questions[${currentIndex}].Content`);
         $(card).find(`input#Questions_${previousIndex}__Content`).attr("id", `Questions_${currentIndex}__Content`);
 
-        $(card).find(`input#Questions_${previousIndex}__QuestionOne`).val('');
-        $(card).find(`input#Questions_${previousIndex}__QuestionOne`).attr("name", `Questions[${currentIndex}].QuestionOne`);
-        $(card).find(`input#Questions_${previousIndex}__QuestionOne`).attr("id", `Questions_${currentIndex}__QuestionOne`);
+        $(card).find(`input#Questions_${previousIndex}__One`).val('');
+        $(card).find(`input#Questions_${previousIndex}__One`).attr("name", `Questions[${currentIndex}].One`);
+        $(card).find(`input#Questions_${previousIndex}__One`).attr("id", `Questions_${currentIndex}__One`);
         
-        $(card).find(`input#Questions_${previousIndex}__QuestionTwo`).val('');
-        $(card).find(`input#Questions_${previousIndex}__QuestionTwo`).attr("name", `Questions[${currentIndex}].QuestionTwo`);
-        $(card).find(`input#Questions_${previousIndex}__QuestionTwo`).attr("id", `Questions_${currentIndex}__QuestionTwo`);
+        $(card).find(`input#Questions_${previousIndex}__Two`).val('');
+        $(card).find(`input#Questions_${previousIndex}__Two`).attr("name", `Questions[${currentIndex}].Two`);
+        $(card).find(`input#Questions_${previousIndex}__Two`).attr("id", `Questions_${currentIndex}__Two`);
         
-        $(card).find(`input#Questions_${previousIndex}__QuestionThree`).val('');
-        $(card).find(`input#Questions_${previousIndex}__QuestionThree`).attr("name", `Questions[${currentIndex}].QuestionThree`);
-        $(card).find(`input#Questions_${previousIndex}__QuestionThree`).attr("id", `Questions_${currentIndex}__QuestionThree`);
+        $(card).find(`input#Questions_${previousIndex}__Three`).val('');
+        $(card).find(`input#Questions_${previousIndex}__Three`).attr("name", `Questions[${currentIndex}].Three`);
+        $(card).find(`input#Questions_${previousIndex}__Three`).attr("id", `Questions_${currentIndex}__Three`);
         
-        $(card).find(`input#Questions_${previousIndex}__QuestionFour`).val('');
-        $(card).find(`input#Questions_${previousIndex}__QuestionFour`).attr("name", `Questions[${currentIndex}].QuestionFour`);
-        $(card).find(`input#Questions_${previousIndex}__QuestionFour`).attr("id", `Questions_${currentIndex}__QuestionFour`);
+        $(card).find(`input#Questions_${previousIndex}__Four`).val('');
+        $(card).find(`input#Questions_${previousIndex}__Four`).attr("name", `Questions[${currentIndex}].Four`);
+        $(card).find(`input#Questions_${previousIndex}__Four`).attr("id", `Questions_${currentIndex}__Four`);
 
         $(card).insertBefore('.button-group');
         //$('form').append(card);

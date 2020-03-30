@@ -6,6 +6,6 @@
 
     public class ContestInputModel
     {
-        public List<QuestionInputModel> Questions { get; set; }
+        public string Name { get; set; }
     }
 }
