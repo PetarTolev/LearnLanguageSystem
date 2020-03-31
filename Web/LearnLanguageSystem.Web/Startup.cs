@@ -67,6 +67,18 @@
                 options.User.RequireUniqueEmail = false;
             });
 
+            services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = this.configuration["FacebookSettings:AppId"];
+                    options.AppSecret = this.configuration["FacebookSettings:AppSecret"];
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = this.configuration["GoogleSettings:ClientId"];
+                    options.ClientSecret = this.configuration["GoogleSettings:ClientSecret"];
+                });
+
             services.AddSingleton(this.configuration);
 
             // Data repositories

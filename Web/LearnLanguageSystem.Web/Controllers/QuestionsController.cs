@@ -22,8 +22,7 @@
         [Authorize]
         public IActionResult Add(string id)
         {
-            return this.View();    // todo: add contests title
-            // todo: need view model with already added questions
+            return this.View();    // todo: add contests title todo: need view model with already added questions
         }
 
         [HttpPost]
