@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    public class QuestionsController : Controller
+    public class QuestionsController : BaseController
     {
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;

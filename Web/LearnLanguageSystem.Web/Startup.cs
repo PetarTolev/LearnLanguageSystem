@@ -1,6 +1,4 @@
-﻿using LearnLanguageSystem.Services.Data.Answers;
-
-namespace LearnLanguageSystem.Web
+﻿namespace LearnLanguageSystem.Web
 {
     using System.Reflection;
 
@@ -11,6 +9,7 @@ namespace LearnLanguageSystem.Web
     using LearnLanguageSystem.Data.Repositories;
     using LearnLanguageSystem.Data.Seeding;
     using LearnLanguageSystem.Services.Data;
+    using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Mapping;

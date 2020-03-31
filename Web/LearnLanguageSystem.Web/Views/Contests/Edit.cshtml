@@ -13,7 +13,7 @@
 <form>
     <label>Name</label>
     <input type="text" value="@Model.Name" asp-for="Name" />
-
+    @*//todo: ajax*@
     <button class="btn btn-primary" asp-controller="Contests" asp-action="ChangeName" asp-route-id="@Model.Id">Edit Name</button> @*todo: with hidden input*@
 </form>
 
@@ -30,4 +30,4 @@ else
     <p>no questions added</p>
 }
 
-<a class="btn btn-primary" asp-controller="Questions" asp-action="Add" asp-route-id="@Model.Id">Add questions</a> @*todo: with hidden input*@
+<a class="btn btn-primary" asp-controller="Questions" asp-action="Add" asp-route-id="@Model.Id">Add questions</a>
