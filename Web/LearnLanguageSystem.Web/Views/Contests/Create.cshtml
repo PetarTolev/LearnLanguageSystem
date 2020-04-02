@@ -1,4 +1,4 @@
-﻿@model LearnLanguageSystem.Web.InputModels.Contests.ContestInputModel
+﻿@model ContestInputModel
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,9 +6,8 @@
 
 <h1>Create</h1>
 
-<form asp-controller="Contests" asp-action="Create">
-    <label>Name</label>
-    <input type="text" asp-for="Name"/>
-    
-    <button class="btn btn-primary">Create</button>
+<form class="form-inline" asp-controller="Contests" asp-action="Create">
+    <input class="form-control w-25" type="text" asp-for="Name" placeholder="Enter contest name..."/>
+    <br />
+    <button class="btn btn-primary ml-3">Create</button>
 </form>

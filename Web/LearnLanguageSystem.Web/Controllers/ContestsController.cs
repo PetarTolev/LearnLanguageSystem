@@ -39,22 +39,15 @@
 
             var contestId = await this.contestsService.CreateAsync(name, user.Id);
 
-            return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
+            return this.RedirectToAction(nameof(this.Edit), new { contestId = contestId });
         }
 
         [Authorize]
-        public IActionResult Edit(string id)
+        public IActionResult Edit(string contestId)
         {
-            var contest = this.contestsService.GetById<ContestViewModel>(id);
+            var contest = this.contestsService.GetById<ContestViewModel>(contestId);
 
             return this.View(contest);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult Edit()
-        {
-            return this.View();
         }
 
         [Authorize]

@@ -1,5 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.InputModels.Contests
 {
+    using System;
     using System.Collections.Generic;
 
     using LearnLanguageSystem.Web.InputModels.Questions;

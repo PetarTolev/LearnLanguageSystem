@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LearnLanguageSystem.Web.ViewModels.Contests.ContestViewModel>
+﻿@model IEnumerable<ContestViewModel>
 
 @{
     ViewData["Title"] = "My Contests";
@@ -10,7 +10,7 @@
     @foreach (var contest in Model)
     {
         <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a asp-controller="Contests" asp-action="Edit" asp-route-id="@contest.Id">@contest.Name</a>
+            <a asp-controller="Contests" asp-action="Edit" asp-route-contestId="@contest.Id">@contest.Name</a>
             <span class="badge badge-primary badge-pill">@contest.Questions.Count</span>
         </div>
 

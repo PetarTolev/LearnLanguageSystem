@@ -39,7 +39,6 @@
     <ProjectReference Include="..\..\Services\LearnLanguageSystem.Services.Mapping\LearnLanguageSystem.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\LearnLanguageSystem.Services.Messaging\LearnLanguageSystem.Services.Messaging.csproj" />
     <ProjectReference Include="..\LearnLanguageSystem.Web.Infrastructure\LearnLanguageSystem.Web.Infrastructure.csproj" />
-    <ProjectReference Include="..\LearnLanguageSystem.Web.InputModels\LearnLanguageSystem.Web.InputModels.csproj" />
     <ProjectReference Include="..\LearnLanguageSystem.Web.ViewModels\LearnLanguageSystem.Web.ViewModels.csproj" />
   </ItemGroup>
 </Project>

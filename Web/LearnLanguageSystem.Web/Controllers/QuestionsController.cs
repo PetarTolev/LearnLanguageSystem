@@ -4,7 +4,7 @@
 
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Questions;
-    using LearnLanguageSystem.Web.InputModels.Questions;
+    using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -33,13 +33,13 @@
             {
                 var questionId = await this.questionsService.CreateAsync(id, question.Content);
 
-                var answerOneId = await this.answersService.CreateAsync(questionId, question.One.Content, question.One.IsRight);
-                var answerTwoId = await this.answersService.CreateAsync(questionId, question.Two.Content, question.Two.IsRight);
-                var answerThreeId = await this.answersService.CreateAsync(questionId, question.Three.Content, question.Three.IsRight);
-                var answerFourId = await this.answersService.CreateAsync(questionId, question.Four.Content, question.Four.IsRight);
+                await this.answersService.CreateAsync(questionId, question.One.Content, question.One.IsRight);
+                await this.answersService.CreateAsync(questionId, question.Two.Content, question.Two.IsRight);
+                await this.answersService.CreateAsync(questionId, question.Three.Content, question.Three.IsRight);
+                await this.answersService.CreateAsync(questionId, question.Four.Content, question.Four.IsRight);
             }
 
-            return this.View();
+            return this.RedirectToAction("Edit", "Contests", new { contestId = id });
         }
     }
 }

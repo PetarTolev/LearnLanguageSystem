@@ -1,6 +1,6 @@
-﻿namespace LearnLanguageSystem.Data.Seeding.Dtos
+﻿namespace LearnLanguageSystem.Web.ViewModels.Answers
 {
-    public class AnswerDto
+    public class AnswerInputModel
     {
         public string Content { get; set; }
 

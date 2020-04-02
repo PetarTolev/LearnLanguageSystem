@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-$(document).ready(function(){
+﻿$(document).ready(function(){
  
     $('#addQuestion').click(function(){
         var name = $('.question-card:last .form-control:last').attr('name');
@@ -19,24 +14,35 @@ $(document).ready(function(){
         $(card).find(`input#Questions_${previousIndex}__Content`).attr("name", `Questions[${currentIndex}].Content`);
         $(card).find(`input#Questions_${previousIndex}__Content`).attr("id", `Questions_${currentIndex}__Content`);
 
-        $(card).find(`input#Questions_${previousIndex}__One`).val('');
-        $(card).find(`input#Questions_${previousIndex}__One`).attr("name", `Questions[${currentIndex}].One`);
-        $(card).find(`input#Questions_${previousIndex}__One`).attr("id", `Questions_${currentIndex}__One`);
+        $(card).find(`input#Questions_${previousIndex}__One_Content`).val('');
+        $(card).find(`input#Questions_${previousIndex}__One_Content`).attr("name", `Questions[${currentIndex}].One.Content`);
+        $(card).find(`input#Questions_${previousIndex}__One_Content`).attr("id", `Questions_${currentIndex}__One_Content`);
+        $(card).find(`input#Questions_${previousIndex}__One_IsRight`).prop('checked', false);
+        $(card).find(`input#Questions_${previousIndex}__One_IsRight`).attr("name", `Questions[${currentIndex}].One.IsRight`);
+        $(card).find(`input#Questions_${previousIndex}__One_IsRight`).attr("id", `Questions_${currentIndex}__One_IsRight`);
+
+        $(card).find(`input#Questions_${previousIndex}__Two_Content`).val('');
+        $(card).find(`input#Questions_${previousIndex}__Two_Content`).attr("name", `Questions[${currentIndex}].Two.Content`);
+        $(card).find(`input#Questions_${previousIndex}__Two_Content`).attr("id", `Questions_${currentIndex}__Two_Content`);
+        $(card).find(`input#Questions_${previousIndex}__Two_IsRight`).prop('checked', false);
+        $(card).find(`input#Questions_${previousIndex}__Two_IsRight`).attr("name", `Questions[${currentIndex}].Two.IsRight`);
+        $(card).find(`input#Questions_${previousIndex}__Two_IsRight`).attr("id", `Questions_${currentIndex}__Two_IsRight`);
+
+        $(card).find(`input#Questions_${previousIndex}__Three_Content`).val('');
+        $(card).find(`input#Questions_${previousIndex}__Three_Content`).attr("name", `Questions[${currentIndex}].Three.Content`);
+        $(card).find(`input#Questions_${previousIndex}__Three_Content`).attr("id", `Questions_${currentIndex}__Three_Content`);
+        $(card).find(`input#Questions_${previousIndex}__Three_IsRight`).prop('checked', false);
+        $(card).find(`input#Questions_${previousIndex}__Three_IsRight`).attr("name", `Questions[${currentIndex}].Three.IsRight`);
+        $(card).find(`input#Questions_${previousIndex}__Three_IsRight`).attr("id", `Questions_${currentIndex}__Three_IsRight`);
         
-        $(card).find(`input#Questions_${previousIndex}__Two`).val('');
-        $(card).find(`input#Questions_${previousIndex}__Two`).attr("name", `Questions[${currentIndex}].Two`);
-        $(card).find(`input#Questions_${previousIndex}__Two`).attr("id", `Questions_${currentIndex}__Two`);
-        
-        $(card).find(`input#Questions_${previousIndex}__Three`).val('');
-        $(card).find(`input#Questions_${previousIndex}__Three`).attr("name", `Questions[${currentIndex}].Three`);
-        $(card).find(`input#Questions_${previousIndex}__Three`).attr("id", `Questions_${currentIndex}__Three`);
-        
-        $(card).find(`input#Questions_${previousIndex}__Four`).val('');
-        $(card).find(`input#Questions_${previousIndex}__Four`).attr("name", `Questions[${currentIndex}].Four`);
-        $(card).find(`input#Questions_${previousIndex}__Four`).attr("id", `Questions_${currentIndex}__Four`);
+        $(card).find(`input#Questions_${previousIndex}__Four_Content`).val('');
+        $(card).find(`input#Questions_${previousIndex}__Four_Content`).attr("name", `Questions[${currentIndex}].Four.Content`);
+        $(card).find(`input#Questions_${previousIndex}__Four_Content`).attr("id", `Questions_${currentIndex}__Four_Content`);
+        $(card).find(`input#Questions_${previousIndex}__Four_IsRight`).prop('checked', false);
+        $(card).find(`input#Questions_${previousIndex}__Four_IsRight`).attr("name", `Questions[${currentIndex}].Four.IsRight`);
+        $(card).find(`input#Questions_${previousIndex}__Four_IsRight`).attr("id", `Questions_${currentIndex}__Four_IsRight`);
 
         $(card).insertBefore('.button-group');
-        //$('form').append(card);
         $('form').append("</br>");
     });
 });

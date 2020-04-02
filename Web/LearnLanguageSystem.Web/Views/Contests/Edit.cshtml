@@ -1,4 +1,4 @@
-﻿@model LearnLanguageSystem.Web.ViewModels.Contests.ContestViewModel
+﻿@model ContestViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,11 +10,10 @@
 
 <h1>Edit</h1>
 
-<form>
-    <label>Name</label>
-    <input type="text" value="@Model.Name" asp-for="Name" />
+<form class="form-inline">
+    <input class="form-control w-25" type="text" value="@Model.Name" asp-for="Name" placeholder="Enter contest name..." />
     @*//todo: ajax*@
-    <button class="btn btn-primary" asp-controller="Contests" asp-action="ChangeName" asp-route-id="@Model.Id">Edit Name</button> @*todo: with hidden input*@
+    <button class="btn btn-primary ml-3" asp-controller="Contests" asp-action="ChangeName" asp-route-id="@Model.Id">Edit Name</button> @*todo: with hidden input*@
 </form>
 
 @if (Model.Questions.Any())
