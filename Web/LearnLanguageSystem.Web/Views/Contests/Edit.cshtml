@@ -3,31 +3,44 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    //todo: change name functionality
-    //todo: add questions functionality
 }
 
 <h1>Edit</h1>
 
+@if (!Model.Questions.Any())
+{
+    <div class="alert alert-dark" role="alert">
+        No added questions...
+    </div>
+}
+
 <form class="form-inline">
     <input class="form-control w-25" type="text" value="@Model.Name" asp-for="Name" placeholder="Enter contest name..." />
     @*//todo: ajax*@
-    <button class="btn btn-primary ml-3" asp-controller="Contests" asp-action="ChangeName" asp-route-id="@Model.Id">Edit Name</button> @*todo: with hidden input*@
+    <button class="btn btn-primary ml-3" asp-controller="Contests" asp-action="ChangeName" asp-route-id="@Model.Id">Edit Name</button>
 </form>
 
-@if (Model.Questions.Any())
-{
-    foreach (var question in Model.Questions)
+<div class="list-group w-50">
+    @if (Model.Questions.Any())
     {
-        //todo: questions edit
-        <p>@question.Content</p>
-        <a class="btn btn-primary"></a>
+        foreach (var question in Model.Questions)
+        {
+            var ids = new Dictionary<string, string>
+            {
+                {"questionId", $"{question.Id}"},
+                {"contestId", $"{Model.Id}"},
+            };
+
+            <div class="list-group-item d-flex flex-row justify-content-between align-items-center mb-2">
+                <p>@question.Content</p>
+
+                <div>
+                    <a class="btn btn-primary" asp-controller="Questions" asp-action="Edit" asp-all-route-data="ids">Edit</a>
+                    <a class="btn btn-danger" asp-controller="Questions" asp-action="Delete" asp-route-questionId="@question.Id">Delete</a>
+                </div>
+            </div>
+        }
     }
-}
-else
-{
-    <p>no questions added</p>
-}
+</div>
 
 <a class="btn btn-primary" asp-controller="Questions" asp-action="Add" asp-route-id="@Model.Id">Add questions</a>

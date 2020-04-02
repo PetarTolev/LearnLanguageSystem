@@ -1,0 +1,54 @@
+﻿@model QuestionInputModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<form method="post">
+    <div class="question-card">
+        <h3 id="title">Question 1</h3>
+
+        <div class="input-group">
+            <label class="input-group-text">Question Content</label>
+            <input type="text" class="form-control" asp-for="Content" />
+        </div>
+        <hr />
+
+        <div class="input-group">
+            <label class="input-group-text">Answer 1</label>
+            <input type="text" class="form-control" asp-for="One.Content" />
+            <div class="input-group-text">
+                <input type="checkbox" asp-for="One.IsRight" />
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-group-text">Answer 2</label>
+            <input type="text" class="form-control" asp-for="Two.Content" />
+            <div class="input-group-text">
+                <input type="checkbox" asp-for="Two.IsRight" />
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-group-text">Answer 3</label>
+            <input type="text" class="form-control" asp-for="Three.Content" />
+            <div class="input-group-text">
+                <input type="checkbox" asp-for="Three.IsRight" />
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-group-text">Answer 4</label>
+            <input type="text" class="form-control" asp-for="Four.Content" />
+            <div class="input-group-text">
+                <input type="checkbox" asp-for="Four.IsRight" />
+            </div>
+        </div>
+        <br />
+    </div>
+
+    <button class="btn btn-primary" asp-controller="Questions" asp-action="Edit">Save</button>
+</form>

@@ -27,6 +27,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string name)
         {
             if (!this.ModelState.IsValid)
@@ -64,6 +65,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Join(string key)
         {
             return this.View();

@@ -8,6 +8,8 @@
 
     public class QuestionViewModel : IMapFrom<Question>
     {
+        public string Id { get; set; }
+
         public string Content { get; set; }
 
         public IEnumerable<AnswerViewModel> Answers { get; set; }

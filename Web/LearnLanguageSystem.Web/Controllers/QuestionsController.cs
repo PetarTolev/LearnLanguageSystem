@@ -4,10 +4,12 @@
 
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Questions;
+    using LearnLanguageSystem.Web.ViewModels.Answers;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class QuestionsController : BaseController
     {
         private readonly IQuestionsService questionsService;
@@ -19,14 +21,12 @@
             this.answersService = answersService;
         }
 
-        [Authorize]
-        public IActionResult Add(string id)
+        public IActionResult Add()
         {
             return this.View();    // todo: add contests title todo: need view model with already added questions
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Add(string id, ContestQuestionsListInputModel model)
         {
             foreach (var question in model.Questions)
@@ -40,6 +40,32 @@
             }
 
             return this.RedirectToAction("Edit", "Contests", new { contestId = id });
+        }
+
+        public IActionResult Edit(string questionId)
+        {
+            var model = new QuestionInputModel
+            {
+                Content = "test",
+                One = new AnswerInputModel { IsRight = false, Content = "1" },
+                Two = new AnswerInputModel { IsRight = false, Content = "2" },
+                Three = new AnswerInputModel { IsRight = true, Content = "3" },
+                Four = new AnswerInputModel { IsRight = false, Content = "4" },
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(QuestionInputModel model)
+        {
+            return this.View(model);
+        }
+
+        public IActionResult Delete(string questionId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
