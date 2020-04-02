@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class ContestsController : BaseController
     {
         private readonly IContestsService contestsService;
@@ -20,14 +21,12 @@
             this.userManager = userManager;
         }
 
-        [Authorize]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(string name)
         {
             if (!this.ModelState.IsValid)
@@ -42,7 +41,6 @@
             return this.RedirectToAction(nameof(this.Edit), new { contestId = contestId });
         }
 
-        [Authorize]
         public IActionResult Edit(string contestId)
         {
             var contest = this.contestsService.GetById<ContestViewModel>(contestId);
@@ -50,20 +48,27 @@
             return this.View(contest);
         }
 
-        [Authorize]
+        public IActionResult Delete(string contestId)
+        {
+            return this.RedirectToAction(nameof(this.MyContests));
+        }
+
+        public IActionResult Open(string contestId)
+        {
+            return this.RedirectToAction(nameof(this.Join));
+        }
+
         public IActionResult Join()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Join(string key)
         {
             return this.View();
         }
 
-        [Authorize]
         public async Task<IActionResult> MyContests()
         {
             var user = await this.userManager.GetUserAsync(this.User);
