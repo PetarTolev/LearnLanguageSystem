@@ -23,15 +23,15 @@
 
         public IActionResult Add()
         {
-            return this.View();    // todo: add contests title todo: need view model with already added questions
+            return this.View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(string id, ContestQuestionsListInputModel model)
+        public async Task<IActionResult> Add([FromRoute(Name = "id")]string contestId, ContestQuestionsListInputModel model)
         {
             foreach (var question in model.Questions)
             {
-                var questionId = await this.questionsService.CreateAsync(id, question.Content);
+                var questionId = await this.questionsService.CreateAsync(contestId, question.Content);
 
                 await this.answersService.CreateAsync(questionId, question.One.Content, question.One.IsRight);
                 await this.answersService.CreateAsync(questionId, question.Two.Content, question.Two.IsRight);
@@ -39,10 +39,10 @@
                 await this.answersService.CreateAsync(questionId, question.Four.Content, question.Four.IsRight);
             }
 
-            return this.RedirectToAction("Edit", "Contests", new { contestId = id });
+            return this.RedirectToAction("Edit", "Contests", new { id = contestId });
         }
 
-        public IActionResult Edit(string questionId)
+        public IActionResult Edit(string id)
         {
             var model = new QuestionInputModel
             {
@@ -63,7 +63,7 @@
             return this.View(model);
         }
 
-        public IActionResult Delete(string questionId)
+        public IActionResult Delete(string id)
         {
             throw new System.NotImplementedException();
         }

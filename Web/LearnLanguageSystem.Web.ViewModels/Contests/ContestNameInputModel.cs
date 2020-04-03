@@ -1,6 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Contests
 {
-    public class ContestInputModel
+    public class ContestNameInputModel
     {
         public string Name { get; set; }
     }

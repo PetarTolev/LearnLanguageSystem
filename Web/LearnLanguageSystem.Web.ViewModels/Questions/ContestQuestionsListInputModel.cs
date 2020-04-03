@@ -4,6 +4,6 @@
 
     public class ContestQuestionsListInputModel
     {
-        public List<QuestionInputModel> Questions { get; set; }
+        public QuestionInputModel[] Questions { get; set; }
     }
 }

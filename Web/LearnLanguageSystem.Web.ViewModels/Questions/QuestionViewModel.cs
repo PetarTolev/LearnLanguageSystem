@@ -12,6 +12,12 @@
 
         public string Content { get; set; }
 
-        public IEnumerable<AnswerViewModel> Answers { get; set; }
+        public AnswerViewModel One { get; set; }
+
+        public AnswerViewModel Two { get; set; }
+
+        public AnswerViewModel Three { get; set; }
+
+        public AnswerViewModel Four { get; set; }
     }
 }

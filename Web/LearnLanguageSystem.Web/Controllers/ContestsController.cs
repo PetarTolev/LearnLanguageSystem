@@ -28,33 +28,47 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string name)
+        public async Task<IActionResult> Create(ContestNameInputModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                return this.View(model);
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var contestId = await this.contestsService.CreateAsync(name, user.Id);
+            var contestId = await this.contestsService.CreateAsync(model.Name, user.Id);
 
-            return this.RedirectToAction(nameof(this.Edit), new { contestId = contestId });
+            return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
         }
 
-        public IActionResult Edit(string contestId)
+        public IActionResult Edit(string id)
         {
-            var contest = this.contestsService.GetById<ContestViewModel>(contestId);
+            var contest = this.contestsService.GetById<ContestViewModel>(id);
 
             return this.View(contest);
         }
 
-        public IActionResult Delete(string contestId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeName(string id, ContestNameInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction(nameof(this.Edit), new { id = id });
+            }
+
+            await this.contestsService.ChangeNameAsync(id, input.Name);
+
+            return this.RedirectToAction(nameof(this.MyContests));
+        }
+
+        public IActionResult Delete(string id)
         {
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
-        public IActionResult Open(string contestId)
+        public IActionResult Open(string id)
         {
             return this.RedirectToAction(nameof(this.Join));
         }
@@ -75,16 +89,14 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var model = this.contestsService.GetOwned<ContestViewModel>(user.Id);
+            var contests = this.contestsService.GetOwned<ContestViewModel>(user.Id);
+
+            var model = new ContestsListViewModel
+            {
+                Contests = contests,
+            };
 
             return this.View(model);
-        }
-
-        public async Task<IActionResult> ChangeName(string id, string name)
-        {
-            await this.contestsService.ChangeNameAsync(id, name);
-
-            return this.RedirectToAction(nameof(this.MyContests)); // todo: ajax
         }
     }
 }
