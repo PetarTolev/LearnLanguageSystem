@@ -1,24 +1,33 @@
 ﻿namespace LearnLanguageSystem.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using LearnLanguageSystem.Data.Common.Repositories;
+    using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Web.ViewModels.Answers;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class QuestionsController : BaseController
     {
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;
+        private readonly IDeletableEntityRepository<Question> questionRepository;
 
-        public QuestionsController(IQuestionsService questionsService, IAnswersService answersService)
+        public QuestionsController(
+            IQuestionsService questionsService,
+            IAnswersService answersService,
+            IDeletableEntityRepository<Question> questionRepository)
         {
             this.questionsService = questionsService;
             this.answersService = answersService;
+            this.questionRepository = questionRepository;
         }
 
         public IActionResult Add()
@@ -27,6 +36,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromRoute(Name = "id")]string contestId, ContestQuestionsListInputModel model)
         {
             foreach (var question in model.Questions)
@@ -63,9 +73,27 @@
             return this.View(model);
         }
 
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id, string contestId)
         {
-            throw new System.NotImplementedException();
+            if (id == null || contestId == null)
+            {
+                return this.NotFound();
+            }
+
+            var question = this.questionRepository
+                .All()
+                .Include(x => x.Answers)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (question == null)
+            {
+                return this.NotFound();
+            }
+
+            this.questionRepository.HardDelete(question);
+            await this.questionRepository.SaveChangesAsync();
+
+            return this.RedirectToAction("Edit", "Contests", new { id = contestId });
         }
     }
 }
