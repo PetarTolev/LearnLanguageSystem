@@ -54,6 +54,7 @@
             var contest = this.contestsRepository.All().FirstOrDefault(x => x.Id == id);
 
             contest.Name = newName;
+
             await this.contestsRepository.SaveChangesAsync();
         }
     }
