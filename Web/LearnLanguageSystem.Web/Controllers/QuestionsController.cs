@@ -92,9 +92,9 @@
             return this.RedirectToAction("Edit", "Contests", new { id = question.ContestId });
         }
 
-        public async Task<IActionResult> Delete(string id, string contestId)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || contestId == null)
+            if (id == null)
             {
                 return this.NotFound();
             }
@@ -112,7 +112,7 @@
             this.questionRepository.HardDelete(question);
             await this.questionRepository.SaveChangesAsync();
 
-            return this.RedirectToAction("Edit", "Contests", new { id = contestId });
+            return this.RedirectToAction("Edit", "Contests", new { id = question.ContestId });
         }
     }
 }

@@ -25,18 +25,12 @@
     {
         foreach (var question in Model.Questions)
         {
-            var ids = new Dictionary<string, string>
-            {
-                {"id", $"{question.Id}"},
-                {"contestId", $"{Model.Id}"},
-            };
-
             <div class="list-group-item d-flex flex-row justify-content-between align-items-center mb-2">
                 <p>@question.Content</p>
 
                 <div>
                     <a class="btn btn-primary" asp-controller="Questions" asp-action="Edit" asp-route-id="@question.Id">Edit</a>
-                    <a class="btn btn-danger" asp-controller="Questions" asp-action="Delete" asp-all-route-data="ids">Delete</a>
+                    <a class="btn btn-danger" asp-controller="Questions" asp-action="Delete" asp-route-id="@question.Id">Delete</a>
                 </div>
             </div>
         }
