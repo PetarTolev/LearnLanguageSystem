@@ -1,4 +1,4 @@
-﻿@model QuestionInputModel
+﻿@model QuestionEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -18,33 +18,33 @@
 
         <div class="input-group">
             <label class="input-group-text">Answer 1</label>
-            <input type="text" class="form-control" asp-for="One.Content" />
+            <input type="text" class="form-control" asp-for="Answers[0].Content" />
             <div class="input-group-text">
-                <input type="checkbox" asp-for="One.IsRight" />
+                <input type="checkbox" asp-for="Answers[0].IsRight" />
             </div>
         </div>
 
         <div class="input-group">
             <label class="input-group-text">Answer 2</label>
-            <input type="text" class="form-control" asp-for="Two.Content" />
+            <input type="text" class="form-control" asp-for="Answers[1].Content" />
             <div class="input-group-text">
-                <input type="checkbox" asp-for="Two.IsRight" />
+                <input type="checkbox" asp-for="Answers[1].IsRight" />
             </div>
         </div>
 
         <div class="input-group">
             <label class="input-group-text">Answer 3</label>
-            <input type="text" class="form-control" asp-for="Three.Content" />
+            <input type="text" class="form-control" asp-for="Answers[2].Content" />
             <div class="input-group-text">
-                <input type="checkbox" asp-for="Three.IsRight" />
+                <input type="checkbox" asp-for="Answers[2].IsRight" />
             </div>
         </div>
 
         <div class="input-group">
             <label class="input-group-text">Answer 4</label>
-            <input type="text" class="form-control" asp-for="Four.Content" />
+            <input type="text" class="form-control" asp-for="Answers[3].Content" />
             <div class="input-group-text">
-                <input type="checkbox" asp-for="Four.IsRight" />
+                <input type="checkbox" asp-for="Answers[3].IsRight" />
             </div>
         </div>
         <br />

@@ -35,7 +35,7 @@
                 <p>@question.Content</p>
 
                 <div>
-                    <a class="btn btn-primary" asp-controller="Questions" asp-action="Edit" asp-all-route-data="ids">Edit</a>
+                    <a class="btn btn-primary" asp-controller="Questions" asp-action="Edit" asp-route-id="@question.Id">Edit</a>
                     <a class="btn btn-danger" asp-controller="Questions" asp-action="Delete" asp-all-route-data="ids">Delete</a>
                 </div>
             </div>
