@@ -100,6 +100,24 @@
             await this.contestsRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(string id)
+        {
+            var contest = await this.contestsRepository
+                .All()
+                .Where(c => c.Id == id)
+                .Include(c => c.Questions)
+                    .ThenInclude(q => q.Answers)
+                .FirstOrDefaultAsync();
+
+            if (contest == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            this.contestsRepository.HardDelete(contest);
+            await this.contestsRepository.SaveChangesAsync();
+        }
+
         public async Task<string> OpenAsync(string id)
         {
             var contest = await this.contestsRepository

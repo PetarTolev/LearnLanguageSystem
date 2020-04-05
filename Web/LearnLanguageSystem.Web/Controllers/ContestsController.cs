@@ -1,9 +1,7 @@
 ﻿namespace LearnLanguageSystem.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using LearnLanguageSystem.Data.Common.Repositories;
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Data.Contests;
@@ -12,23 +10,17 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class ContestsController : BaseController
     {
         private readonly IContestsService contestsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IDeletableEntityRepository<Contest> contestRepository;
 
-        public ContestsController(
-            IContestsService contestsService,
-            UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<Contest> contestRepository)
+        public ContestsController(IContestsService contestsService, UserManager<ApplicationUser> userManager)
         {
             this.contestsService = contestsService;
             this.userManager = userManager;
-            this.contestRepository = contestRepository;
         }
 
         public IActionResult Create()
@@ -77,15 +69,7 @@
                 return this.NotFound();
             }
 
-            var contest = await this.contestRepository
-                .All()
-                .Where(c => c.Id == id)
-                .Include(c => c.Questions)
-                .ThenInclude(q => q.Answers)
-                .FirstOrDefaultAsync();
-
-            this.contestRepository.HardDelete(contest);
-            await this.contestRepository.SaveChangesAsync();
+            await this.contestsService.DeleteAsync(id);
 
             return this.RedirectToAction(nameof(this.MyContests));
         }

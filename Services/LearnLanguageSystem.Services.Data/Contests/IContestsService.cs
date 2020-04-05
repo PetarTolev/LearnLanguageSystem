@@ -15,6 +15,8 @@
 
         Task ChangeNameAsync(string id, string newName);
 
+        Task DeleteAsync(string id);
+
         Task<string> OpenAsync(string id);
     }
 }
