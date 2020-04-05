@@ -17,7 +17,7 @@
                     <span class="badge badge-primary badge-pill">@contest.Questions.Count</span>
                 </div>
                 <a class="btn btn-danger ml-3 px-5" asp-controller="Contests" asp-action="Delete" asp-route-id="@contest.Id">Delete</a>
-                <a class="btn btn-success ml-3 px-5" asp-controller="Contests" asp-action="Open" asp-route-id="@contest.Id">Open</a>
+                <a class="btn btn-success ml-3 px-5" is-disabled="@contest.IsOpen" asp-controller="Contests" asp-action="Open" asp-route-id="@contest.Id">Open</a>
             </div>
         }
     </div>

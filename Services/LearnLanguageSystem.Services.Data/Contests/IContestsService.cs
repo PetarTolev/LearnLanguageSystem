@@ -12,5 +12,7 @@
         T GetById<T>(string contestId);
 
         Task ChangeNameAsync(string id, string newName);
+
+        Task<string> OpenAsync(string id);
     }
 }

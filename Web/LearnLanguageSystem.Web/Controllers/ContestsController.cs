@@ -87,9 +87,32 @@
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
-        public IActionResult Open(string id)
+        public async Task<IActionResult> Open(string id)
         {
-            return this.RedirectToAction(nameof(this.Join));
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var code = await this.contestsService.OpenAsync(id);
+
+            var model = new ContestOpenViewModel
+            {
+                Code = code,
+            };
+
+            this.TempData["IsLegit"] = true;
+            return this.RedirectToAction(nameof(ContestsController.YourContestCode), model);
+        }
+
+        public IActionResult YourContestCode(ContestOpenViewModel model)
+        {
+            if (!this.TempData.TryGetValue("IsLegit", out _))
+            {
+                return this.BadRequest();
+            }
+
+            return this.View(model);
         }
 
         public IActionResult Join()

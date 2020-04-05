@@ -12,6 +12,8 @@
 
         public string Name { get; set; }
 
+        public bool IsOpen { get; set; }
+
         public ICollection<QuestionViewModel> Questions { get; set; }
     }
 }

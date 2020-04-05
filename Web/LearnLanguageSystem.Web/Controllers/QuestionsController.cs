@@ -51,7 +51,7 @@
                 await this.answersService.CreateAsync(questionId, question.Four.Content, question.Four.IsRight);
             }
 
-            return this.RedirectToAction("Edit", "Contests", new { id = contestId });
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
         }
 
         public IActionResult Edit(string id)
@@ -89,7 +89,7 @@
                 await this.questionRepository.SaveChangesAsync();
             }
 
-            return this.RedirectToAction("Edit", "Contests", new { id = question.ContestId });
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = question.ContestId });
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -112,7 +112,7 @@
             this.questionRepository.HardDelete(question);
             await this.questionRepository.SaveChangesAsync();
 
-            return this.RedirectToAction("Edit", "Contests", new { id = question.ContestId });
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = question.ContestId });
         }
     }
 }

@@ -16,6 +16,10 @@ namespace LearnLanguageSystem.Data.Models.Contest
 
         public string Name { get; set; }
 
+        public bool IsOpen { get; set; }
+
+        public string AccessCode { get; set; }
+
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }
