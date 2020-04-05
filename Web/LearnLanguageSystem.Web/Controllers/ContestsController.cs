@@ -7,6 +7,7 @@
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Data.Contests;
+    using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Contests;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -37,13 +38,9 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ModelStateValidation]
         public async Task<IActionResult> Create(ContestNameInputModel model)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(model);
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             var contestId = await this.contestsService.CreateAsync(model.Name, user.Id);
@@ -53,6 +50,11 @@
 
         public async Task<IActionResult> Edit(string id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             var contest = await this.contestsService.GetByIdAsync<ContestViewModel>(id);
 
             return this.View(contest);
@@ -60,20 +62,21 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeName(string id, ContestNameInputModel input)
+        [ModelStateValidation]
+        public async Task<IActionResult> Edit(ContestViewModel model)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.RedirectToAction(nameof(this.Edit), new { id });
-            }
-
-            await this.contestsService.ChangeNameAsync(id, input.Name);
+            await this.contestsService.ChangeNameAsync(model.Id, model.Name);
 
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
         public async Task<IActionResult> Delete(string id)
         {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
             var contest = await this.contestRepository
                 .All()
                 .Where(c => c.Id == id)
@@ -124,7 +127,7 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Join(string key)
         {
-            var contest = await this.contestsService.GetByKeyAsync<Contest>(key);
+            await this.contestsService.GetByKeyAsync<Contest>(key);
 
             return this.View();
         }

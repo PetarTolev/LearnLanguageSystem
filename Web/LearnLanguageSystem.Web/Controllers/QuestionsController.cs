@@ -9,6 +9,7 @@
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Mapping;
+    using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Answers;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
@@ -39,11 +40,12 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([FromRoute(Name = "id")]string contestId, ContestQuestionsListInputModel model)
+        [ModelStateValidation]
+        public async Task<IActionResult> Add(ContestQuestionsListInputModel model)
         {
             foreach (var question in model.Questions)
             {
-                var questionId = await this.questionsService.CreateAsync(contestId, question.Content);
+                var questionId = await this.questionsService.CreateAsync(model.Id, question.Content);
 
                 await this.answersService.CreateAsync(questionId, question.One.Content, question.One.IsRight);
                 await this.answersService.CreateAsync(questionId, question.Two.Content, question.Two.IsRight);
@@ -51,16 +53,26 @@
                 await this.answersService.CreateAsync(questionId, question.Four.Content, question.Four.IsRight);
             }
 
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = model.Id });
         }
 
         public IActionResult Edit(string id)
+        {
+            if (id == null)
             {
+                return this.BadRequest();
+            }
+
             var model = this.questionRepository
                 .All()
                 .Where(x => x.Id == id)
                 .To<QuestionEditViewModel>()
                 .FirstOrDefault();
+
+            if (model == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(model);
         }
@@ -79,6 +91,7 @@
                 .Include(x => x.Answers)
                 .FirstOrDefault(x => x.Id == model.Id);
 
+            // TODO: export in service
             if (question == null)
             {
                 return this.NotFound();
@@ -104,6 +117,7 @@
                 .Include(x => x.Answers)
                 .FirstOrDefault(x => x.Id == id);
 
+            // TODO: export in service
             if (question == null)
             {
                 return this.NotFound();
