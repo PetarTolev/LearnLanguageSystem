@@ -5,11 +5,13 @@
 
     public interface IContestsService
     {
-        IEnumerable<T> GetOwned<T>(string userId);
+        Task<T> GetByIdAsync<T>(string contestId);
+
+        Task<T> GetByKeyAsync<T>(string key);
+
+        Task<IEnumerable<T>> GetOwnedAsync<T>(string userId);
 
         Task<string> CreateAsync(string name, string contestId);
-
-        T GetById<T>(string contestId);
 
         Task ChangeNameAsync(string id, string newName);
 

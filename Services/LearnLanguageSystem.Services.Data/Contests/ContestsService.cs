@@ -22,13 +22,50 @@
             this.configuration = configuration;
         }
 
-        public IEnumerable<T> GetOwned<T>(string userId)
+        public async Task<T> GetByIdAsync<T>(string contestId)
         {
-            var contests = this.contestsRepository
+            var contest = await this.contestsRepository
+                .All()
+                .Where(x => x.Id == contestId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            if (contest == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return contest;
+        }
+
+        public async Task<T> GetByKeyAsync<T>(string key)
+        {
+            var contest = await this.contestsRepository
+                .All()
+                .Where(x => x.AccessCode == key)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            if (contest == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return contest;
+        }
+
+        public async Task<IEnumerable<T>> GetOwnedAsync<T>(string userId)
+        {
+            var contests = await this.contestsRepository
                 .All()
                 .Where(c => c.CreatorId == userId)
                 .To<T>()
-                .ToList();
+                .ToListAsync();
+
+            if (contests == null)
+            {
+                throw new NullReferenceException();
+            }
 
             return contests;
         }
@@ -47,22 +84,11 @@
             return contest.Id;
         }
 
-        public T GetById<T>(string contestId)
-        {
-            var contest = this.contestsRepository
-                .All()
-                .Where(x => x.Id == contestId)
-                .To<T>()
-                .FirstOrDefault();
-
-            return contest;
-        }
-
         public async Task ChangeNameAsync(string id, string newName)
         {
-            var contest = this.contestsRepository
+            var contest = await this.contestsRepository
                 .All()
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (contest == null)
             {

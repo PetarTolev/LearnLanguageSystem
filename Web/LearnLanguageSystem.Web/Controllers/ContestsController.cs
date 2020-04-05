@@ -51,9 +51,9 @@
             return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
         }
 
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var contest = this.contestsService.GetById<ContestViewModel>(id);
+            var contest = await this.contestsService.GetByIdAsync<ContestViewModel>(id);
 
             return this.View(contest);
         }
@@ -122,8 +122,10 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Join(string key)
+        public async Task<IActionResult> Join(string key)
         {
+            var contest = await this.contestsService.GetByKeyAsync<Contest>(key);
+
             return this.View();
         }
 
@@ -131,7 +133,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var contests = this.contestsService.GetOwned<ContestViewModel>(user.Id);
+            var contests = await this.contestsService.GetOwnedAsync<ContestViewModel>(user.Id);
 
             var model = new ContestsListViewModel { Contests = contests };
 
