@@ -56,23 +56,14 @@
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = model.Id });
         }
 
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return this.BadRequest();
             }
 
-            var model = this.questionRepository
-                .All()
-                .Where(x => x.Id == id)
-                .To<QuestionEditViewModel>()
-                .FirstOrDefault();
-
-            if (model == null)
-            {
-                return this.NotFound();
-            }
+            var model = await this.questionsService.GetByIdAsync<QuestionEditViewModel>(id);
 
             return this.View(model);
         }
@@ -86,16 +77,7 @@
                 return this.NotFound();
             }
 
-            var question = this.questionRepository
-                .All()
-                .Include(x => x.Answers)
-                .FirstOrDefault(x => x.Id == model.Id);
-
-            // TODO: export in service
-            if (question == null)
-            {
-                return this.NotFound();
-            }
+            var question = await this.questionsService.GetWithAnswer(model.Id);
 
             if (await this.TryUpdateModelAsync(question, string.Empty, q => q.Content, q => q.Answers))
             {
@@ -112,21 +94,9 @@
                 return this.NotFound();
             }
 
-            var question = this.questionRepository
-                .All()
-                .Include(x => x.Answers)
-                .FirstOrDefault(x => x.Id == id);
+            var deletedQuestionId = await this.questionsService.DeleteAsync(id);
 
-            // TODO: export in service
-            if (question == null)
-            {
-                return this.NotFound();
-            }
-
-            this.questionRepository.HardDelete(question);
-            await this.questionRepository.SaveChangesAsync();
-
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = question.ContestId });
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = deletedQuestionId });
         }
     }
 }
