@@ -77,12 +77,20 @@
                 return this.NotFound();
             }
 
-            var question = await this.questionsService.GetWithAnswer(model.Id);
+            var question = await this.questionsService.GetWithAnswerAsync(model.Id);
 
-            if (await this.TryUpdateModelAsync(question, string.Empty, q => q.Content, q => q.Answers))
+            question.Content = model.Content;
+
+            var i = 0;
+            foreach (var answer in question.Answers)
             {
-                await this.questionRepository.SaveChangesAsync();
+                answer.Content = model.Answers[i].Content;
+                answer.IsRight = model.Answers[i].IsRight;
+
+                i++;
             }
+
+            await this.questionRepository.SaveChangesAsync();
 
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = question.ContestId });
         }

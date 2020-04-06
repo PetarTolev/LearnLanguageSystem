@@ -50,7 +50,7 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var question = await this.GetWithAnswer(id);
+            var question = await this.GetWithAnswerAsync(id);
 
             this.questionRepository.HardDelete(question);
             await this.questionRepository.SaveChangesAsync();
@@ -58,7 +58,7 @@
             return question.ContestId;
         }
 
-        public async Task<Question> GetWithAnswer(string id)
+        public async Task<Question> GetWithAnswerAsync(string id)
         {
             var question = await this.questionRepository
                 .All()

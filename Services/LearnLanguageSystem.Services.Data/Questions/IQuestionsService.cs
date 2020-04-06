@@ -12,6 +12,6 @@
 
         Task<string> DeleteAsync(string id);
 
-        Task<Question> GetWithAnswer(string id);
+        Task<Question> GetWithAnswerAsync(string id);
     }
 }
