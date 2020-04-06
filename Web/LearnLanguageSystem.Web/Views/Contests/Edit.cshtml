@@ -26,7 +26,7 @@
 <div class="list-group w-50">
     @if (Model.Questions.Any())
     {
-        foreach (var question in Model.Questions)
+        foreach (var question in Model.Questions.OrderBy(x => x.Content))
         {
             <div class="list-group-item d-flex flex-row justify-content-between align-items-center mb-2">
                 <p>@question.Content</p>

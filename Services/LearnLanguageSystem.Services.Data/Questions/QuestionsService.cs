@@ -38,7 +38,7 @@
         public async Task<T> GetByIdAsync<T>(string id)
         {
             var question = await this.questionRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
@@ -51,10 +51,10 @@
             return question;
         }
 
-        public Task<string> GetCreatorId(string id)
+        public async Task<string> GetCreatorId(string id)
         {
-            var creatorId = this.questionRepository
-                .All()
+            var creatorId = await this.questionRepository
+                .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .Select(x => x.Contest.CreatorId)
                 .FirstOrDefaultAsync();

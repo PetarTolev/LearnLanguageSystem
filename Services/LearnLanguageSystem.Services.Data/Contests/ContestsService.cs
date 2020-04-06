@@ -33,7 +33,7 @@
         public async Task<T> GetByIdAsync<T>(string contestId)
         {
             var contest = await this.contestsRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(x => x.Id == contestId)
                 .To<T>()
                 .FirstOrDefaultAsync();
@@ -62,10 +62,10 @@
             return contest;
         }
 
-        public Task<string> GetCreatorId(string contestId)
+        public async Task<string> GetCreatorId(string contestId)
         {
-            var creatorId = this.contestsRepository
-                .All()
+            var creatorId = await this.contestsRepository
+                .AllAsNoTracking()
                 .Where(x => x.Id == contestId)
                 .Select(x => x.CreatorId)
                 .FirstOrDefaultAsync();
@@ -81,8 +81,9 @@
         public async Task<IEnumerable<T>> GetOwnedAsync<T>(string userId)
         {
             var contests = await this.contestsRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(c => c.CreatorId == userId)
+                .OrderBy(x => x.Name)
                 .To<T>()
                 .ToListAsync();
 
