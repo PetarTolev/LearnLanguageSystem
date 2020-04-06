@@ -15,7 +15,7 @@
 
         <div class="input-group">
             <label class="input-group-text">Question Content</label>
-            <input type="text" class="form-control" asp-for="Questions[0].Content" />
+            <input placeholder="Enter question" type="text" class="form-control" asp-for="Questions[0].Content" />
         </div>
 
         <span class="text-danger" asp-validation-for="Questions[0].Content"></span>
@@ -23,7 +23,7 @@
 
         <div class="input-group">
             <label class="input-group-text">Answer 1</label>
-            <input type="text" class="form-control" asp-for="Questions[0].One.Content" />
+            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].One.Content" />
             <div class="input-group-text">
                 <input type="checkbox" asp-for="Questions[0].One.IsRight" />
             </div>
@@ -33,7 +33,7 @@
 
         <div class="input-group">
             <label class="input-group-text">Answer 2</label>
-            <input type="text" class="form-control" asp-for="Questions[0].Two.Content" />
+            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].Two.Content" />
             <div class="input-group-text">
                 <input type="checkbox" asp-for="Questions[0].Two.IsRight" />
             </div>
@@ -43,7 +43,7 @@
 
         <div class="input-group">
             <label class="input-group-text">Answer 3</label>
-            <input type="text" class="form-control" asp-for="Questions[0].Three.Content" />
+            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].Three.Content" />
             <div class="input-group-text">
                 <input type="checkbox" asp-for="Questions[0].Three.IsRight" />
             </div>
@@ -53,7 +53,7 @@
 
         <div class="input-group">
             <label class="input-group-text">Answer 4</label>
-            <input type="text" class="form-control" asp-for="Questions[0].Four.Content" />
+            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].Four.Content" />
             <div class="input-group-text">
                 <input type="checkbox" asp-for="Questions[0].Four.IsRight" />
             </div>

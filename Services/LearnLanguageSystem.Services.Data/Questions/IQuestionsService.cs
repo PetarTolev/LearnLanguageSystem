@@ -11,6 +11,8 @@
 
         Task<T> GetByIdAsync<T>(string id);
 
+        Task<string> GetCreatorId(string id);
+
         Task<string> UpdateAsync(QuestionEditViewModel model);
 
         Task<string> DeleteAsync(string id);

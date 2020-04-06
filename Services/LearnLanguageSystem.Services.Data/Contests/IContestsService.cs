@@ -3,11 +3,15 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using LearnLanguageSystem.Data.Models.Contest;
+
     public interface IContestsService
     {
         Task<T> GetByIdAsync<T>(string contestId);
 
         Task<T> GetByKeyAsync<T>(string key);
+
+        Task<string> GetCreatorId(string contestId);
 
         Task<IEnumerable<T>> GetOwnedAsync<T>(string userId);
 

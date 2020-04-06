@@ -11,6 +11,8 @@
     {
         public string Id { get; set; }
 
+        public string CreatorId { get; set; }
+
         [Required]
         [StringLength(ModelConstants.Contests.MaxLength, MinimumLength = ModelConstants.Contests.MinLength, ErrorMessage = ModelConstants.NameLengthError)]
         public string Name { get; set; }

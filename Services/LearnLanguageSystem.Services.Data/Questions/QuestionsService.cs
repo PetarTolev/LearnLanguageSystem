@@ -51,6 +51,22 @@
             return question;
         }
 
+        public Task<string> GetCreatorId(string id)
+        {
+            var creatorId = this.questionRepository
+                .All()
+                .Where(x => x.Id == id)
+                .Select(x => x.Contest.CreatorId)
+                .FirstOrDefaultAsync();
+
+            if (creatorId == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return creatorId;
+        }
+
         public async Task<string> UpdateAsync(QuestionEditViewModel model)
         {
             var question = await this.GetWithAnswerAsync(model.Id);

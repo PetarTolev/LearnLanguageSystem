@@ -49,6 +49,13 @@
 
             var contest = await this.contestsService.GetByIdAsync<ContestViewModel>(id);
 
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user.Id != contest.CreatorId)
+            {
+                return this.Forbid();
+            }
+
             return this.View(contest);
         }
 
@@ -64,9 +71,20 @@
 
         public async Task<IActionResult> Delete(string id)
         {
+            //todo: add get method with view 
+            //this method is for confirmation
             if (id == null)
             {
                 return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var creatorId = await this.contestsService.GetCreatorId(id);
+
+            if (user.Id != creatorId)
+            {
+                return this.Forbid();
             }
 
             await this.contestsService.DeleteAsync(id);
@@ -90,6 +108,15 @@
             if (id == null)
             {
                 return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var creatorId = await this.contestsService.GetCreatorId(id);
+
+            if (user.Id != creatorId)
+            {
+                return this.Forbid();
             }
 
             var code = await this.contestsService.OpenAsync(id);
@@ -132,6 +159,15 @@
             if (id == null)
             {
                 return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var creatorId = await this.contestsService.GetCreatorId(id);
+
+            if (user.Id != creatorId)
+            {
+                return this.Forbid();
             }
 
             await this.contestsService.Close(id);

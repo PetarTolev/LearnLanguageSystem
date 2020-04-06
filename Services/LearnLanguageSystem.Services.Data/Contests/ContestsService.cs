@@ -62,6 +62,22 @@
             return contest;
         }
 
+        public Task<string> GetCreatorId(string contestId)
+        {
+            var creatorId = this.contestsRepository
+                .All()
+                .Where(x => x.Id == contestId)
+                .Select(x => x.CreatorId)
+                .FirstOrDefaultAsync();
+
+            if (creatorId == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return creatorId;
+        }
+
         public async Task<IEnumerable<T>> GetOwnedAsync<T>(string userId)
         {
             var contests = await this.contestsRepository
@@ -169,6 +185,7 @@
             contest.AccessCode = code;
             contest.IsOpen = true;
 
+            this.contestsRepository.Update(contest);
             await this.contestsRepository.SaveChangesAsync();
 
             return code;

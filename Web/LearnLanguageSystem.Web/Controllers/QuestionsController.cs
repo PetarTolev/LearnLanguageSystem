@@ -2,11 +2,13 @@
 {
     using System.Threading.Tasks;
 
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
@@ -14,11 +16,13 @@
     {
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public QuestionsController(IQuestionsService questionsService, IAnswersService answersService)
+        public QuestionsController(IQuestionsService questionsService, IAnswersService answersService, UserManager<ApplicationUser> userManager)
         {
             this.questionsService = questionsService;
             this.answersService = answersService;
+            this.userManager = userManager;
         }
 
         public IActionResult Add()
@@ -51,6 +55,15 @@
                 return this.BadRequest();
             }
 
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var creatorId = await this.questionsService.GetCreatorId(id);
+
+            if (user.Id != creatorId)
+            {
+                return this.Forbid();
+            }
+
             var model = await this.questionsService.GetByIdAsync<QuestionEditViewModel>(id);
 
             return this.View(model);
@@ -75,6 +88,15 @@
             if (id == null)
             {
                 return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var creatorId = await this.questionsService.GetCreatorId(id);
+
+            if (user.Id != creatorId)
+            {
+                return this.Forbid();
             }
 
             var deletedQuestionId = await this.questionsService.DeleteAsync(id);
