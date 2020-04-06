@@ -1,36 +1,24 @@
 ﻿namespace LearnLanguageSystem.Web.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using LearnLanguageSystem.Data.Common.Repositories;
-    using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Questions;
-    using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.Filters;
-    using LearnLanguageSystem.Web.ViewModels.Answers;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class QuestionsController : BaseController
     {
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;
-        private readonly IDeletableEntityRepository<Question> questionRepository;
 
-        public QuestionsController(
-            IQuestionsService questionsService,
-            IAnswersService answersService,
-            IDeletableEntityRepository<Question> questionRepository)
+        public QuestionsController(IQuestionsService questionsService, IAnswersService answersService)
         {
             this.questionsService = questionsService;
             this.answersService = answersService;
-            this.questionRepository = questionRepository;
         }
 
         public IActionResult Add()

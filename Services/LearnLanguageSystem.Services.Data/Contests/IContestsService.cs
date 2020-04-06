@@ -18,5 +18,7 @@
         Task DeleteAsync(string id);
 
         Task<string> OpenAsync(string id);
+
+        Task Close(string id);
     }
 }

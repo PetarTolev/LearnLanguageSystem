@@ -155,6 +155,24 @@
             return code;
         }
 
+        public async Task Close(string id)
+        {
+            var contest = await this.contestsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (contest == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            contest.IsOpen = false;
+            contest.AccessCode = null;
+
+            this.contestsRepository.Update(contest);
+            await this.contestsRepository.SaveChangesAsync();
+        }
+
         private string GenerateCode()
         {
             var codeLength = int.Parse(this.configuration["AccessCodeLength"]);

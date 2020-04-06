@@ -74,6 +74,17 @@
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
+        public async Task<IActionResult> MyContests()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var contests = await this.contestsService.GetOwnedAsync<ContestViewModel>(user.Id);
+
+            var model = new ContestsListViewModel { Contests = contests };
+
+            return this.View(model);
+        }
+
         public async Task<IActionResult> Open(string id)
         {
             if (id == null)
@@ -116,15 +127,16 @@
             return this.View();
         }
 
-        public async Task<IActionResult> MyContests()
+        public async Task<IActionResult> Close(string id)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            if (id == null)
+            {
+                return this.NotFound();
+            }
 
-            var contests = await this.contestsService.GetOwnedAsync<ContestViewModel>(user.Id);
+            await this.contestsService.Close(id);
 
-            var model = new ContestsListViewModel { Contests = contests };
-
-            return this.View(model);
+            return this.RedirectToAction(nameof(this.MyContests));
         }
     }
 }
