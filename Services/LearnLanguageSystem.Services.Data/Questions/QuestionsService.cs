@@ -7,6 +7,7 @@
     using LearnLanguageSystem.Data.Common.Repositories;
     using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Mapping;
+    using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.EntityFrameworkCore;
 
     public class QuestionsService : IQuestionsService
@@ -46,6 +47,27 @@
             }
 
             return question;
+        }
+
+        public async Task<string> UpdateAsync(QuestionEditViewModel model)
+        {
+            var question = await this.GetWithAnswerAsync(model.Id);
+
+            question.Content = model.Content;
+
+            var i = 0;
+            foreach (var answer in question.Answers)
+            {
+                answer.Content = model.Answers[i].Content;
+                answer.IsRight = model.Answers[i].IsRight;
+
+                i++;
+            }
+
+            this.questionRepository.Update(question);
+            await this.questionRepository.SaveChangesAsync();
+
+            return question.ContestId;
         }
 
         public async Task<string> DeleteAsync(string id)

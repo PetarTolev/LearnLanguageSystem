@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\LearnLanguageSystem.Data.Common\LearnLanguageSystem.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\LearnLanguageSystem.Data.Models\LearnLanguageSystem.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\LearnLanguageSystem.Web.ViewModels\LearnLanguageSystem.Web.ViewModels.csproj" />
     <ProjectReference Include="..\LearnLanguageSystem.Services.Mapping\LearnLanguageSystem.Services.Mapping.csproj" />
   </ItemGroup>
 

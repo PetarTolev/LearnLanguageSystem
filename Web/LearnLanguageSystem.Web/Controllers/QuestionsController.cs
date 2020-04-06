@@ -77,22 +77,9 @@
                 return this.NotFound();
             }
 
-            var question = await this.questionsService.GetWithAnswerAsync(model.Id);
+            var questionId = await this.questionsService.UpdateAsync(model);
 
-            question.Content = model.Content;
-
-            var i = 0;
-            foreach (var answer in question.Answers)
-            {
-                answer.Content = model.Answers[i].Content;
-                answer.IsRight = model.Answers[i].IsRight;
-
-                i++;
-            }
-
-            await this.questionRepository.SaveChangesAsync();
-
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = question.ContestId });
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = questionId });
         }
 
         public async Task<IActionResult> Delete(string id)
