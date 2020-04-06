@@ -13,10 +13,12 @@
     public class QuestionsService : IQuestionsService
     {
         private readonly IDeletableEntityRepository<Question> questionRepository;
+        private readonly IDeletableEntityRepository<Answer> answerRepository;
 
-        public QuestionsService(IDeletableEntityRepository<Question> questionRepository)
+        public QuestionsService(IDeletableEntityRepository<Question> questionRepository, IDeletableEntityRepository<Answer> answerRepository)
         {
             this.questionRepository = questionRepository;
+            this.answerRepository = answerRepository;
         }
 
         public async Task<string> CreateAsync(string contestId, string content)
@@ -73,6 +75,11 @@
         public async Task<string> DeleteAsync(string id)
         {
             var question = await this.GetWithAnswerAsync(id);
+
+            foreach (var answer in question.Answers)
+            {
+                this.answerRepository.HardDelete(answer);
+            }
 
             this.questionRepository.HardDelete(question);
             await this.questionRepository.SaveChangesAsync();

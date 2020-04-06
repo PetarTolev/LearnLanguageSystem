@@ -14,11 +14,19 @@
     public class ContestsService : IContestsService
     {
         private readonly IDeletableEntityRepository<Contest> contestsRepository;
+        private readonly IDeletableEntityRepository<Question> questionRepository;
+        private readonly IDeletableEntityRepository<Answer> answerRepository;
         private readonly IConfiguration configuration;
 
-        public ContestsService(IDeletableEntityRepository<Contest> contestsRepository, IConfiguration configuration)
+        public ContestsService(
+            IDeletableEntityRepository<Contest> contestsRepository,
+            IDeletableEntityRepository<Question> questionRepository,
+            IDeletableEntityRepository<Answer> answerRepository,
+            IConfiguration configuration)
         {
             this.contestsRepository = contestsRepository;
+            this.questionRepository = questionRepository;
+            this.answerRepository = answerRepository;
             this.configuration = configuration;
         }
 
@@ -114,7 +122,18 @@
                 throw new NullReferenceException();
             }
 
+            foreach (var question in contest.Questions)
+            {
+                this.questionRepository.HardDelete(question);
+
+                foreach (var answer in question.Answers)
+                {
+                    this.answerRepository.HardDelete(answer);
+                }
+            }
+
             this.contestsRepository.HardDelete(contest);
+
             await this.contestsRepository.SaveChangesAsync();
         }
 

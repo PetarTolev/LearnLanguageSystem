@@ -7,7 +7,7 @@
 <h1>Create</h1>
 
 <form class=" w-50 justify-content-lg-start" asp-controller="Contests" asp-action="Create" method="post">
-    <input class="form-control w-100" type="text" asp-for="@Model.Name" placeholder="Enter contest name..."/>
+    <input class="form-control w-100" autofocus type="text" asp-for="@Model.Name" placeholder="Enter contest name..."/>
     <span class="text-danger w-100" asp-validation-for="Name"></span>
     <br />
     <button class="btn btn-primary mt-2">Create</button>
