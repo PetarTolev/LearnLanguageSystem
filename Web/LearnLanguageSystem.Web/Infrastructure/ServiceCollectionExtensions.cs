@@ -41,33 +41,44 @@
                 .AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
-                });
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
-
-                options.User.RequireUniqueEmail = false;
-            });
+            services
+                .AddRazorPages();
 
             return services;
         }
+
+        public static IServiceCollection ConfigureCookie(this IServiceCollection services)
+            => services
+                .Configure<CookiePolicyOptions>(
+                    options =>
+                    {
+                        options.CheckConsentNeeded = context => true;
+                        options.MinimumSameSitePolicy = SameSiteMode.None;
+                    });
+
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        {
+            services
+                .AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureIdentity(this IServiceCollection services)
+            => services
+                .Configure<IdentityOptions>(options =>
+                {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredUniqueChars = 1;
+
+                    options.User.RequireUniqueEmail = false;
+                });
 
         public static IServiceCollection AddExternalLogins(this IServiceCollection services, IConfiguration configuration)
         {

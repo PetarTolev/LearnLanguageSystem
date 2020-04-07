@@ -24,6 +24,9 @@
         => services
                 .AddDatabase(this.configuration)
                 .AddApplicationConfigurations()
+                .ConfigureCookie()
+                .AddIdentity()
+                .ConfigureIdentity()
                 .AddExternalLogins(this.configuration)
                 .AddSingleton(this.configuration)
                 .AddApplicationServices();
@@ -32,31 +35,21 @@
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-                if (env.IsDevelopment())
-                {
-                    dbContext.Database.Migrate();
-                }
-
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter()
-                    .GetResult();
-            }
-
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app
+                    .UseDeveloperExceptionPage()
+                    .UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app
+                    .UseExceptionHandler("/Home/Error")
+                    .UseHsts();
             }
 
-            app.UseHttpsRedirection()
+            app
+                .UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseCookiePolicy()
                 .UseRouting()
@@ -69,7 +62,8 @@
                             "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
-                    });
+                    })
+                .ApplyMigrations(env);
         }
     }
 }
