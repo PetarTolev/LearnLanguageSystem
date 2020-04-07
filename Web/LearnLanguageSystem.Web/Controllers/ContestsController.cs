@@ -40,13 +40,9 @@
             return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
         }
 
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return this.BadRequest();
-            }
-
             var contest = await this.contestsService.GetByIdAsync<ContestViewModel>(id);
 
             var user = await this.userManager.GetUserAsync(this.User);
@@ -69,15 +65,11 @@
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Delete(string id)
         {
             //todo: add get method with view 
             //this method is for confirmation
-            if (id == null)
-            {
-                return this.NotFound();
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.contestsService.GetCreatorId(id);
@@ -103,13 +95,9 @@
             return this.View(model);
         }
 
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Open(string id)
         {
-            if (id == null)
-            {
-                return this.NotFound();
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.contestsService.GetCreatorId(id);
@@ -154,13 +142,9 @@
             return this.View();
         }
 
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Close(string id)
         {
-            if (id == null)
-            {
-                return this.NotFound();
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.contestsService.GetCreatorId(id);

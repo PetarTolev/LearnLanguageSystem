@@ -10,6 +10,7 @@
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Messaging;
+    using LearnLanguageSystem.Web.Filters;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,7 @@
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
+                .AddScoped<IdExistValidation>()
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<ISettingsService, SettingsService>()
                 .AddTransient<IContestsService, ContestsService>()

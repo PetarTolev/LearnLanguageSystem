@@ -4,6 +4,7 @@
 
     public class ContestQuestionsListInputModel
     {
+        [Required]
         public string Id { get; set; }
 
         [MinLength(1)]

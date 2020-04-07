@@ -48,13 +48,9 @@
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = model.Id });
         }
 
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return this.BadRequest();
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.questionsService.GetCreatorId(id);
@@ -71,25 +67,17 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Edit(QuestionEditViewModel model)
         {
-            if (model.Id == null)
-            {
-                return this.NotFound();
-            }
-
             var questionId = await this.questionsService.UpdateAsync(model);
 
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = questionId });
         }
 
+        [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return this.NotFound();
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.questionsService.GetCreatorId(id);
