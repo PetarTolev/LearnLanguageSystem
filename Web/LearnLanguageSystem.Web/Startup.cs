@@ -2,14 +2,11 @@
 {
     using System.Reflection;
 
-    using LearnLanguageSystem.Data;
-    using LearnLanguageSystem.Data.Seeding;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.Infrastructure;
     using LearnLanguageSystem.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -58,8 +55,7 @@
                 .UseEndpoints(
                     endpoints =>
                     {
-                        endpoints.MapControllerRoute("areaRoute",
-                            "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     })

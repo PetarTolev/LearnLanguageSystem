@@ -31,6 +31,7 @@
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
                 .AddScoped<IdExistValidation>()
+                .AddScoped<OwnershipValidation>()
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<ISettingsService, SettingsService>()
                 .AddTransient<IContestsService, ContestsService>()
@@ -98,6 +99,5 @@
 
             return services;
         }
-
     }
 }

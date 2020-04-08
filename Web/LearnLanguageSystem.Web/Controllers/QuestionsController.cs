@@ -51,6 +51,7 @@
         [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Edit(string id)
         {
+            // todo: extract to attribute
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.questionsService.GetCreatorId(id);
@@ -78,6 +79,7 @@
         [ServiceFilter(typeof(IdExistValidation))]
         public async Task<IActionResult> Delete(string id)
         {
+            // todo: extract to attribute
             var user = await this.userManager.GetUserAsync(this.User);
 
             var creatorId = await this.questionsService.GetCreatorId(id);

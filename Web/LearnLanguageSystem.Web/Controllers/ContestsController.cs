@@ -41,16 +41,10 @@
         }
 
         [ServiceFilter(typeof(IdExistValidation))]
+        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Edit(string id)
         {
             var contest = await this.contestsService.GetByIdAsync<ContestViewModel>(id);
-
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            if (user.Id != contest.CreatorId)
-            {
-                return this.Forbid();
-            }
 
             return this.View(contest);
         }
@@ -66,19 +60,11 @@
         }
 
         [ServiceFilter(typeof(IdExistValidation))]
+        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            //todo: add get method with view 
-            //this method is for confirmation
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var creatorId = await this.contestsService.GetCreatorId(id);
-
-            if (user.Id != creatorId)
-            {
-                return this.Forbid();
-            }
-
+            // todo: add get method with view
+            // this method is for confirmation
             await this.contestsService.DeleteAsync(id);
 
             return this.RedirectToAction(nameof(this.MyContests));
@@ -96,17 +82,9 @@
         }
 
         [ServiceFilter(typeof(IdExistValidation))]
+        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Open(string id)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var creatorId = await this.contestsService.GetCreatorId(id);
-
-            if (user.Id != creatorId)
-            {
-                return this.Forbid();
-            }
-
             var code = await this.contestsService.OpenAsync(id);
 
             var model = new ContestOpenViewModel
@@ -143,17 +121,9 @@
         }
 
         [ServiceFilter(typeof(IdExistValidation))]
+        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Close(string id)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var creatorId = await this.contestsService.GetCreatorId(id);
-
-            if (user.Id != creatorId)
-            {
-                return this.Forbid();
-            }
-
             await this.contestsService.Close(id);
 
             return this.RedirectToAction(nameof(this.MyContests));
