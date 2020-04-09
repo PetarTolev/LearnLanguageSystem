@@ -25,12 +25,12 @@
                 .AddDbContext<ApplicationDbContext>(
                     options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
             => services
+                .AddSingleton(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
-                .AddScoped<IdExistValidation>()
                 .AddScoped<OwnershipValidation>()
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<ISettingsService, SettingsService>()

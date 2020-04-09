@@ -25,8 +25,7 @@
                 .AddIdentity()
                 .ConfigureIdentity()
                 .AddExternalLogins(this.configuration)
-                .AddSingleton(this.configuration)
-                .AddApplicationServices();
+                .AddApplicationServices(this.configuration);
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

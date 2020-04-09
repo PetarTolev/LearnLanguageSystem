@@ -40,7 +40,7 @@
             return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
         }
 
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Edit(string id)
         {
@@ -59,7 +59,7 @@
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
@@ -81,7 +81,7 @@
             return this.View(model);
         }
 
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Open(string id)
         {
@@ -120,7 +120,7 @@
             return this.View();
         }
 
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Close(string id)
         {
