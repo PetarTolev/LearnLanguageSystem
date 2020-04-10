@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using LearnLanguageSystem.Data.Models.Contest;
-
     public interface IContestsService
     {
         Task<T> GetByIdAsync<T>(string contestId);

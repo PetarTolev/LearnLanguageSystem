@@ -1,0 +1,12 @@
+﻿@model ContestDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete your contest?</h3>
+
+<a class="btn btn-danger" asp-controller="Contests" asp-action="DeleteConfirm" asp-route-id="@Model.Id">Delete</a>
+<a class="btn btn-outline-primary" asp-controller="Contests" asp-action="MyContests">Cancel</a>

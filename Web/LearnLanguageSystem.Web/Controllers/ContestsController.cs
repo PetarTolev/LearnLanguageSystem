@@ -63,8 +63,15 @@
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            // todo: add get method with view
-            // this method is for confirmation
+            var contest = await this.contestsService.GetByIdAsync<ContestDeleteViewModel>(id);
+
+            return this.View(contest);
+        }
+
+        [IdExistValidation]
+        [ServiceFilter(typeof(OwnershipValidation))]
+        public async Task<IActionResult> DeleteConfirm(string id)
+        {
             await this.contestsService.DeleteAsync(id);
 
             return this.RedirectToAction(nameof(this.MyContests));
