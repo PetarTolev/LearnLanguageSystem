@@ -68,25 +68,8 @@
         }
 
         [IdExistValidation]
-        public async Task<IActionResult> Delete(string id)
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var creatorId = await this.questionsService.GetCreatorId(id);
-
-            if (user.Id != creatorId)
-            {
-                return this.Forbid();
-            }
-
-            var question = await this.questionsService.GetByIdAsync<QuestionDeleteViewModel>(id);
-
-            return this.View(question);
-        }
-
-        [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
-        public async Task<IActionResult> DeleteConfirm(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var deletedQuestionId = await this.questionsService.DeleteAsync(id);
 

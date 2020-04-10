@@ -19,6 +19,8 @@
 
         public bool IsOpen { get; set; }
 
+        public string AccessCode { get; set; }
+
         public ICollection<QuestionViewModel> Questions { get; set; }
     }
 }

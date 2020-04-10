@@ -63,15 +63,6 @@
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            var contest = await this.contestsService.GetByIdAsync<ContestDeleteViewModel>(id);
-
-            return this.View(contest);
-        }
-
-        [IdExistValidation]
-        [ServiceFilter(typeof(OwnershipValidation))]
-        public async Task<IActionResult> DeleteConfirm(string id)
-        {
             await this.contestsService.DeleteAsync(id);
 
             return this.RedirectToAction(nameof(this.MyContests));
@@ -120,10 +111,8 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Join(string key)
+        public IActionResult Join(string key)
         {
-            await this.contestsService.GetByKeyAsync<Contest>(key);
-
             return this.View();
         }
 
