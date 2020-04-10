@@ -49,18 +49,9 @@
         }
 
         [IdExistValidation]
+        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Edit(string id)
         {
-            // todo: extract to attribute
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var creatorId = await this.questionsService.GetCreatorId(id);
-
-            if (user.Id != creatorId)
-            {
-                return this.Forbid();
-            }
-
             var model = await this.questionsService.GetByIdAsync<QuestionEditViewModel>(id);
 
             return this.View(model);
@@ -94,18 +85,9 @@
         }
 
         [IdExistValidation]
+        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> DeleteConfirm(string id)
         {
-            // todo: extract to attribute
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var creatorId = await this.questionsService.GetCreatorId(id);
-
-            if (user.Id != creatorId)
-            {
-                return this.Forbid();
-            }
-
             var deletedQuestionId = await this.questionsService.DeleteAsync(id);
 
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = deletedQuestionId });
