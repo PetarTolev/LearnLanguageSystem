@@ -48,7 +48,7 @@
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = model.Id });
         }
 
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         public async Task<IActionResult> Edit(string id)
         {
             // todo: extract to attribute
@@ -68,7 +68,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         public async Task<IActionResult> Edit(QuestionEditViewModel model)
         {
             var questionId = await this.questionsService.UpdateAsync(model);
@@ -76,8 +76,25 @@
             return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = questionId });
         }
 
-        [ServiceFilter(typeof(IdExistValidation))]
+        [IdExistValidation]
         public async Task<IActionResult> Delete(string id)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var creatorId = await this.questionsService.GetCreatorId(id);
+
+            if (user.Id != creatorId)
+            {
+                return this.Forbid();
+            }
+
+            var question = await this.questionsService.GetByIdAsync<QuestionDeleteViewModel>(id);
+
+            return this.View(question);
+        }
+
+        [IdExistValidation]
+        public async Task<IActionResult> DeleteConfirm(string id)
         {
             // todo: extract to attribute
             var user = await this.userManager.GetUserAsync(this.User);

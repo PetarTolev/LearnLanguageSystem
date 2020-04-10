@@ -1,0 +1,12 @@
+﻿@model QuestionDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this question?</h3>
+
+<a class="btn btn-danger" asp-controller="Questions" asp-action="DeleteConfirm" asp-route-id="@Model.Id">Delete</a>
+<a class="btn btn-outline-primary" asp-controller="Contests" asp-action="Edit" asp-route-id="@Model.ContestId">Cancel</a>
