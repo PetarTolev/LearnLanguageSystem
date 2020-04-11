@@ -30,67 +30,47 @@
             this.configuration = configuration;
         }
 
-        public async Task<T> GetByIdAsync<T>(string contestId)
+        public T GetById<T>(string contestId)
         {
-            var contest = await this.contestsRepository
+            var contest = this.contestsRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == contestId)
                 .To<T>()
-                .FirstOrDefaultAsync();
-
-            if (contest == null)
-            {
-                throw new NullReferenceException();
-            }
+                .FirstOrDefault();
 
             return contest;
         }
 
-        public async Task<T> GetByKeyAsync<T>(string key)
+        public T GetByKey<T>(string key)
         {
-            var contest = await this.contestsRepository
+            var contest = this.contestsRepository
                 .All()
                 .Where(x => x.AccessCode == key)
                 .To<T>()
-                .FirstOrDefaultAsync();
-
-            if (contest == null)
-            {
-                throw new NullReferenceException();
-            }
+                .FirstOrDefault();
 
             return contest;
         }
 
-        public async Task<string> GetCreatorId(string contestId)
+        public string GetCreatorId(string contestId)
         {
-            var creatorId = await this.contestsRepository
+            var creatorId = this.contestsRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == contestId)
                 .Select(x => x.CreatorId)
-                .FirstOrDefaultAsync();
-
-            if (creatorId == null)
-            {
-                throw new NullReferenceException();
-            }
+                .FirstOrDefault();
 
             return creatorId;
         }
 
-        public async Task<IEnumerable<T>> GetOwnedAsync<T>(string userId)
+        public IEnumerable<T> GetOwned<T>(string userId)
         {
-            var contests = await this.contestsRepository
+            var contests = this.contestsRepository
                 .AllAsNoTracking()
                 .Where(c => c.CreatorId == userId)
                 .OrderBy(x => x.Name)
                 .To<T>()
-                .ToListAsync();
-
-            if (contests == null)
-            {
-                throw new NullReferenceException();
-            }
+                .ToList();
 
             return contests;
         }
@@ -109,23 +89,26 @@
             return contest.Id;
         }
 
-        public async Task ChangeNameAsync(string id, string newName)
+        public async Task<string> ChangeNameAsync(string id, string newName)
         {
-            var contest = await this.contestsRepository
+            var contest = this.contestsRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id);
 
             if (contest == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             contest.Name = newName;
 
+            this.contestsRepository.Update(contest);
             await this.contestsRepository.SaveChangesAsync();
+
+            return contest.Id;
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task<string> DeleteAsync(string id)
         {
             var contest = await this.contestsRepository
                 .All()
@@ -136,7 +119,7 @@
 
             if (contest == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             foreach (var question in contest.Questions)
@@ -150,31 +133,27 @@
             }
 
             this.contestsRepository.HardDelete(contest);
-
             await this.contestsRepository.SaveChangesAsync();
+
+            return contest.Id;
         }
 
         public async Task<string> OpenAsync(string id)
         {
-            var contest = await this.contestsRepository
+            var contest = this.contestsRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id);
 
-            if (contest == null)
+            if (contest == null || contest.IsOpen)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
-            if (contest.IsOpen)
-            {
-                throw new ArgumentException();
-            }
-
-            var existingCodes = await this.contestsRepository
+            var existingCodes = this.contestsRepository
                 .All()
                 .Where(x => x.AccessCode != null)
                 .Select(x => x.AccessCode)
-                .ToListAsync();
+                .ToList();
 
             var code = this.GenerateCode();
 
@@ -192,15 +171,15 @@
             return code;
         }
 
-        public async Task Close(string id)
+        public async Task<string> CloseAsync(string id)
         {
-            var contest = await this.contestsRepository
+            var contest = this.contestsRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id);
 
             if (contest == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             contest.IsOpen = false;
@@ -208,6 +187,8 @@
 
             this.contestsRepository.Update(contest);
             await this.contestsRepository.SaveChangesAsync();
+
+            return contest.Id;
         }
 
         private string GenerateCode()

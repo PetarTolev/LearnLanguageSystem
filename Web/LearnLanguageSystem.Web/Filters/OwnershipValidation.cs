@@ -29,11 +29,17 @@
             var controllerName = controller.ControllerContext.ActionDescriptor.ControllerName;
             if (controllerName == "Contests")
             {
-                creatorId = this.contestsService.GetCreatorId(contestId).GetAwaiter().GetResult();
+                creatorId = this.contestsService.GetCreatorId(contestId);
             }
             else if (controllerName == "Questions")
             {
-                creatorId = this.questionsService.GetCreatorId(contestId).GetAwaiter().GetResult();
+                creatorId = this.questionsService.GetCreatorId(contestId);
+            }
+
+            if (creatorId == null)
+            {
+                context.Result = controller.NotFound();
+                return;
             }
 
             // todo: Refactor

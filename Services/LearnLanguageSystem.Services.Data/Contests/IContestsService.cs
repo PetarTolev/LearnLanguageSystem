@@ -5,22 +5,22 @@
 
     public interface IContestsService
     {
-        Task<T> GetByIdAsync<T>(string contestId);
+        T GetById<T>(string contestId);
 
-        Task<T> GetByKeyAsync<T>(string key);
+        T GetByKey<T>(string key);
 
-        Task<string> GetCreatorId(string contestId);
+        string GetCreatorId(string contestId);
 
-        Task<IEnumerable<T>> GetOwnedAsync<T>(string userId);
+        IEnumerable<T> GetOwned<T>(string userId);
 
         Task<string> CreateAsync(string name, string contestId);
 
-        Task ChangeNameAsync(string id, string newName);
+        Task<string> ChangeNameAsync(string id, string newName);
 
-        Task DeleteAsync(string id);
+        Task<string> DeleteAsync(string id);
 
         Task<string> OpenAsync(string id);
 
-        Task Close(string id);
+        Task<string> CloseAsync(string id);
     }
 }

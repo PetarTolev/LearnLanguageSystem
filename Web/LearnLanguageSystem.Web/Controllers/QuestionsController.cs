@@ -4,6 +4,7 @@
 
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Answers;
+    using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Questions;
@@ -17,16 +18,30 @@
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IContestsService contestsService;
 
-        public QuestionsController(IQuestionsService questionsService, IAnswersService answersService, UserManager<ApplicationUser> userManager)
+        public QuestionsController(
+            IContestsService contestsService,
+            IQuestionsService questionsService,
+            IAnswersService answersService,
+            UserManager<ApplicationUser> userManager)
         {
             this.questionsService = questionsService;
             this.answersService = answersService;
             this.userManager = userManager;
+            this.contestsService = contestsService;
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add(string contestId)
         {
+            var creatorId = this.contestsService.GetCreatorId(contestId);
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (creatorId != user.Id)
+            {
+                return this.Forbid();
+            }
+
             return this.View();
         }
 
@@ -50,30 +65,44 @@
 
         [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
-            var model = await this.questionsService.GetByIdAsync<QuestionEditViewModel>(id);
+            var question = this.questionsService.GetById<QuestionEditViewModel>(id);
 
-            return this.View(model);
+            if (question == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(question);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [IdExistValidation]
         public async Task<IActionResult> Edit(QuestionEditViewModel model)
         {
-            var questionId = await this.questionsService.UpdateAsync(model);
+            var contestId = await this.questionsService.UpdateAsync(model);
 
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = questionId });
+            if (contestId == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
         }
 
         [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            var deletedQuestionId = await this.questionsService.DeleteAsync(id);
+            var contestId = await this.questionsService.DeleteAsync(id);
 
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = deletedQuestionId });
+            if (contestId == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
         }
     }
 }

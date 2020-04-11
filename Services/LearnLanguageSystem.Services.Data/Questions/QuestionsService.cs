@@ -1,6 +1,5 @@
 ﻿namespace LearnLanguageSystem.Services.Data.Questions
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -35,41 +34,36 @@
             return question.Id;
         }
 
-        public async Task<T> GetByIdAsync<T>(string id)
+        public T GetById<T>(string id)
         {
-            var question = await this.questionRepository
+            var question = this.questionRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .To<T>()
-                .FirstOrDefaultAsync();
-
-            if (question == null)
-            {
-                throw new NullReferenceException();
-            }
+                .FirstOrDefault();
 
             return question;
         }
 
-        public async Task<string> GetCreatorId(string id)
+        public string GetCreatorId(string id)
         {
-            var creatorId = await this.questionRepository
+            var creatorId = this.questionRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .Select(x => x.Contest.CreatorId)
-                .FirstOrDefaultAsync();
-
-            if (creatorId == null)
-            {
-                throw new NullReferenceException();
-            }
+                .FirstOrDefault();
 
             return creatorId;
         }
 
         public async Task<string> UpdateAsync(QuestionEditViewModel model)
         {
-            var question = await this.GetWithAnswerAsync(model.Id);
+            var question = this.GetWithAnswer(model.Id);
+
+            if (question == null)
+            {
+                return null;
+            }
 
             question.Content = model.Content;
 
@@ -90,7 +84,12 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var question = await this.GetWithAnswerAsync(id);
+            var question = this.GetWithAnswer(id);
+
+            if (question == null)
+            {
+                return null;
+            }
 
             foreach (var answer in question.Answers)
             {
@@ -103,17 +102,12 @@
             return question.ContestId;
         }
 
-        public async Task<Question> GetWithAnswerAsync(string id)
+        private Question GetWithAnswer(string id)
         {
-            var question = await this.questionRepository
+            var question = this.questionRepository
                 .All()
                 .Include(x => x.Answers)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (question == null)
-            {
-                throw new NullReferenceException();
-            }
+                .FirstOrDefault(x => x.Id == id);
 
             return question;
         }

@@ -3,7 +3,6 @@
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Models;
-    using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Contests;
@@ -37,14 +36,24 @@
 
             var contestId = await this.contestsService.CreateAsync(model.Name, user.Id);
 
+            if (contestId == null)
+            {
+                return this.View();
+            }
+
             return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
         }
 
         [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
-            var contest = await this.contestsService.GetByIdAsync<ContestViewModel>(id);
+            var contest = this.contestsService.GetById<ContestViewModel>(id);
+
+            if (contest == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(contest);
         }
@@ -54,7 +63,12 @@
         [ModelStateValidation]
         public async Task<IActionResult> Edit(ContestViewModel model)
         {
-            await this.contestsService.ChangeNameAsync(model.Id, model.Name);
+            var contestId = await this.contestsService.ChangeNameAsync(model.Id, model.Name);
+
+            if (contestId == null)
+            {
+                return this.NotFound();
+            }
 
             return this.RedirectToAction(nameof(this.MyContests));
         }
@@ -63,7 +77,12 @@
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.contestsService.DeleteAsync(id);
+            var contestId = await this.contestsService.DeleteAsync(id);
+
+            if (contestId == null)
+            {
+                return this.BadRequest();
+            }
 
             return this.RedirectToAction(nameof(this.MyContests));
         }
@@ -72,7 +91,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var contests = await this.contestsService.GetOwnedAsync<ContestViewModel>(user.Id);
+            var contests = this.contestsService.GetOwned<ContestViewModel>(user.Id);
 
             var model = new ContestsListViewModel { Contests = contests };
 
@@ -84,6 +103,11 @@
         public async Task<IActionResult> Open(string id)
         {
             var code = await this.contestsService.OpenAsync(id);
+
+            if (code == null)
+            {
+                return this.BadRequest();
+            }
 
             var model = new ContestOpenViewModel
             {
@@ -120,7 +144,12 @@
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Close(string id)
         {
-            await this.contestsService.Close(id);
+            var contestId = await this.contestsService.CloseAsync(id);
+
+            if (contestId == null)
+            {
+                return this.NotFound();
+            }
 
             return this.RedirectToAction(nameof(this.MyContests));
         }

@@ -9,14 +9,12 @@
     {
         Task<string> CreateAsync(string contestId, string content);
 
-        Task<T> GetByIdAsync<T>(string id);
+        T GetById<T>(string id);
 
-        Task<string> GetCreatorId(string id);
+        string GetCreatorId(string id);
 
         Task<string> UpdateAsync(QuestionEditViewModel model);
 
         Task<string> DeleteAsync(string id);
-
-        Task<Question> GetWithAnswerAsync(string id);
     }
 }
