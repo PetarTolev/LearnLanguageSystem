@@ -135,9 +135,16 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Join(string key)
+        public IActionResult Join(ContestJoinInputModel model)
         {
-            return this.View();
+            var contest = this.contestsService.GetByKey<ContestJoinViewModel>(model.Key);
+
+            if (contest == null)
+            {
+                return this.NotFound("Contest with this key doesn't exist.");
+            }
+
+            return this.RedirectToAction(nameof(this.Play), new { id = contest.Id });
         }
 
         [IdExistValidation]
@@ -152,6 +159,11 @@
             }
 
             return this.RedirectToAction(nameof(this.MyContests));
+        }
+
+        public IActionResult Play(string id)
+        {
+            return this.View("Play", id);
         }
     }
 }
