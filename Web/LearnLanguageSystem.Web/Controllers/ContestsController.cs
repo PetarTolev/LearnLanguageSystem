@@ -84,7 +84,7 @@
                 return this.BadRequest();
             }
 
-            return this.RedirectToAction(nameof(this.MyContests));
+            return this.NoContent();
         }
 
         public async Task<IActionResult> MyContests()
