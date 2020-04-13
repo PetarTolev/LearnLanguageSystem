@@ -32,9 +32,14 @@
             this.contestsService = contestsService;
         }
 
-        public async Task<IActionResult> Add(string contestId)
+        public async Task<IActionResult> Add(string id)
         {
-            var creatorId = this.contestsService.GetCreatorId(contestId);
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
+            var creatorId = this.contestsService.GetCreatorId(id);
             var user = await this.userManager.GetUserAsync(this.User);
 
             if (creatorId != user.Id)

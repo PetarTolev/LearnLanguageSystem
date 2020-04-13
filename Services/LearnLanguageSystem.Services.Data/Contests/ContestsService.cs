@@ -177,7 +177,7 @@
                 .All()
                 .FirstOrDefault(x => x.Id == id);
 
-            if (contest == null)
+            if (contest == null || !contest.IsOpen)
             {
                 return null;
             }

@@ -155,7 +155,7 @@
 
             if (contestId == null)
             {
-                return this.NotFound();
+                return this.BadRequest();
             }
 
             return this.RedirectToAction(nameof(this.MyContests));
