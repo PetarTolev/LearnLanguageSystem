@@ -46,3 +46,28 @@
         $('form').append("</br>");
     });
 });
+
+function del(id, value) {
+    $(`#${id}`).val(value);
+}
+
+function deleteConfirm(id, route) {
+    var id = $(`#${id}`).val();
+    var token = $("input[name=__RequestVerificationToken]").val();
+
+    $.ajax({
+        url: `${route}?id=${id}`,
+        contentType: "application/json; charset=utf-8",
+        headers: { 'X-CSRF-TOKEN': token },
+        success: function () {
+            $(`#Container_${id}`).remove();
+            $('#deleteModal').modal('hide');
+
+            var count = $("div[id^='Container_']").length;
+
+            if (count < 1) {
+                $('#emptyNotification').show();
+            }
+        }
+    });
+}

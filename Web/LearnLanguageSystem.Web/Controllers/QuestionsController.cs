@@ -107,7 +107,7 @@
                 return this.NotFound();
             }
 
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
+            return this.NoContent();
         }
     }
 }
