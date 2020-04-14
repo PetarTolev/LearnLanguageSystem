@@ -1,5 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Questions
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class ContestQuestionsListInputModel
@@ -9,6 +10,6 @@
 
         [MinLength(1)]
         [MaxLength(10)]
-        public QuestionInputModel[] Questions { get; set; }
+        public IList<QuestionInputModel> Questions { get; set; }
     }
 }

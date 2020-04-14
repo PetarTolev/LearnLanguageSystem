@@ -35,15 +35,11 @@
         }
 
         public T GetById<T>(string id)
-        {
-            var question = this.questionRepository
+            => this.questionRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefault();
-
-            return question;
-        }
 
         public string GetCreatorId(string id)
         {
@@ -103,13 +99,9 @@
         }
 
         private Question GetWithAnswer(string id)
-        {
-            var question = this.questionRepository
+            => this.questionRepository
                 .All()
                 .Include(x => x.Answers)
                 .FirstOrDefault(x => x.Id == id);
-
-            return question;
-        }
     }
 }

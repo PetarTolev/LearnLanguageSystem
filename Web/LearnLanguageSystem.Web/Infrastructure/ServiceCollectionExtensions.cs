@@ -1,5 +1,7 @@
 ﻿namespace LearnLanguageSystem.Web.Infrastructure
 {
+    using System;
+
     using LearnLanguageSystem.Data;
     using LearnLanguageSystem.Data.Common;
     using LearnLanguageSystem.Data.Common.Repositories;
@@ -32,6 +34,7 @@
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
                 .AddScoped<OwnershipValidation>()
+                .AddScoped<Random>()
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<ISettingsService, SettingsService>()
                 .AddTransient<IContestsService, ContestsService>()

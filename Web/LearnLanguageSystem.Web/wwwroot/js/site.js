@@ -68,6 +68,7 @@ function deleteConfirm(id, route) {
             if (count < 1) {
                 $('#emptyNotification').show();
             }
+            showAddButton();
         }
     });
 }

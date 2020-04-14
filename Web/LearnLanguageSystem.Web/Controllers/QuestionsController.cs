@@ -15,6 +15,7 @@
     [Authorize]
     public class QuestionsController : BaseController
     {
+        private const int MaxCount = 10;
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -32,14 +33,14 @@
             this.contestsService = contestsService;
         }
 
-        public async Task<IActionResult> Add(string id)
+        public async Task<IActionResult> Add(string contestId, int? questionsCount)
         {
-            if (id == null)
+            if (contestId == null || questionsCount == 0 || questionsCount == null)
             {
                 return this.BadRequest();
             }
 
-            var creatorId = this.contestsService.GetCreatorId(id);
+            var creatorId = this.contestsService.GetCreatorId(contestId);
             var user = await this.userManager.GetUserAsync(this.User);
 
             if (creatorId != user.Id)
@@ -47,7 +48,31 @@
                 return this.Forbid();
             }
 
-            return this.View();
+            var currentQuestionsCount = this.contestsService.GetQuestionsCount(contestId);
+
+            if (currentQuestionsCount == 10)
+            {
+                this.TempData["Notification"] = $"You have reached the questions limit!";
+                return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
+            }
+
+            var questionsCountForAdd = questionsCount.Value;
+            var reminingQuestionsCount = MaxCount - (currentQuestionsCount + questionsCountForAdd);
+
+            if (reminingQuestionsCount < 0)
+            {
+                var allowedQuestionsCount = MaxCount - currentQuestionsCount;
+                this.TempData["Notification"] = $"You have exceeded the questions limit. You can only add {allowedQuestionsCount} questions.";
+                questionsCountForAdd = allowedQuestionsCount;
+            }
+
+            var model = new ContestQuestionsListInputModel
+            {
+                Id = contestId,
+                Questions = new QuestionInputModel[questionsCountForAdd],
+            };
+
+            return this.View("Add", model);
         }
 
         [HttpPost]

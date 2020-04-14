@@ -6,66 +6,70 @@
 }
 
 <h1>Add</h1>
+@if (this.TempData["Notification"] != null)
+{
+    <div class="alert alert-info">@this.TempData["Notification"]</div>
+}
 
 <div class="text-danger" asp-validation-summary="All"></div>
 
 <form asp-controller="Questions" asp-action="Add">
-    <div class="question-card">
-        <h3 id="title">Question 1</h3>
+    @for (int i = 0; i < Model.Questions.Count; i++)
+    {
+        <div class="question-card">
+            <h3 id="title">Question @(i+1)</h3>
 
-        <div class="input-group">
-            <label class="input-group-text">Question Content</label>
-            <input placeholder="Enter question" type="text" class="form-control" asp-for="Questions[0].Content" />
-        </div>
-
-        <span class="text-danger" asp-validation-for="Questions[0].Content"></span>
-        <hr />
-
-        <div class="input-group">
-            <label class="input-group-text">Answer 1</label>
-            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].One.Content" />
-            <div class="input-group-text">
-                <input type="checkbox" asp-for="Questions[0].One.IsRight" />
+            <div class="input-group">
+                <label class="input-group-text">Question Content</label>
+                <input placeholder="Enter question" type="text" class="form-control" asp-for="Questions[i].Content" />
             </div>
-        </div>
 
-        <span class="text-danger" asp-validation-for="Questions[0].One.Content"></span>
+            <span class="text-danger" asp-validation-for="Questions[i].Content"></span>
+            <hr />
 
-        <div class="input-group">
-            <label class="input-group-text">Answer 2</label>
-            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].Two.Content" />
-            <div class="input-group-text">
-                <input type="checkbox" asp-for="Questions[0].Two.IsRight" />
+            <div class="input-group">
+                <label class="input-group-text">Answer 1</label>
+                <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[i].One.Content" />
+                <div class="input-group-text">
+                    <input type="checkbox" asp-for="Questions[i].One.IsRight" />
+                </div>
             </div>
-        </div>
-        
-        <span class="text-danger" asp-validation-for="Questions[0].Two.Content"></span>
 
-        <div class="input-group">
-            <label class="input-group-text">Answer 3</label>
-            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].Three.Content" />
-            <div class="input-group-text">
-                <input type="checkbox" asp-for="Questions[0].Three.IsRight" />
+            <span class="text-danger" asp-validation-for="Questions[i].One.Content"></span>
+
+            <div class="input-group">
+                <label class="input-group-text">Answer 2</label>
+                <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[i].Two.Content" />
+                <div class="input-group-text">
+                    <input type="checkbox" asp-for="Questions[i].Two.IsRight" />
+                </div>
             </div>
-        </div>
 
-        <span class="text-danger" asp-validation-for="Questions[0].Three.Content"></span>
+            <span class="text-danger" asp-validation-for="Questions[i].Two.Content"></span>
 
-        <div class="input-group">
-            <label class="input-group-text">Answer 4</label>
-            <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[0].Four.Content" />
-            <div class="input-group-text">
-                <input type="checkbox" asp-for="Questions[0].Four.IsRight" />
+            <div class="input-group">
+                <label class="input-group-text">Answer 3</label>
+                <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[i].Three.Content" />
+                <div class="input-group-text">
+                    <input type="checkbox" asp-for="Questions[i].Three.IsRight" />
+                </div>
             </div>
-        </div>
-        
-        <span class="text-danger" asp-validation-for="Questions[0].Four.Content"></span>
-        <br />
-    </div>
 
-    <div class="button-group">
-        <br />  
-        <button type="button" class="btn btn-secondary" id="addQuestion">More questions</button>
-        <button class="btn btn-primary" asp-controller="Questions" asp-action="Add">Add questions to contest</button>
-    </div>
+            <span class="text-danger" asp-validation-for="Questions[i].Three.Content"></span>
+
+            <div class="input-group">
+                <label class="input-group-text">Answer 4</label>
+                <input placeholder="Enter answer" type="text" class="form-control" asp-for="Questions[i].Four.Content" />
+                <div class="input-group-text">
+                    <input type="checkbox" asp-for="Questions[i].Four.IsRight" />
+                </div>
+            </div>
+
+            <span class="text-danger" asp-validation-for="Questions[i].Four.Content"></span>
+            <br />
+        </div>
+    }
+    <input type="hidden" asp-for="@Model.Id" />
+
+    <button class="btn btn-primary" asp-controller="Questions" asp-action="Add">Add questions to contest</button>
 </form>

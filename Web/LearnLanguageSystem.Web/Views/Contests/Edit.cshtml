@@ -7,6 +7,13 @@
 
 <h1>Edit</h1>
 
+@if (this.TempData["Notification"] != null)
+{
+    <div class="alert alert-info">
+        @this.TempData["Notification"]
+    </div>
+}
+
 <form asp-controller="Contests" asp-action="Edit" method="post">
     <input class="form-control w-25" type="text" asp-for="@Model.Name" placeholder="Enter new contest name..." />
     <span class="text-danger w-100" asp-validation-for="Name"></span>
@@ -50,8 +57,25 @@
             </div>
         }
     }
-    
+
     <input type="hidden" id="questionForDeleteId" value="" />
 </div>
 
-<a class="btn btn-primary" asp-controller="Questions" asp-action="Add" asp-route-id="@Model.Id">Add questions</a>
+
+<form style="@(Model.Questions.Count >= 10 ? "display:none !important" : "")" asp-controller="Questions" asp-action="Add" method="get" id="questionsAddForm">
+    <input type="hidden" name="contestId" value="@Model.Id" />
+    <input class="form-control w-25" type="number" name="questionsCount" value="" />
+    <button class="btn btn-primary" type="submit">Add questions</button>
+</form>
+
+@section Scripts {
+    <script>
+        function showAddButton() {
+            let count = $("div[id^='Container_']").length;
+
+            if (count < 10) {
+                $('#questionsAddForm').show();
+            }
+        }
+    </script>
+}

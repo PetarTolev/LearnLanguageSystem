@@ -13,6 +13,8 @@
 
         IEnumerable<T> GetOwned<T>(string userId);
 
+        int GetQuestionsCount(string id);
+
         Task<string> CreateAsync(string name, string contestId);
 
         Task<string> ChangeNameAsync(string id, string newName);
