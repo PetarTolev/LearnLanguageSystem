@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace LearnLanguageSystem.Data.Migrations
+﻿namespace LearnLanguageSystem.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddContestIsOpenAndAccessCode : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

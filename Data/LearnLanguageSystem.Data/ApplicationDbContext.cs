@@ -24,8 +24,6 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<Contest> Contests { get; set; }
 
         public DbSet<Question> Questions { get; set; }

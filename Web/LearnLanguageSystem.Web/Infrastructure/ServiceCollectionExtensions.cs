@@ -36,7 +36,6 @@
                 .AddScoped<OwnershipValidation>()
                 .AddScoped<Random>()
                 .AddTransient<IEmailSender, NullMessageSender>()
-                .AddTransient<ISettingsService, SettingsService>()
                 .AddTransient<IContestsService, ContestsService>()
                 .AddTransient<IQuestionsService, QuestionsService>()
                 .AddTransient<IAnswersService, AnswersService>();
