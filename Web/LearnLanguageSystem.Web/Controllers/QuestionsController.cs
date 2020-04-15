@@ -1,7 +1,7 @@
 ﻿namespace LearnLanguageSystem.Web.Controllers
 {
     using System.Threading.Tasks;
-
+    using LearnLanguageSystem.Common;
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Contests;
@@ -42,8 +42,9 @@
 
             var creatorId = this.contestsService.GetCreatorId(contestId);
             var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
 
-            if (creatorId != user.Id)
+            if (!isAdmin && creatorId != user.Id)
             {
                 return this.Forbid();
             }

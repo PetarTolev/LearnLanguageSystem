@@ -1,5 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.Filters
 {
+    using LearnLanguageSystem.Common;
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
@@ -44,8 +45,9 @@
 
             // todo: Refactor
             var user = this.userManager.GetUserAsync(controller.User).GetAwaiter().GetResult();
+            var isAdmin = this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName).GetAwaiter().GetResult();
 
-            if (user.Id != creatorId)
+            if (!isAdmin && user.Id != creatorId)
             {
                 context.Result = controller.Forbid();
             }

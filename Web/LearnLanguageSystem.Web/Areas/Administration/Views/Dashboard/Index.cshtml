@@ -1,7 +1,41 @@
-﻿@model LearnLanguageSystem.Web.ViewModels.Administration.Dashboard.IndexViewModel
+﻿@model AllContestsViewModel
 @{
     this.ViewData["Title"] = "Admin dashboard";
 }
 
 <h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+
+<div class="list-group">
+    @foreach (var contest in Model.Contests)
+    {
+        <div class="d-inline-flex mb-2" id="Container_@contest.Id">
+            <div class="list-group-item d-flex justify-content-between align-items-center flex-grow-1">
+                <span>@contest.CreatorUserName</span>
+                <a asp-area="" asp-controller="Contests" asp-action="Edit" asp-route-id="@contest.Id">@contest.Name</a>
+                <span class="badge badge-primary badge-pill">@contest.QuestionsCount</span>
+                <span>@contest.IsOpen</span>
+            </div>
+
+            <button type="button" class="btn btn-danger ml-3 px-5" data-toggle="modal" data-target="#deleteModal" onclick="del('contestForDeleteId', '@contest.Id')">Delete</button>
+        </div>
+    }
+</div>
+
+<input type="hidden" id="contestForDeleteId" value="" />
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete your contest?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="#" class="btn btn-danger" onclick="deleteConfirm('contestForDeleteId', '/Contests/Delete/')">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
