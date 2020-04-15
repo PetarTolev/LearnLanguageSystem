@@ -55,11 +55,16 @@
                 .FirstOrDefault();
 
         public IEnumerable<T> GetOwned<T>(string userId)
+            => this.GetOwned(userId)
+                .AsQueryable()
+                .To<T>()
+                .ToList();
+
+        public IEnumerable<Contest> GetOwned(string userId)
             => this.contestsRepository
                 .AllAsNoTracking()
                 .Where(c => c.CreatorId == userId)
                 .OrderBy(x => x.Name)
-                .To<T>()
                 .ToList();
 
         public int GetQuestionsCount(string id)

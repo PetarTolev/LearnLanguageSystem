@@ -33,7 +33,7 @@
 
         private static async Task SeedUserInRoles(UserManager<ApplicationUser> userManager, string username, string email, string password)
         {
-            if (userManager.Users.Any())
+            if (!userManager.Users.Any())
             {
                 var user = new ApplicationUser
                 {

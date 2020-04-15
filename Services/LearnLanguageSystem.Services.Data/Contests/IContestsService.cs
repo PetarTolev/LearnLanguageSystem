@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using LearnLanguageSystem.Data.Models.Contest;
+
     public interface IContestsService
     {
         T GetById<T>(string contestId);
@@ -12,6 +14,8 @@
         string GetCreatorId(string contestId);
 
         IEnumerable<T> GetOwned<T>(string userId);
+
+        IEnumerable<Contest> GetOwned(string userId);
 
         int GetQuestionsCount(string id);
 

@@ -12,7 +12,6 @@
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Data.Repositories;
     using LearnLanguageSystem.Data.Seeding;
-    using LearnLanguageSystem.Services.Data;
     using LearnLanguageSystem.Services.Messaging;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
