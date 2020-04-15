@@ -28,7 +28,6 @@
                               new RolesSeeder(),
                               new SettingsSeeder(),
                               new ContestsSeeder(),
-                              new UsersSeeder(),
                           };
 
             foreach (var seeder in seeders)

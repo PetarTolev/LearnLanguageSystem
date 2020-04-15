@@ -4,6 +4,7 @@
 
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.Infrastructure;
+    using LearnLanguageSystem.Web.Middlewares;
     using LearnLanguageSystem.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,7 @@
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
+                .UseSetAdminMiddleware()
                 .UseEndpoints(
                     endpoints =>
                     {
