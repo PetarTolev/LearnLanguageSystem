@@ -7,8 +7,8 @@
     using LearnLanguageSystem.Data.Common.Repositories;
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Data.Repositories;
-    using LearnLanguageSystem.Services.Data;
     using LearnLanguageSystem.Services.Data.Answers;
+    using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Messaging;
@@ -38,7 +38,8 @@
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<IContestsService, ContestsService>()
                 .AddTransient<IQuestionsService, QuestionsService>()
-                .AddTransient<IAnswersService, AnswersService>();
+                .AddTransient<IAnswersService, AnswersService>()
+                .AddTransient<IApplicationSettingsService, ApplicationSettingsService>();
 
         public static IServiceCollection AddApplicationConfigurations(this IServiceCollection services)
         {

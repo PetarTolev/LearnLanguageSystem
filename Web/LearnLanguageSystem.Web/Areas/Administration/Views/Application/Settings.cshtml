@@ -1,0 +1,11 @@
+﻿@model SettingsViewModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<h1>Settings</h1>
+
+<form asp-area="Administration" asp-controller="Application" asp-action="Settings">
+    <input class="form-check" type="number" asp-for="@Model.AccessCodeLength" value="@Model.AccessCodeLength" />
+    <button class="btn btn-primary">Save</button>
+</form>

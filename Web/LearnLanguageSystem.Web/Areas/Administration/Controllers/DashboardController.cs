@@ -17,7 +17,7 @@
             this.contestsRepository = contestsRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Contests()
         {
             var contests = this.contestsRepository
                 .AllAsNoTracking()

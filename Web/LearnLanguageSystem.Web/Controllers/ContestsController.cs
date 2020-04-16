@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Models;
+    using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Contests;
@@ -14,11 +15,16 @@
     public class ContestsController : BaseController
     {
         private readonly IContestsService contestsService;
+        private readonly IApplicationSettingsService applicationSettingsService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ContestsController(IContestsService contestsService, UserManager<ApplicationUser> userManager)
+        public ContestsController(
+            IContestsService contestsService,
+            IApplicationSettingsService applicationSettingsService,
+            UserManager<ApplicationUser> userManager)
         {
             this.contestsService = contestsService;
+            this.applicationSettingsService = applicationSettingsService;
             this.userManager = userManager;
         }
 
@@ -137,11 +143,20 @@
         [ValidateAntiForgeryToken]
         public IActionResult Join(ContestJoinInputModel model)
         {
+            var codeLength = this.applicationSettingsService.GetAccessCodeLength();
+
+            if (model.Key.Length != codeLength)
+            {
+                this.TempData["Notification"] = $"Access code lenght must be {codeLength} numbers.";
+                return this.View(model);
+            }
+
             var contest = this.contestsService.GetByKey<ContestJoinViewModel>(model.Key);
 
             if (contest == null)
             {
-                return this.NotFound("Contest with this key doesn't exist.");
+                this.TempData["Notification"] = $"Contest with this key doesn't exist.";
+                return this.View(model);
             }
 
             return this.RedirectToAction(nameof(this.Play), new { id = contest.Id });

@@ -7,29 +7,29 @@
 
     using LearnLanguageSystem.Data.Common.Repositories;
     using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
 
     public class ContestsService : IContestsService
     {
         private readonly IDeletableEntityRepository<Contest> contestsRepository;
         private readonly IDeletableEntityRepository<Question> questionRepository;
         private readonly IDeletableEntityRepository<Answer> answerRepository;
-        private readonly IConfiguration configuration;
+        private readonly IApplicationSettingsService applicationSettingsService;
         private readonly Random rnd;
 
         public ContestsService(
             IDeletableEntityRepository<Contest> contestsRepository,
             IDeletableEntityRepository<Question> questionRepository,
             IDeletableEntityRepository<Answer> answerRepository,
-            IConfiguration configuration,
+            IApplicationSettingsService applicationSettingsService,
             Random rnd)
         {
             this.contestsRepository = contestsRepository;
             this.questionRepository = questionRepository;
             this.answerRepository = answerRepository;
-            this.configuration = configuration;
+            this.applicationSettingsService = applicationSettingsService;
             this.rnd = rnd;
         }
 
@@ -154,7 +154,8 @@
                 .Select(x => x.AccessCode)
                 .ToList();
 
-            var codeLength = int.Parse(this.configuration["AccessCodeLength"]);
+            var codeLength = this.applicationSettingsService.GetAccessCodeLength();
+
             var code = this.GenerateCode(codeLength);
 
             while (existingCodes.Contains(code))
