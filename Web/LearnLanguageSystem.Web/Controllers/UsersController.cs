@@ -1,18 +1,34 @@
-﻿using LearnLanguageSystem.Services.Data.Cloudinary;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace LearnLanguageSystem.Web.Controllers
+﻿namespace LearnLanguageSystem.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using LearnLanguageSystem.Data.Models;
+    using LearnLanguageSystem.Services.Data.Cloud;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class UsersController : BaseController
     {
-        public UsersController()
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public UsersController(ICloudinaryService cloudinaryService, UserManager<ApplicationUser> userManager)
         {
+            this.cloudinaryService = cloudinaryService;
+            this.userManager = userManager;
         }
 
-        public IActionResult ChangeAvatar()
+        public async Task<IActionResult> ChangeAvatar(IFormFile avatar)
         {
-            return this.NoContent();
+            var url = await this.cloudinaryService.Upload(avatar);
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            user.AvatarUrl = url;
+            await this.userManager.UpdateAsync(user);
+
+            return this.Redirect("/Identity/Account/Manage");
         }
     }
 }

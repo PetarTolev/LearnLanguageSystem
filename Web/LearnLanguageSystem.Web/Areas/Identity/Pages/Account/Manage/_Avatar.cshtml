@@ -1,0 +1,28 @@
+﻿@inject UserManager<ApplicationUser> UserManager
+@{
+    var user = await this.UserManager.GetUserAsync(this.User);
+    var avatar = user.AvatarUrl ?? @"/img/icon-avatar-default.png";
+}
+
+<style>
+    .my-avatar {
+        width: 180px;
+        height: 180px;
+        border: 2px solid black;
+    }
+
+    .my-file-input {
+        width: 180px;
+        height: 180px;
+        cursor: pointer;
+        opacity: 0;
+        background-color: black;
+        position: fixed;
+    }
+</style>
+
+<form class="d-flex flex-column" asp-area="" asp-controller="Users" asp-action="ChangeAvatar" enctype="multipart/form-data">
+    <img src="@avatar" alt="Avatar" class="img-thumbnail rounded-circle m-3 my-avatar">
+    <input type="file" class="m-3 rounded-circle my-file-input" name="avatar" />
+    <button class="w-75 m-auto btn btn-primary">Save image</button>
+</form>

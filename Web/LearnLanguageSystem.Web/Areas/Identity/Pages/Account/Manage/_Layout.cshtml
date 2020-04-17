@@ -25,11 +25,7 @@
 <hr />
 <div class="row">
     <div class="d-flex flex-column align-items-center">
-        <form class="d-flex flex-column" asp-area="" asp-controller="Users" asp-action="ChangeAvatar" enctype="multipart/form-data">
-            <img src="~/img/icon-avatar-default.png" alt="Avatar" class="img-thumbnail rounded-circle m-3 my-avatar">
-            <input type="file" class="m-3 rounded-circle my-file-input" name="avatar"/>
-            <button class="w-75 m-auto btn btn-primary">Save image</button>
-        </form>
+        <partial name="_Avatar"/>
 
         <div class="col mt-3">
             <partial name="_ManageNav"/>

@@ -10,6 +10,7 @@
     using LearnLanguageSystem.Data.Repositories;
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
+    using LearnLanguageSystem.Services.Data.Cloud;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Messaging;
@@ -42,7 +43,8 @@
                 .AddTransient<IContestsService, ContestsService>()
                 .AddTransient<IQuestionsService, QuestionsService>()
                 .AddTransient<IAnswersService, AnswersService>()
-                .AddTransient<IApplicationSettingsService, ApplicationSettingsService>();
+                .AddTransient<IApplicationSettingsService, ApplicationSettingsService>()
+                .AddTransient<ICloudinaryService, CloudinaryService>();
 
         public static IServiceCollection AddApplicationConfigurations(this IServiceCollection services)
         {
@@ -113,8 +115,8 @@
         {
             var account = new Account(
                 configuration["CloudinarySettings:CloudName"],
-                configuration["CloudinarySettings:AppKey"],
-                configuration["CloudinarySettings:AppSecret"]);
+                configuration["CloudinarySettings:ApiKey"],
+                configuration["CloudinarySettings:ApiSecret"]);
 
             var cloudinary = new Cloudinary(account);
             services.AddSingleton(cloudinary);
