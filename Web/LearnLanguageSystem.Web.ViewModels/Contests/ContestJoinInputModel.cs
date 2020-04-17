@@ -2,6 +2,6 @@
 {
     public class ContestJoinInputModel
     {
-        public string Key { get; set; }
+        public string Code { get; set; }
     }
 }

@@ -9,7 +9,7 @@
     {
         T GetById<T>(string contestId);
 
-        T GetByKey<T>(string key);
+        T GetByCode<T>(string key);
 
         string GetCreatorId(string contestId);
 

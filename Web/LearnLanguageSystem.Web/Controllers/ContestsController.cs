@@ -115,23 +115,7 @@
                 return this.BadRequest();
             }
 
-            var model = new ContestOpenViewModel
-            {
-                Code = code,
-            };
-
-            this.TempData["IsLegit"] = true;
-            return this.RedirectToAction(nameof(ContestsController.YourContestCode), model);
-        }
-
-        public IActionResult YourContestCode(ContestOpenViewModel model)
-        {
-            if (!this.TempData.TryGetValue("IsLegit", out _))
-            {
-                return this.BadRequest();
-            }
-
-            return this.View(model);
+            return this.RedirectToAction(nameof(ContestsController.Room), new { code });
         }
 
         public IActionResult Join()
@@ -145,21 +129,31 @@
         {
             var codeLength = this.applicationSettingsService.GetAccessCodeLength();
 
-            if (model.Key.Length != codeLength)
+            if (model.Code.Length != codeLength)
             {
-                this.TempData["Notification"] = $"Access code lenght must be {codeLength} numbers.";
+                this.TempData["Notification"] = $"Access code length must be {codeLength} numbers.";
                 return this.View(model);
             }
 
-            var contest = this.contestsService.GetByKey<ContestJoinViewModel>(model.Key);
+            var contest = this.contestsService.GetByCode<ContestJoinViewModel>(model.Code);
 
             if (contest == null)
             {
-                this.TempData["Notification"] = $"Contest with this key doesn't exist.";
+                this.TempData["Notification"] = "Contest with this code doesn't exist.";
                 return this.View(model);
             }
 
-            return this.RedirectToAction(nameof(this.Play), new { id = contest.Id });
+            return this.RedirectToAction(nameof(this.Room), new { code = contest.AccessCode });
+        }
+
+        public IActionResult Room(int code)
+        {
+            if (code == 0)
+            {
+                return this.NotFound();
+            }
+
+            return this.View((object)code);
         }
 
         [IdExistValidation]

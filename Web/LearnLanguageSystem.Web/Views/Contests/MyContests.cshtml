@@ -22,7 +22,7 @@
             <th>Questions Count</th>
             <th>Delete</th>
             <th>Open/Close</th>
-            <th>Access Code</th>
+            <th>Go to room</th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +51,7 @@
                         <a class="btn btn-primary" asp-controller="Contests" asp-action="Close" asp-route-id="@contest.Id">Close</a>
                     </td>
                     <td>
-                        <span>@contest.AccessCode</span>
+                        <a class="btn btn-outline-primary" asp-controller="Contests" asp-action="Room" asp-route-code="@contest.AccessCode">Go to room</a>
                     </td>
                 }
                 else

@@ -40,7 +40,7 @@
                 .To<T>()
                 .FirstOrDefault();
 
-        public T GetByKey<T>(string key)
+        public T GetByCode<T>(string key)
             => this.contestsRepository
                 .All()
                 .Where(x => x.AccessCode == key)
