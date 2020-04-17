@@ -2,6 +2,7 @@
 {
     using System;
 
+    using CloudinaryDotNet;
     using LearnLanguageSystem.Data;
     using LearnLanguageSystem.Data.Common;
     using LearnLanguageSystem.Data.Common.Repositories;
@@ -27,7 +28,9 @@
                 .AddDbContext<ApplicationDbContext>(
                     options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationServices(
+            this IServiceCollection services,
+            IConfiguration configuration)
             => services
                 .AddSingleton(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
@@ -49,6 +52,9 @@
 
             services
                 .AddRazorPages();
+
+            services
+                .AddResponseCompression();
 
             return services;
         }
@@ -99,6 +105,19 @@
                     options.ClientId = configuration["GoogleSettings:ClientId"];
                     options.ClientSecret = configuration["GoogleSettings:ClientSecret"];
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCloudinary(this IServiceCollection services, IConfiguration configuration)
+        {
+            var account = new Account(
+                configuration["CloudinarySettings:CloudName"],
+                configuration["CloudinarySettings:AppKey"],
+                configuration["CloudinarySettings:AppSecret"]);
+
+            var cloudinary = new Cloudinary(account);
+            services.AddSingleton(cloudinary);
 
             return services;
         }

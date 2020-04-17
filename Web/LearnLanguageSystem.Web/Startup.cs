@@ -26,7 +26,8 @@
                 .AddIdentity()
                 .ConfigureIdentity()
                 .AddExternalLogins(this.configuration)
-                .AddApplicationServices(this.configuration);
+                .AddApplicationServices(this.configuration)
+                .AddCloudinary(this.configuration);
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
