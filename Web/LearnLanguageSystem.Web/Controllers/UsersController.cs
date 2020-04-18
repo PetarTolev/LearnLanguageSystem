@@ -4,10 +4,13 @@
 
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Cloud;
+    using LearnLanguageSystem.Web.ViewModels.Users;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class UsersController : BaseController
     {
         private readonly ICloudinaryService cloudinaryService;
@@ -19,9 +22,9 @@
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> ChangeAvatar(IFormFile avatar)
+        public async Task<IActionResult> ChangeAvatar(ChangeAvatarInputModel model)
         {
-            var url = await this.cloudinaryService.Upload(avatar);
+            var url = await this.cloudinaryService.Upload(model.Avatar);
 
             var user = await this.userManager.GetUserAsync(this.User);
 

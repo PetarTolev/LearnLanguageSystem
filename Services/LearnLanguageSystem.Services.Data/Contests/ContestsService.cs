@@ -55,8 +55,10 @@
                 .FirstOrDefault();
 
         public IEnumerable<T> GetOwned<T>(string userId)
-            => this.GetOwned(userId)
-                .AsQueryable()
+            => this.contestsRepository
+                .All()
+                .Where(x => x.CreatorId == userId)
+                .OrderBy(x => x.Name)
                 .To<T>()
                 .ToList();
 

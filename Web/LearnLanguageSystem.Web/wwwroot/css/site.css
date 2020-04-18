@@ -54,3 +54,24 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+
+/*Avatar styles
+-------------------------------------------------- */
+#avatar {
+    width: 180px;
+    height: 180px;
+    background-size: cover;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    border: 2px solid black;
+}
+
+.my-file-input {
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    opacity: 0;
+    background-color: black;
+    position: fixed;
+}

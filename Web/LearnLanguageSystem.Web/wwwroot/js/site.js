@@ -72,3 +72,16 @@ function deleteConfirm(id, route) {
         }
     });
 }
+
+function changeAvatar(input) {
+    if (input.files && input.files[0]) {
+        var fr = new FileReader();
+
+        fr.onload = function(e) {
+            $('#avatar')
+                .css("background-image", `url("${e.target.result}")`);
+        };
+
+        fr.readAsDataURL(input.files[0]);
+    }
+}
