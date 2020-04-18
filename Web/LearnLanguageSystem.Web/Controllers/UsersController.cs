@@ -24,6 +24,11 @@
 
         public async Task<IActionResult> ChangeAvatar(ChangeAvatarInputModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.NotFound();
+            }
+
             var url = await this.cloudinaryService.Upload(model.Avatar);
 
             var user = await this.userManager.GetUserAsync(this.User);
