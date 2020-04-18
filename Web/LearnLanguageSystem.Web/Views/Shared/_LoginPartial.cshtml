@@ -3,23 +3,13 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{
+    var user = await this.UserManager.GetUserAsync(this.User);
+}
 
     <ul class="navbar-nav">
         @if (this.SignInManager.IsSignedIn(this.User))
         {
-            <li class="nav-item">
-                <div class="btn-group" role="group">
-                    <a class="nav-link btn text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contests</a>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="Create">Create</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="MyContests">My Contests</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="Join">Join</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
-            </li>
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <li class="nav-item">
@@ -32,6 +22,10 @@
                     </div>
                 </li>
             }
+            <li class="nav-item d-flex flex-row align-items-center">
+                <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="@user.AvatarUrl" class="rounded-circle" style="width: 30px; height: 30px;" /></a>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
+            </li>
             <li class="nav-item">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
