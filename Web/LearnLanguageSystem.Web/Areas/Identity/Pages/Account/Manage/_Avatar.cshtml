@@ -4,25 +4,29 @@
     var avatar = user.AvatarUrl ?? @"/img/icon-avatar-default.png";
 }
 
-<style>
-    .my-avatar {
-        width: 180px;
-        height: 180px;
-        border: 2px solid black;
-    }
+    <style>
+        .my-avatar {
+            width: 180px;
+            height: 180px;
+            background-image: url("@avatar");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            border: 2px solid black;
+        }
 
-    .my-file-input {
-        width: 180px;
-        height: 180px;
-        cursor: pointer;
-        opacity: 0;
-        background-color: black;
-        position: fixed;
-    }
-</style>
+        .my-file-input {
+            width: 180px;
+            height: 180px;
+            cursor: pointer;
+            opacity: 0;
+            background-color: black;
+            position: fixed;
+        }
+    </style>
 
 <form class="d-flex flex-column" asp-area="" asp-controller="Users" asp-action="ChangeAvatar" enctype="multipart/form-data">
-    <img src="@avatar" alt="Avatar" class="img-thumbnail rounded-circle m-3 my-avatar">
+    <div class="img-thumbnail rounded-circle m-3 my-avatar"></div>
     <input type="file" class="m-3 rounded-circle my-file-input" name="avatar" />
     <button class="w-75 m-auto btn btn-primary">Save image</button>
 </form>
