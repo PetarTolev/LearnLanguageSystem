@@ -1,7 +1,5 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Questions
 {
-    using System.Collections.Generic;
-
     using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.ViewModels.Answers;

@@ -61,7 +61,6 @@
     <input type="hidden" id="questionForDeleteId" value="" />
 </div>
 
-
 <form style="@(Model.Questions.Count >= 10 ? "display:none !important" : "")" asp-controller="Questions" asp-action="Add" method="get" id="questionsAddForm">
     <input type="hidden" name="contestId" value="@Model.Id" />
     <input class="form-control w-25" type="number" name="questionsCount" value="" />

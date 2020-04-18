@@ -63,11 +63,12 @@ function deleteConfirm(id, route) {
             $(`#Container_${id}`).remove();
             $('#deleteModal').modal('hide');
 
-            var count = $("id^='Container_'").length;
+            var count = $("[id^='Container_']").length;
 
             if (count < 1) {
                 $('#emptyNotification').show();
             }
+
             showAddButton();
         }
     });
