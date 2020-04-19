@@ -58,6 +58,9 @@
             services
                 .AddResponseCompression();
 
+            services
+                .AddSignalR(options => { options.EnableDetailedErrors = true; });
+
             return services;
         }
 

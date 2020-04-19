@@ -3,7 +3,7 @@
     using System.Linq;
 
     using LearnLanguageSystem.Data.Common.Repositories;
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.ViewModels.Administration.Dashboard;
     using Microsoft.AspNetCore.Mvc;

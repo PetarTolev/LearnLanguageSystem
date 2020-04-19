@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
 
-    using LearnLanguageSystem.Data.Models.Contest;
     using LearnLanguageSystem.Web.ViewModels.Questions;
 
     public interface IQuestionsService

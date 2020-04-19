@@ -1,5 +1,6 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace LearnLanguageSystem.Data.Models.Contest
+
+namespace LearnLanguageSystem.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace LearnLanguageSystem.Data.Models.Contest
         public Contest()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.PlayersIn = new HashSet<ApplicationUser>();
             this.Questions = new HashSet<Question>();
         }
 
@@ -24,8 +24,6 @@ namespace LearnLanguageSystem.Data.Models.Contest
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }
-
-        public virtual ICollection<ApplicationUser> PlayersIn { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
     }

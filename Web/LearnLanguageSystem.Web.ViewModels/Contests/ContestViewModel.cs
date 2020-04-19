@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.ViewModels.Questions;
 

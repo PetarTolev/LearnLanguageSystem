@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Common.Repositories;
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Mapping;
     using Microsoft.EntityFrameworkCore;

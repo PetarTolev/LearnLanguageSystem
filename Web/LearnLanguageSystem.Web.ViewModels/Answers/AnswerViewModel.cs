@@ -1,6 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Answers
 {
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
 
     public class AnswerViewModel : IMapFrom<Answer>

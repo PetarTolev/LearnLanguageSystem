@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Common.Repositories;
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
 
     public class AnswersService : IAnswersService
     {

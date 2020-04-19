@@ -1,6 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Contests
 {
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
 
     public class ContestJoinViewModel : IMapFrom<Contest>

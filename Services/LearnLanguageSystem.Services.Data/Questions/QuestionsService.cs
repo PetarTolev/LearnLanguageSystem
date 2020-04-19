@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Common.Repositories;
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.EntityFrameworkCore;

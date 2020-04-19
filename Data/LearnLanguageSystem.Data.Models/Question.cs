@@ -1,6 +1,6 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
 
-namespace LearnLanguageSystem.Data.Models.Contest
+namespace LearnLanguageSystem.Data.Models
 {
     using System;
     using System.Collections.Generic;

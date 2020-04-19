@@ -3,6 +3,7 @@
     using System.Reflection;
 
     using LearnLanguageSystem.Services.Mapping;
+    using LearnLanguageSystem.Web.Hubs;
     using LearnLanguageSystem.Web.Infrastructure;
     using LearnLanguageSystem.Web.Middlewares;
     using LearnLanguageSystem.Web.ViewModels;
@@ -57,6 +58,7 @@
                 .UseEndpoints(
                     endpoints =>
                     {
+                        endpoints.MapHub<RoomHub>("/roomhub");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();

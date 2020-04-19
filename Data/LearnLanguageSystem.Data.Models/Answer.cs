@@ -1,4 +1,4 @@
-﻿namespace LearnLanguageSystem.Data.Models.Contest
+﻿namespace LearnLanguageSystem.Data.Models
 {
     using System;
 

@@ -8,7 +8,6 @@
 
     using LearnLanguageSystem.Data.Common.Models;
     using LearnLanguageSystem.Data.Models;
-    using LearnLanguageSystem.Data.Models.Contest;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +30,8 @@
         public DbSet<Answer> Answers { get; set; }
 
         public DbSet<ApplicationSettings> ApplicationSettings { get; set; }
+
+        public DbSet<Room> Rooms { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

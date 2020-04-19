@@ -1,6 +1,6 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Administration.Dashboard
 {
-    using LearnLanguageSystem.Data.Models.Contest;
+    using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
 
     public class ContestViewModel : IMapFrom<Contest>
