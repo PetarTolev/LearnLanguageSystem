@@ -1,7 +1,11 @@
-﻿@model RoomIndexViewModel
+﻿@using LearnLanguageSystem.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model RoomIndexViewModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await this.UserManager.GetUserAsync(this.User);
 }
 
 <h1>Index</h1>
@@ -18,24 +22,37 @@
                 <tr>
                     <th scope="col">Avatar</th>
                     <th scope="col">Username</th>
-                    <th scope="col">Kick Player</th>
+                    @if (Model.ContestCreatorId == user.Id)
+                    {
+                        <th scope="col">Kick Player</th>
+                    }
+                    else
+                    {
+                        <th scope="col">Leave</th>
+                    }
                 </tr>
             </thead>
 
             <tbody>
-                @foreach (var user in Model.Users)
+                @foreach (var userModel in Model.Users)
                 {
                     <tr>
-                        <td><img src="@(user.AvatarUrl ?? @"/img/icon-avatar-default.png")" class="rounded-circle" alt="Avatar" style="width: 40px; height: 40px;"></td>
-                        <td>@user.Username</td>
-                        <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@user.Id" asp-route-roomId="@Model.Id">Kick</a></td>
+                        <td><img src="@(userModel.AvatarUrl ?? @"/img/icon-avatar-default.png")" class="rounded-circle" alt="Avatar" style="width: 40px; height: 40px;"></td>
+                        <td>@userModel.Username</td>
+                        @if (Model.ContestCreatorId == user.Id)
+                        {
+                            <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@userModel.Id" asp-route-roomId="@Model.Id">Kick</a></td>
+                        }
+                        else if (userModel.Id == user.Id)
+                        {
+                            <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@userModel.Id" asp-route-roomId="@Model.Id">Leave</a></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
                     </tr>
                 }
-                <tr>
-                    <td><img src="~/img/1-intro-photo-final.jpg" class="rounded-circle" alt="Avatar" style="width: 40px; height: 40px;"></td>
-                    <td>Mark</td>
-                    <td><button class="btn btn-danger">Kick</button></td>
-                </tr>
             </tbody>
         </table>
     </div>

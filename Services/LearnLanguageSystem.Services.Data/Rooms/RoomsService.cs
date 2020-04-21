@@ -37,6 +37,13 @@
                 .To<T>()
                 .FirstOrDefault();
 
+        public string GetOwnerId(string id)
+            => this.roomsRepository
+                .All()
+                .Where(x => x.Id == id)
+                .Select(x => x.Contest.CreatorId)
+                .FirstOrDefault();
+
         public bool IsExistRoomWithThisContest(string contestId)
             => this.roomsRepository
                 .AllAsNoTracking()

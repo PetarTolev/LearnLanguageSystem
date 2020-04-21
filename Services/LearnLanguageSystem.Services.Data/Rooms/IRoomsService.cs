@@ -10,6 +10,8 @@
 
         T GetById<T>(string id);
 
+        string GetOwnerId(string id);
+
         bool IsExistRoomWithThisContest(string contestId);
 
         Task<string> OpenAsync(string contestId);

@@ -12,6 +12,8 @@
 
         public int AccessCode { get; set; }
 
+        public string ContestCreatorId { get; set; }
+
         public ICollection<UserInRoomViewModel> Users { get; set; }
     }
 }

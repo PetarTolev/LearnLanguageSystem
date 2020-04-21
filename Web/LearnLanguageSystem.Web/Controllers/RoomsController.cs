@@ -8,9 +8,11 @@
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Data.Rooms;
     using LearnLanguageSystem.Web.ViewModels.Rooms;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class RoomsController : BaseController
     {
         private readonly IRoomsService roomsService;
@@ -134,14 +136,17 @@
 
         public async Task<IActionResult> Kick(string roomId, string userId)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+            var ownerId = this.roomsService.GetOwnerId(roomId);
 
-            if (user == null || roomId == null)
+            if (currentUser.Id != userId && ownerId != currentUser.Id)
             {
-                return this.NotFound();
+                return this.Forbid();
             }
 
-            var isSuccessfullyRemoved = await this.roomsService.RemoveUserAsync(roomId, user);
+            var userForKick = await this.userManager.FindByIdAsync(userId);
+
+            var isSuccessfullyRemoved = await this.roomsService.RemoveUserAsync(roomId, userForKick);
 
             if (!isSuccessfullyRemoved)
             {
