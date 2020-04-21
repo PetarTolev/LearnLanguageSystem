@@ -1,13 +1,11 @@
 ﻿namespace LearnLanguageSystem.Services.Data.Contests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Common.Repositories;
     using LearnLanguageSystem.Data.Models;
-    using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
 
@@ -16,34 +14,21 @@
         private readonly IDeletableEntityRepository<Contest> contestsRepository;
         private readonly IDeletableEntityRepository<Question> questionRepository;
         private readonly IDeletableEntityRepository<Answer> answerRepository;
-        private readonly IApplicationSettingsService applicationSettingsService;
-        private readonly Random rnd;
 
         public ContestsService(
             IDeletableEntityRepository<Contest> contestsRepository,
             IDeletableEntityRepository<Question> questionRepository,
-            IDeletableEntityRepository<Answer> answerRepository,
-            IApplicationSettingsService applicationSettingsService,
-            Random rnd)
+            IDeletableEntityRepository<Answer> answerRepository)
         {
             this.contestsRepository = contestsRepository;
             this.questionRepository = questionRepository;
             this.answerRepository = answerRepository;
-            this.applicationSettingsService = applicationSettingsService;
-            this.rnd = rnd;
         }
 
         public T GetById<T>(string contestId)
             => this.contestsRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == contestId)
-                .To<T>()
-                .FirstOrDefault();
-
-        public T GetByCode<T>(string key)
-            => this.contestsRepository
-                .All()
-                .Where(x => x.AccessCode == key)
                 .To<T>()
                 .FirstOrDefault();
 
@@ -138,66 +123,5 @@
 
             return contest.Id;
         }
-
-        public async Task<string> OpenAsync(string id)
-        {
-            var contest = this.contestsRepository
-                .All()
-                .FirstOrDefault(x => x.Id == id);
-
-            if (contest == null || contest.IsOpen)
-            {
-                return null;
-            }
-
-            var existingCodes = this.contestsRepository
-                .All()
-                .Where(x => x.AccessCode != null)
-                .Select(x => x.AccessCode)
-                .ToList();
-
-            var codeLength = this.applicationSettingsService.GetAccessCodeLength();
-
-            var code = this.GenerateCode(codeLength);
-
-            while (existingCodes.Contains(code))
-            {
-                code = this.GenerateCode(codeLength);
-            }
-
-            contest.AccessCode = code;
-            contest.IsOpen = true;
-
-            this.contestsRepository.Update(contest);
-            await this.contestsRepository.SaveChangesAsync();
-
-            return code;
-        }
-
-        public async Task<string> CloseAsync(string id)
-        {
-            var contest = this.contestsRepository
-                .All()
-                .FirstOrDefault(x => x.Id == id);
-
-            if (contest == null || !contest.IsOpen)
-            {
-                return null;
-            }
-
-            contest.IsOpen = false;
-            contest.AccessCode = null;
-
-            this.contestsRepository.Update(contest);
-            await this.contestsRepository.SaveChangesAsync();
-
-            return contest.Id;
-        }
-
-        private string GenerateCode(int length)
-            => this.rnd
-                .Next(0, int.MaxValue)
-                .ToString()
-                .Substring(0, length);
     }
 }

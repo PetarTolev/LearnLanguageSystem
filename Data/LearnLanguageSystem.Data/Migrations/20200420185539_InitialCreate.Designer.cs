@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnLanguageSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200415184329_RemoveSettings")]
-    partial class RemoveSettings
+    [Migration("20200420185539_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,41 @@ namespace LearnLanguageSystem.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Answer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRight")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answers");
+                });
 
             modelBuilder.Entity("LearnLanguageSystem.Data.Models.ApplicationRole", b =>
                 {
@@ -62,6 +97,24 @@ namespace LearnLanguageSystem.Data.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.ApplicationSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccessCodeLength")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsRoomsOpened")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationSettings");
+                });
+
             modelBuilder.Entity("LearnLanguageSystem.Data.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -69,6 +122,9 @@ namespace LearnLanguageSystem.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -116,6 +172,9 @@ namespace LearnLanguageSystem.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -138,51 +197,15 @@ namespace LearnLanguageSystem.Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest.Answer", b =>
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRight")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuestionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest.Contest", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AccessCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -194,9 +217,6 @@ namespace LearnLanguageSystem.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -214,7 +234,7 @@ namespace LearnLanguageSystem.Data.Migrations
                     b.ToTable("Contests");
                 });
 
-            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest.Question", b =>
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Question", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -244,6 +264,30 @@ namespace LearnLanguageSystem.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Room", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContestId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
+
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -350,24 +394,38 @@ namespace LearnLanguageSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest.Answer", b =>
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Answer", b =>
                 {
-                    b.HasOne("LearnLanguageSystem.Data.Models.Contest.Question", "Question")
+                    b.HasOne("LearnLanguageSystem.Data.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest.Contest", b =>
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("LearnLanguageSystem.Data.Models.Room", "Room")
+                        .WithMany("Users")
+                        .HasForeignKey("RoomId");
+                });
+
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest", b =>
                 {
                     b.HasOne("LearnLanguageSystem.Data.Models.ApplicationUser", "Creator")
-                        .WithMany()
+                        .WithMany("Contests")
                         .HasForeignKey("CreatorId");
                 });
 
-            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Contest.Question", b =>
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Question", b =>
                 {
-                    b.HasOne("LearnLanguageSystem.Data.Models.Contest.Contest", "Contest")
+                    b.HasOne("LearnLanguageSystem.Data.Models.Contest", "Contest")
                         .WithMany("Questions")
+                        .HasForeignKey("ContestId");
+                });
+
+            modelBuilder.Entity("LearnLanguageSystem.Data.Models.Room", b =>
+                {
+                    b.HasOne("LearnLanguageSystem.Data.Models.Contest", "Contest")
+                        .WithMany()
                         .HasForeignKey("ContestId");
                 });
 

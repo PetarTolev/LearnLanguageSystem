@@ -17,9 +17,7 @@
         [StringLength(ModelConstants.Contests.MaxLength, MinimumLength = ModelConstants.Contests.MinLength, ErrorMessage = ModelConstants.NameLengthError)]
         public string Name { get; set; }
 
-        public bool IsOpen { get; set; }
-
-        public string AccessCode { get; set; }
+        public string RoomId { get; set; }
 
         public ICollection<QuestionViewModel> Questions { get; set; }
     }

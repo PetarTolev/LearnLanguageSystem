@@ -22,7 +22,6 @@
             <th>Questions Count</th>
             <th>Delete</th>
             <th>Open/Close</th>
-            <th>Go to room</th>
         </tr>
     </thead>
     <tbody>
@@ -45,22 +44,16 @@
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="del('contestForDeleteId', '@contest.Id')">Delete</button>
                 </td>
 
-                @if (contest.IsOpen)
+                @if (contest.RoomId != null)
                 {
                     <td>
-                        <a class="btn btn-primary" asp-controller="Contests" asp-action="Close" asp-route-id="@contest.Id">Close</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary" asp-controller="Contests" asp-action="Room" asp-route-code="@contest.AccessCode">Go to room</a>
+                        <a class="btn btn-primary" asp-controller="Rooms" asp-action="Close" asp-route-contestId="@contest.Id">Close</a>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <a class="btn btn-outline-primary" asp-controller="Contests" asp-action="Open" asp-route-id="@contest.Id">Open</a>
-                    </td>
-                    <td>
-
+                        <a class="btn btn-outline-primary" asp-controller="Rooms" asp-action="Open" asp-route-contestId="@contest.Id">Open</a>
                     </td>
                 }
             </tr>

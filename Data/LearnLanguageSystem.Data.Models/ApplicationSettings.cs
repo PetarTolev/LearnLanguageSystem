@@ -6,6 +6,6 @@
 
         public int AccessCodeLength { get; set; }
 
-        public bool IsContestsOpened { get; set; }
+        public bool IsRoomsOpened { get; set; }
     }
 }

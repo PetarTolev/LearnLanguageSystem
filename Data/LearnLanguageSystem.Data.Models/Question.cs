@@ -15,9 +15,9 @@ namespace LearnLanguageSystem.Data.Models
             this.Answers = new HashSet<Answer>();
         }
 
-        public string ContestId { get; set; }
-
         public string Content { get; set; }
+
+        public string ContestId { get; set; }
 
         public virtual Contest Contest { get; set; }
 

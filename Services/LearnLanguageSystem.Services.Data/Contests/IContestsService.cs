@@ -9,8 +9,6 @@
     {
         T GetById<T>(string contestId);
 
-        T GetByCode<T>(string key);
-
         string GetCreatorId(string contestId);
 
         IEnumerable<T> GetOwned<T>(string userId);
@@ -24,9 +22,5 @@
         Task<string> ChangeNameAsync(string id, string newName);
 
         Task<string> DeleteAsync(string id);
-
-        Task<string> OpenAsync(string id);
-
-        Task<string> CloseAsync(string id);
     }
 }

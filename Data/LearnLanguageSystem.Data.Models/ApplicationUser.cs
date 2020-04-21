@@ -21,6 +21,10 @@ namespace LearnLanguageSystem.Data.Models
 
         public string AvatarUrl { get; set; }
 
+        public string RoomId { get; set; }
+
+        public virtual Room Room { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 

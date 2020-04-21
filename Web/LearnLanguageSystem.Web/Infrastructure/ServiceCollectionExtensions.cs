@@ -13,6 +13,7 @@
     using LearnLanguageSystem.Services.Data.Cloud;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
+    using LearnLanguageSystem.Services.Data.Rooms;
     using LearnLanguageSystem.Services.Messaging;
     using LearnLanguageSystem.Web.Filters;
     using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,7 @@
                 .AddTransient<IContestsService, ContestsService>()
                 .AddTransient<IQuestionsService, QuestionsService>()
                 .AddTransient<IAnswersService, AnswersService>()
+                .AddTransient<IRoomsService, RoomsService>()
                 .AddTransient<IApplicationSettingsService, ApplicationSettingsService>()
                 .AddTransient<ICloudinaryService, CloudinaryService>();
 

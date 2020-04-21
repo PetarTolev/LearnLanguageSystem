@@ -1,20 +1,24 @@
 ﻿namespace LearnLanguageSystem.Data.Models
 {
+    using System;
     using System.Collections.Generic;
 
-    public class Room
+    using LearnLanguageSystem.Data.Common.Models;
+
+    public class Room : BaseModel<string>
     {
         public Room()
         {
-            this.UsersIn = new HashSet<ApplicationUser>();
+            this.Id = Guid.NewGuid().ToString();
+            this.Users = new HashSet<ApplicationUser>();
         }
 
-        public int Id { get; set; }
+        public int AccessCode { get; set; }
 
         public string ContestId { get; set; }
 
         public virtual Contest Contest { get; set; }
 
-        public virtual ICollection<ApplicationUser> UsersIn { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
     }
 }

@@ -1,0 +1,46 @@
+﻿@model RoomIndexViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <h1>Contest room</h1>
+
+    <h2>@Model.AccessCode</h2>
+
+    <div class="table-wrapper-scroll-y my-custom-scrollbar px-1 py-1" style="display: block; position: relative; height: 500px; width: 600px; overflow: auto; border: 2px solid lightgray; border-radius: 8px">
+
+        <table class="table table-hover mb-0 text-center">
+            <thead class="thead-light ">
+                <tr>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Kick Player</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td><img src="@(user.AvatarUrl ?? @"/img/icon-avatar-default.png")" class="rounded-circle" alt="Avatar" style="width: 40px; height: 40px;"></td>
+                        <td>@user.Username</td>
+                        <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@user.Id" asp-route-roomId="@Model.Id">Kick</a></td>
+                    </tr>
+                }
+                <tr>
+                    <td><img src="~/img/1-intro-photo-final.jpg" class="rounded-circle" alt="Avatar" style="width: 40px; height: 40px;"></td>
+                    <td>Mark</td>
+                    <td><button class="btn btn-danger">Kick</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-success btn-lg px-5">Start</button>
+    </div>
+</div>

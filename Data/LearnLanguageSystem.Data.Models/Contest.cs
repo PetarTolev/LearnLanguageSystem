@@ -17,13 +17,11 @@ namespace LearnLanguageSystem.Data.Models
 
         public string Name { get; set; }
 
-        public bool IsOpen { get; set; }
-
-        public string AccessCode { get; set; }
-
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }
+
+        public virtual Room Room { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
     }
