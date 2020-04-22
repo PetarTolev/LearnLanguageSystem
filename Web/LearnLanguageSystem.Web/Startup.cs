@@ -48,6 +48,7 @@
             }
 
             app
+                .UseResponseCompression()
                 .UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseCookiePolicy()
