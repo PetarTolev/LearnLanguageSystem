@@ -7,10 +7,13 @@
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Data.Rooms;
+    using LearnLanguageSystem.Web.Hubs;
     using LearnLanguageSystem.Web.ViewModels.Rooms;
+    using LearnLanguageSystem.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
 
     [Authorize]
     public class RoomsController : BaseController
@@ -18,15 +21,18 @@
         private readonly IRoomsService roomsService;
         private readonly IApplicationSettingsService applicationSettingsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IHubContext<RoomHub> roomHub;
 
         public RoomsController(
             IRoomsService roomsService,
             IApplicationSettingsService applicationSettingsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IHubContext<RoomHub> roomHub)
         {
             this.roomsService = roomsService;
             this.applicationSettingsService = applicationSettingsService;
             this.userManager = userManager;
+            this.roomHub = roomHub;
         }
 
         public async Task<IActionResult> Index(string id)
@@ -116,7 +122,7 @@
 
             if (user.RoomId != null)
             {
-                this.TempData["Notification"] = $"You have already join room. First, exit it so you can join into this one. Do you want to leave it.";
+                this.TempData["Notification"] = "You have already join room. First, exit it so you can join into this one. Do you want to leave it.";
                 this.TempData["RoomToLeave"] = user.RoomId;
                 return this.View(model);
             }
@@ -130,6 +136,18 @@
                     return this.BadRequest();
                 }
             }
+
+            var userModel = new UserInRoomPartialViewModel
+            {
+                AvatarUrl = user.AvatarUrl,
+                Username = user.UserName,
+                Id = user.Id,
+                RoomId = room.Id,
+            };
+
+            //await this.roomHub.Clients.User(room.Contest.CreatorId).SendAsync("AddUserToRoom", userModel);
+
+            await this.roomHub.Clients.All.SendAsync("AddUserToRoom", userModel);
 
             return this.RedirectToAction(nameof(this.Index), new { id = room.Id });
         }

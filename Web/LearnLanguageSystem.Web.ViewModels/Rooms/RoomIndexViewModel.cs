@@ -14,6 +14,6 @@
 
         public string ContestCreatorId { get; set; }
 
-        public ICollection<UserInRoomViewModel> Users { get; set; }
+        public ICollection<UserInRoomPartialViewModel> Users { get; set; }
     }
 }

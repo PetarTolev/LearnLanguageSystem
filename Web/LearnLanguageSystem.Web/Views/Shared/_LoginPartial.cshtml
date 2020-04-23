@@ -23,7 +23,7 @@
                 </li>
             }
             <li class="nav-item d-flex flex-row align-items-center">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="@(user.AvatarUrl ?? @"/img/icon-avatar-default.png")" class="rounded-circle" style="width: 30px; height: 30px;" /></a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index"><div class="rounded-circle custom-header-avatar" style="background-image: url(@(user.AvatarUrl ?? @"/img/icon-avatar-default.png"));"></div></a>
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
             </li>
             <li class="nav-item">

@@ -55,6 +55,13 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
+.custom-header-avatar {
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-position: center top;
+}
+
 /*Avatar styles
 -------------------------------------------------- */
 #avatar {
@@ -74,4 +81,23 @@ body {
     opacity: 0;
     background-color: black;
     position: fixed;
+}
+
+/*Room styles
+-------------------------------------------------- */
+.my-room {
+    display: block;
+    position: relative;
+    height: 500px;
+    width: 600px;
+    overflow: auto;
+    border: 2px solid lightgray;
+    border-radius: 8px;
+}
+
+.custom-circle {
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-position: top center;
 }

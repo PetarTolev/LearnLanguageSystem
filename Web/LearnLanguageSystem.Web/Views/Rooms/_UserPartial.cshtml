@@ -1,0 +1,20 @@
+﻿@model UserInRoomPartialViewModel
+
+<tr>
+    <td class="d-flex justify-content-center"><div class="rounded-circle custom-circle" style="background-image: url(@(Model.AvatarUrl ?? @"/img/icon-avatar-default.png"));"></div></td>
+    
+    <td>@Model.Username</td>
+
+    @if (Model.IsOwner)
+    {
+        <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@Model.Id" asp-route-roomId="@Model.RoomId">Kick</a></td>
+    }
+    else if (Model.IsMe)
+    {
+        <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@Model.Id" asp-route-roomId="@Model.RoomId">Leave</a></td>
+    }
+    else
+    {
+        <td></td>
+    }
+</tr>
