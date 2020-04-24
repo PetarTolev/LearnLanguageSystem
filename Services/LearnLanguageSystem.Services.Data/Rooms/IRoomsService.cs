@@ -1,5 +1,6 @@
 ﻿namespace LearnLanguageSystem.Services.Data.Rooms
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Models;
@@ -11,6 +12,8 @@
         T GetById<T>(string id);
 
         string GetOwnerId(string id);
+
+        ICollection<string> GetUsersInIds(string id);
 
         bool IsExistRoomWithThisContest(string contestId);
 

@@ -137,17 +137,22 @@
                 }
             }
 
-            var userModel = new UserInRoomPartialViewModel
+            var userModel = new AddUserToRoomViewModel
             {
                 AvatarUrl = user.AvatarUrl,
                 Username = user.UserName,
                 Id = user.Id,
                 RoomId = room.Id,
+                IsForOwner = false,
             };
 
-            //await this.roomHub.Clients.User(room.Contest.CreatorId).SendAsync("AddUserToRoom", userModel);
+            var usersIn = this.roomsService.GetUsersInIds(room.Id).ToList();
+            usersIn.Remove(room.Contest.CreatorId);
 
-            await this.roomHub.Clients.All.SendAsync("AddUserToRoom", userModel);
+            await this.roomHub.Clients.Users(usersIn).SendAsync("AddUserToRoom", userModel);
+
+            userModel.IsForOwner = true;
+            await this.roomHub.Clients.User(room.Contest.CreatorId).SendAsync("AddUserToRoom", userModel);
 
             return this.RedirectToAction(nameof(this.Index), new { id = room.Id });
         }
@@ -174,9 +179,15 @@
             return this.RedirectToAction(nameof(this.Index), new { id = roomId });
         }
 
-        public IActionResult Start()
+        public IActionResult Start(string roomId)
         {
-            throw new NotImplementedException();
+            var usersIn = this.roomsService
+                .GetUsersInIds(roomId)
+                .ToList();
+
+            this.roomHub.Clients.Users(usersIn).SendAsync("StartContest");
+
+            return this.NoContent();
         }
     }
 }

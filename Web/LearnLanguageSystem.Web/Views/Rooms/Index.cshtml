@@ -44,8 +44,8 @@
             </tbody>
         </table>
     </div>
-
-    <div class="mt-3">
-        <button class="btn btn-success btn-lg px-5" id="start">Start</button>
-    </div>
+    @if (Model.ContestCreatorId == user.Id)
+    {
+            <a class="btn btn-success btn-lg px-5 mt-3" asp-area="" asp-controller="Rooms" asp-action="Start" asp-route-roomId="@Model.Id">Start</a>
+    }
 </div>

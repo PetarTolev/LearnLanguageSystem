@@ -7,9 +7,42 @@ setupConnection = () => {
 
     connection.on("AddUserToRoom", (model) => {
         var avatarUrl = model.avatarUrl == null ? "/img/icon-avatar-default.png" : model.avatarUrl;
-        var markup = `<tr> <td class="d-flex justify-content-center"><div class="rounded-circle custom-circle" style="background-image: url(${avatarUrl});"></div></td> <td>${model.username}</td> <td></td> </tr>`;
 
-        $("#users tr:last").after(markup);
+        var rowElm = document.createElement("tr");
+
+        var avatarElm = document.createElement("td");
+        avatarElm.setAttribute("class", "d-flex justify-content-center");
+        var avatarDivElm = document.createElement("div");
+        avatarDivElm.setAttribute("class", "rounded-circle custom-circle");
+        avatarDivElm.setAttribute("style", `background-image: url(${avatarUrl});`);
+        avatarElm.appendChild(avatarDivElm);
+        rowElm.appendChild(avatarElm);
+
+        var usernameElm = document.createElement("td");
+        usernameElm.innerText = model.username;
+        rowElm.appendChild(usernameElm);
+
+        var btnElm = document.createElement("td");
+        if (model.isForOwner) {
+            var anchor = document.createElement("a");
+            anchor.setAttribute("class", "btn btn-danger");
+            anchor.href = `/Rooms/Kick?userId=${model.id}&roomId=${model.roomId}`;
+            anchor.innerText = "Kick";
+
+            btnElm.appendChild(anchor);
+        }
+        rowElm.appendChild(btnElm);
+
+        var users = document.querySelector("#users");
+
+        users.appendChild(rowElm);
+    });
+
+    connection.on("StartContest", () => {
+        var notification =
+            '<div class="alert alert-warning alert - dismissible fade show" role="alert">Contest starting soon!</div>';
+
+        $("table").before(notification);
     });
 
     connection.start()
@@ -18,16 +51,9 @@ setupConnection = () => {
 
 setupConnection();
 
-document.getElementById("start").addEventListener("click", e => {
-    e.preventDefault();
-    
-    fetch("/roomhub",
-            {
-                method: "GET",
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })
-        .then(response => response.text())
-        .then(connection.invoke("GetUpdate"));
-});
+//document.getElementById("open").addEventListener("click", e => {
+//    e.preventDefault();
+//    const contestId = document.getElementById("contestId").innerText;
+
+//    connection.invoke("OpenRoom", contestId);
+//});

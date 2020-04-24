@@ -1,6 +1,7 @@
 ﻿namespace LearnLanguageSystem.Services.Data.Rooms
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -17,7 +18,11 @@
         private readonly IApplicationSettingsService applicationSettingsService;
         private readonly Random rnd;
 
-        public RoomsService(IRepository<Room> roomsRepository, IRepository<Contest> contestsRepository, IApplicationSettingsService applicationSettingsService, Random rnd)
+        public RoomsService(
+            IRepository<Room> roomsRepository,
+            IRepository<Contest> contestsRepository,
+            IApplicationSettingsService applicationSettingsService,
+            Random rnd)
         {
             this.roomsRepository = roomsRepository;
             this.contestsRepository = contestsRepository;
@@ -28,6 +33,7 @@
         public Room GetByCode(int code)
             => this.roomsRepository
                 .AllAsNoTracking()
+                .Include(x => x.Contest)
                 .FirstOrDefault(x => x.AccessCode == code);
 
         public T GetById<T>(string id)
@@ -43,6 +49,13 @@
                 .Where(x => x.Id == id)
                 .Select(x => x.Contest.CreatorId)
                 .FirstOrDefault();
+
+        public ICollection<string> GetUsersInIds(string id)
+            => this.roomsRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == id)
+                .SelectMany(x => x.Users.Select(u => u.Id))
+                .ToList();
 
         public bool IsExistRoomWithThisContest(string contestId)
             => this.roomsRepository
