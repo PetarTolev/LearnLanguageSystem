@@ -9,6 +9,7 @@ setupConnection = () => {
         var avatarUrl = model.avatarUrl == null ? "/img/icon-avatar-default.png" : model.avatarUrl;
 
         var rowElm = document.createElement("tr");
+        rowElm.setAttribute("id", `${model.id}`);
 
         var avatarElm = document.createElement("td");
         avatarElm.setAttribute("class", "d-flex justify-content-center");
@@ -36,6 +37,15 @@ setupConnection = () => {
         var users = document.querySelector("#users");
 
         users.appendChild(rowElm);
+    });
+
+    connection.on("RemoveUserFromRoom", (id) => {
+        var userForRemove = document.getElementById(id);
+        userForRemove.remove();
+    });
+
+    connection.on("RedirectRemovedUser", () => {
+        window.location.replace("/");
     });
 
     connection.on("StartContest", () => {

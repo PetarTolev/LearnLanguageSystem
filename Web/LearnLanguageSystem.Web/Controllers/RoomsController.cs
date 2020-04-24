@@ -176,7 +176,12 @@
                 return this.BadRequest();
             }
 
-            return this.RedirectToAction(nameof(this.Index), new { id = roomId });
+            var usersIn = this.roomsService.GetUsersInIds(roomId).ToList();
+
+            await this.roomHub.Clients.User(userId).SendAsync("RedirectRemovedUser");
+            await this.roomHub.Clients.Users(usersIn).SendAsync("RemoveUserFromRoom", userId);
+
+            return this.NoContent();
         }
 
         public IActionResult Start(string roomId)

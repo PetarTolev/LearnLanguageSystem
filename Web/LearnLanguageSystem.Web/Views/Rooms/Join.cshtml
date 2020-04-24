@@ -1,8 +1,11 @@
-﻿@model RoomJoinInputModel
-
+﻿@using LearnLanguageSystem.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model RoomJoinInputModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Join";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await this.UserManager.GetUserAsync(this.User);
 }
 
 <h1>Join</h1>
@@ -13,7 +16,7 @@
         @this.TempData["Notification"]
         @if (this.TempData["RoomToLeave"] != null)
         {
-            <a asp-area="" asp-controller="Rooms" asp-action="Leave" asp-route-id="@this.TempData["RoomToLeave"]">Yes</a>
+            <a asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-roomId="@this.TempData["RoomToLeave"]" asp-route-userId="@user.Id">Yes</a>
             <a href="#" data-dismiss="alert" aria-label="Close">No</a>
         }
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
