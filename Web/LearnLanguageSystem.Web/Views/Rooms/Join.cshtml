@@ -8,27 +8,31 @@
     var user = await this.UserManager.GetUserAsync(this.User);
 }
 
-<h1>Join</h1>
+<div class="d-flex align-items-center justify-content-center" style="height: 500px">
+    <div class="d-flex flex-column align-items-center justify-content-center w-50 h-50" style="border: 2px solid #dee2e6; border-radius: 8px;">
+        <h3>Join Room</h3>
 
-@if (this.TempData["Notification"] != null)
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        @this.TempData["Notification"]
-        @if (this.TempData["RoomToLeave"] != null)
+        @if (this.TempData["Notification"] != null)
         {
-            <a asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-roomId="@this.TempData["RoomToLeave"]" asp-route-userId="@user.Id">Yes</a>
-            <a href="#" data-dismiss="alert" aria-label="Close">No</a>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                @this.TempData["Notification"]
+                @if (this.TempData["RoomToLeave"] != null)
+                {
+                    <a asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-roomId="@this.TempData["RoomToLeave"]" asp-route-userId="@user.Id">Yes</a>
+                    <a href="#" data-dismiss="alert" aria-label="Close">No</a>
+                }
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         }
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
 
-<form method="post">
-    <div class="d-flex">
-        <input class="form-control w-25" type="number" asp-controller="Contests" asp-action="Join" asp-for="@Model.AccessCode"/>
-        <button class="btn btn-primary ml-3">Join</button>
+        <form method="post" asp-area="" asp-controller="Rooms" asp-action="Join">
+            <div class="d-flex flex-column align-items-center">
+                <input class="form-control" autofocus placeholder="Enter access code..." type="number" asp-for="@Model.AccessCode"/>
+                <button class="btn btn-primary mt-3 px-3">Join</button>
+            </div>
+            <span class="text-danger" asp-validation-for="@Model.AccessCode"></span>
+        </form>
     </div>
-    <span class="text-danger" asp-validation-for="@Model.AccessCode"></span>
-</form>
+</div>

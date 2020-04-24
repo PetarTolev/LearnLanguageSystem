@@ -8,12 +8,10 @@
     var user = await this.UserManager.GetUserAsync(this.User);
 }
 
-<h1>Index</h1>
-
 <div class="d-flex flex-column justify-content-center align-items-center">
-    <h1>Contest room</h1>
+    <h3>Contest: @Model.ContestName</h3>
 
-    <h2>@Model.AccessCode</h2>
+    <h3>Room code: @Model.AccessCode</h3>
 
     <div class="my-room px-1 py-1">
 
