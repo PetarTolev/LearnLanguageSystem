@@ -4,5 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>NotFound</h1>
+<h1 class="text-danger">OOPS!</h1>
 <h3>@Model</h3>
+<h4>Error code: 404</h4>
+<a class="btn btn-primary" asp-area="" asp-controller="Home" asp-action="Index">Back to home</a>

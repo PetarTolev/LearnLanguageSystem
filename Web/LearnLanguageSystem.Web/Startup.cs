@@ -48,6 +48,7 @@
             }
 
             app
+                .UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}")
                 .UseResponseCompression()
                 .UseHttpsRedirection()
                 .UseStaticFiles()

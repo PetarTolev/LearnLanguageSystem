@@ -4,5 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Forbid</h1>
+<h1 class="text-danger">Forbidden</h1>
 <h3>@Model</h3>
+<h4>Error code: 403</h4>
+<a class="btn btn-primary" asp-area="" asp-controller="Errors" asp-action="Forbid">Back to home</a>
