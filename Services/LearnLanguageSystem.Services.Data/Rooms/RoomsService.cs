@@ -30,6 +30,12 @@
             this.rnd = rnd;
         }
 
+        public ICollection<T> GetAll<T>()
+            => this.roomsRepository
+                .AllAsNoTracking()
+                .To<T>()
+                .ToList();
+
         public Room GetByCode(int code)
             => this.roomsRepository
                 .AllAsNoTracking()

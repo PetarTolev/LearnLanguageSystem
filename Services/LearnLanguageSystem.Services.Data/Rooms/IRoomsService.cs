@@ -7,6 +7,8 @@
 
     public interface IRoomsService
     {
+        ICollection<T> GetAll<T>();
+
         Room GetByCode(int code);
 
         T GetById<T>(string id);

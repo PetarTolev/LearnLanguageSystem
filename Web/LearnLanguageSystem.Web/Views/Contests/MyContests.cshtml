@@ -14,10 +14,10 @@
 
 <input type="hidden" id="contestForDeleteId" value="" />
 
-<table class="table">
+<table class="table table-hover text-center">
     <thead>
         <tr>
-            <th>#</th>
+            @*<th>#</th>*@
             <th>Name</th>
             <th>Questions Count</th>
             <th>Delete</th>
@@ -28,9 +28,9 @@
         @foreach (var contest in Model.Contests)
         {
             <tr id="Container_@contest.Id">
-                <td id="contestId">
+                @*<td id="contestId">
                     @contest.Id
-                </td>
+                </td>*@
 
                 <td>
                     <a asp-controller="Contests" asp-action="Edit" asp-route-id="@contest.Id">@contest.Name</a>

@@ -1,0 +1,40 @@
+﻿@model ICollection<AllRoomsListViewModel>
+@{
+    ViewData["Title"] = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>All</h1>
+<table class="table table-hover text-center" style="border: 1px solid #dee2e6;">
+    <thead>
+        <tr>
+            <th scope="col">Contest Name</th>
+            <th scope="col">Contest Creator</th>
+            <th scope="col">Users In</th>
+            <th scope="col">Join</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var room in Model)
+        {
+            <tr>
+                <td>@room.ContestName</td>
+                <td>@room.ContestCreatorUsername</td>
+                <td>@room.UsersCount</td>
+                <td><a class="btn btn-primary">Join</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="float-right">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
+</div>

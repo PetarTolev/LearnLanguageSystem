@@ -35,6 +35,13 @@
             this.roomHub = roomHub;
         }
 
+        public IActionResult All()
+        {
+            var rooms = this.roomsService.GetAll<AllRoomsListViewModel>();
+
+            return this.View(rooms);
+        }
+
         public async Task<IActionResult> Index(string id)
         {
             var room = this.roomsService.GetById<RoomIndexViewModel>(id);
