@@ -16,79 +16,87 @@
     </environment>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn text-dark" asp-area="" asp-controller="Ranking" asp-action="Index">Ranking</a>
-                    </li>
-                    <li class="nav-item">
-                        <div class="btn-group" role="group">
-                            <a class="nav-link btn text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contests</a>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="Create">Create</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="MyContests">My Contests</a>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn text-dark" asp-area="" asp-controller="Ranking" asp-action="Index">Ranking</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="btn-group" role="group">
+                                <a class="nav-link btn text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contests</a>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="Create">Create</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Contests" asp-action="MyContests">My Contests</a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <div class="btn-group" role="group">
-                            <a class="nav-link btn text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rooms</a>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="All">View all</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="Join">Join</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="btn-group" role="group">
+                                <a class="nav-link btn text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rooms</a>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="All">View all</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="Join">Join</a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-                <partial name="_LoginPartial" />
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
-<div class="container">
-    <partial name="_CookieConsentPartial" />
-    <main role="main" class="pb-3">
-        @this.RenderBody()
-    </main>
-</div>
-    
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @this.RenderBody()
+        </main>
+    </div>
+
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>&copy; @DateTime.Now.Year - @GlobalConstants.SystemName</li>
+                    <li class="nav-item pl-3"><a class="nav-link text-dark p-0" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                    <li class="nav-item pl-3"><a class="nav-link text-dark p-0" asp-area="" asp-controller="Contacts" asp-action="Index">Contact us</a></li>
+                </ul>
+            </div>
+        </nav>
     </div>
-</footer>
+    </footer>
 
-<environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
-    <script src="~/js/signalR.js" asp-append-version="true"></script>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+        <script src="~/js/signalR.js" asp-append-version="true"></script>
     </environment>
-<environment names="Staging,Production">
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
-    <script src="~/js/signalR.js" asp-append-version="true"></script>
-</environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+        <script src="~/js/signalR.js" asp-append-version="true"></script>
+    </environment>
 
-@this.RenderSection("Scripts", required: false)
+    @this.RenderSection("Scripts", required: false)
 </body>
 </html>
