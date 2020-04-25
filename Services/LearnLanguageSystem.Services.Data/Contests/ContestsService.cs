@@ -96,12 +96,12 @@
 
         public async Task<string> DeleteAsync(string id)
         {
-            var contest = await this.contestsRepository
+            var contest = this.contestsRepository
                 .All()
                 .Where(c => c.Id == id)
                 .Include(c => c.Questions)
                     .ThenInclude(q => q.Answers)
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
             if (contest == null)
             {

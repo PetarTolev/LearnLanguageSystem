@@ -44,8 +44,8 @@ setupConnection = () => {
         userForRemove.remove();
     });
 
-    connection.on("RedirectRemovedUser", () => {
-        window.location.replace("/Rooms/Join");
+    connection.on("RedirectUser", (location) => {
+        window.location.replace(location);
     });
 
     connection.on("StartContest", () => {

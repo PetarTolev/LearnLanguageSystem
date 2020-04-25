@@ -47,7 +47,7 @@
                 @if (contest.RoomId != null)
                 {
                     <td>
-                        <a class="btn btn-primary" asp-controller="Rooms" asp-action="Close" asp-route-contestId="@contest.Id">Close</a>
+                        <a class="btn btn-primary" asp-controller="Rooms" asp-action="Close" asp-route-roomId="@contest.RoomId">Close</a>
                     </td>
                 }
                 else

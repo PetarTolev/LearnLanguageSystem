@@ -87,14 +87,20 @@
             return this.RedirectToAction(nameof(RoomsController.Index), new { id = roomId });
         }
 
-        public async Task<IActionResult> Close(string contestId)
+        public async Task<IActionResult> Close(string roomId)
         {
-            var roomId = await this.roomsService.CloseAsync(contestId);
+            var usersIn = this.roomsService.GetUsersInIds(roomId).ToList();
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+            usersIn.Remove(currentUser.Id);
 
-            if (roomId == null)
+            var isDeleted = await this.roomsService.CloseAsync(roomId);
+
+            if (!isDeleted)
             {
                 return this.BadRequest();
             }
+
+            await this.roomHub.Clients.Users(usersIn).SendAsync("RedirectUser", "/");
 
             return this.RedirectToAction("MyContests", "Contests");
         }
@@ -185,7 +191,7 @@
 
             var usersIn = this.roomsService.GetUsersInIds(roomId).ToList();
 
-            await this.roomHub.Clients.User(userId).SendAsync("RedirectRemovedUser");
+            await this.roomHub.Clients.User(userId).SendAsync("RedirectUser", "/Rooms/Join");
             await this.roomHub.Clients.Users(usersIn).SendAsync("RemoveUserFromRoom", userId);
 
             return this.NoContent();

@@ -25,6 +25,6 @@
 
         Task<bool> RemoveUserAsync(string roomId, ApplicationUser user);
 
-        Task<string> CloseAsync(string contestId);
+        Task<bool> CloseAsync(string roomId);
     }
 }

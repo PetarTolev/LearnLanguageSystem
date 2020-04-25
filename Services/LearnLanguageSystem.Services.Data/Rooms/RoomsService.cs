@@ -120,22 +120,22 @@
             return true;
         }
 
-        public async Task<string> CloseAsync(string contestId)
+        public async Task<bool> CloseAsync(string roomId)
         {
             var room = this.roomsRepository
                 .All()
                 .Include(x => x.Users)
-                .FirstOrDefault(x => x.ContestId == contestId);
+                .FirstOrDefault(x => x.Id == roomId);
 
             if (room == null)
             {
-                return null;
+                return false;
             }
 
             this.roomsRepository.Delete(room);
             await this.roomsRepository.SaveChangesAsync();
 
-            return room.Id;
+            return true;
         }
 
         private async Task<Room> CreateRoom(Contest contest)
