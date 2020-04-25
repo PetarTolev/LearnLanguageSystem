@@ -11,6 +11,7 @@
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Data.Cloud;
+    using LearnLanguageSystem.Services.Data.Contacts;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Services.Data.Rooms;
@@ -40,13 +41,15 @@
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
                 .AddScoped<OwnershipValidation>()
                 .AddScoped<Random>()
+                .AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration["SendGrid:ApiKey"]))
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<IContestsService, ContestsService>()
                 .AddTransient<IQuestionsService, QuestionsService>()
                 .AddTransient<IAnswersService, AnswersService>()
                 .AddTransient<IRoomsService, RoomsService>()
                 .AddTransient<IApplicationSettingsService, ApplicationSettingsService>()
-                .AddTransient<ICloudinaryService, CloudinaryService>();
+                .AddTransient<ICloudinaryService, CloudinaryService>()
+                .AddTransient<IContactsService, ContactsService>();
 
         public static IServiceCollection AddApplicationConfigurations(this IServiceCollection services)
         {

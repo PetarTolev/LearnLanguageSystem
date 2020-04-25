@@ -1,0 +1,43 @@
+﻿@model ContactInputModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 600px;">
+
+        <h3 class="mb-5">Send us a message</h3>
+
+        <div class="w-75">
+            <form class="d-flex flex-column" asp-area="" asp-controller="Contacts" asp-action="Index" method="post">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="Name">Name</label>
+                        <input class="form-control" placeholder="Enter your name..." type="text" asp-for="Name" />
+                        <span class="text-danger mt-1" asp-validation-for="Name"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email"></label>
+                        <input class="form-control" placeholder="Enter your email..." type="text" asp-for="Email" />
+                        <span class="text-danger mt-1" asp-validation-for="Email"></span>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <label asp-for="Title"></label>
+                    <input class="form-control" placeholder="Enter title..." type="text" asp-for="Title" />
+                    <span class="text-danger mt-1" asp-validation-for="Title"></span>
+                </div>
+
+                <div class="mt-2">
+                    <label asp-for="Content"></label>
+                    <textarea class="form-control" placeholder="Enter your name..." asp-for="Content" style="height: 150px;"></textarea>
+                    <span class="text-danger mt-1" asp-validation-for="Content"></span>
+                </div>
+
+                <button class="btn btn-primary mt-3 px-5 align-self-center">Send</button>
+            </form>
+        </div>
+    </div>
