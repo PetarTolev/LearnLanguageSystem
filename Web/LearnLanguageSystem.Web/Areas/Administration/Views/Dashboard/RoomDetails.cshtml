@@ -1,0 +1,14 @@
+﻿@model RoomDetailsViewModel
+@{
+    ViewData["Title"] = "RoomDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Access code: @Model.AccessCode</h4>
+<ul>
+    <h5>Users In</h5>
+    @foreach (var user in Model.UsersUsername)
+    {
+        <li>@user</li>
+    }
+</ul>

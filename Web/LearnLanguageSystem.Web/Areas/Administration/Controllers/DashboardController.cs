@@ -1,4 +1,6 @@
-﻿namespace LearnLanguageSystem.Web.Areas.Administration.Controllers
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace LearnLanguageSystem.Web.Areas.Administration.Controllers
 {
     using System.Linq;
 
@@ -11,10 +13,14 @@
     public class DashboardController : AdministrationController
     {
         private readonly IRepository<Contest> contestsRepository;
+        private readonly IRepository<Room> roomsRepository;
 
-        public DashboardController(IRepository<Contest> contestsRepository)
+        public DashboardController(
+            IRepository<Contest> contestsRepository,
+            IRepository<Room> roomsRepository)
         {
             this.contestsRepository = contestsRepository;
+            this.roomsRepository = roomsRepository;
         }
 
         public IActionResult Contests()
@@ -24,12 +30,23 @@
                 .To<ContestViewModel>()
                 .ToList();
 
-            var model = new AllContestsViewModel
-            {
-                Contests = contests,
-            };
+            return this.View(contests);
+        }
 
-            return this.View(model);
+        public IActionResult RoomDetails(string roomId)
+        {
+            var room = this.roomsRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == roomId)
+                .Select(x => new
+                    RoomDetailsViewModel
+                    {
+                        AccessCode = x.AccessCode,
+                        UsersUsername = x.Users.Select(u => u.UserName).ToList(),
+                    })
+                .FirstOrDefault();
+
+            return this.View(room);
         }
     }
 }

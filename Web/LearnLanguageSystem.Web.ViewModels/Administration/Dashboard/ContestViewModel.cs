@@ -13,6 +13,6 @@
 
         public int QuestionsCount { get; set; }
 
-        public bool IsOpen { get; set; }
+        public string RoomId { get; set; }
     }
 }

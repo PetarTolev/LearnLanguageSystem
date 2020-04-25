@@ -1,25 +1,39 @@
-﻿@model AllContestsViewModel
+﻿@model ICollection<ContestViewModel>
 @{
     this.ViewData["Title"] = "Admin dashboard";
 }
 
-<h1>@this.ViewData["Title"]</h1>
+<table class="table table-hover table-striped table-bordered" style="border: 1px solid #dee2e6;">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">Creator Name</th>
+            <th scope="col">Contest Name</th>
+            <th scope="col">Questions Count</th>
+            <th scope="col">Room details</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
 
-<div class="list-group">
-    @foreach (var contest in Model.Contests)
-    {
-        <div class="d-inline-flex mb-2" id="Container_@contest.Id">
-            <div class="list-group-item d-flex justify-content-between align-items-center flex-grow-1">
-                <span>@contest.CreatorUserName</span>
-                <a asp-area="" asp-controller="Contests" asp-action="Edit" asp-route-id="@contest.Id">@contest.Name</a>
-                <span class="badge badge-primary badge-pill">@contest.QuestionsCount</span>
-                <span>@contest.IsOpen</span>
-            </div>
-
-            <button type="button" class="btn btn-danger ml-3 px-5" data-toggle="modal" data-target="#deleteModal" onclick="del('contestForDeleteId', '@contest.Id')">Delete</button>
-        </div>
-    }
-</div>
+    <tbody>
+        @foreach (var contest in Model)
+        {
+            <tr id="Container_@contest.Id">
+                <td>@contest.CreatorUserName</td>
+                <td>@contest.Name</td>
+                <td>@contest.QuestionsCount</td>
+                @if (contest.RoomId == null)
+                {
+                    <td>Not open</td>
+                }
+                else
+                {
+                    <td><a asp-controller="Dashboard" asp-action="RoomDetails" asp-route-roomId="@contest.RoomId">View details</a></td>
+                }
+                <td class="text-center"><button type="button" class="btn btn-danger ml-3 px-5" data-toggle="modal" data-target="#deleteModal" onclick="del('contestForDeleteId', '@contest.Id')">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <input type="hidden" id="contestForDeleteId" value="" />
 
@@ -27,7 +41,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete your contest?</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete this contest?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
