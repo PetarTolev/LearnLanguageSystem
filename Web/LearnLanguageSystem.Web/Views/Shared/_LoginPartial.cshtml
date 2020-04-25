@@ -7,38 +7,42 @@
     var user = await this.UserManager.GetUserAsync(this.User);
 }
 
-    <ul class="navbar-nav">
-        @if (this.SignInManager.IsSignedIn(this.User))
-        {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                <li class="nav-item">
-                    <div class="btn-group" role="group">
-                        <a class="nav-link btn text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administration</a>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" asp-area="Administration" asp-controller="Dashboard" asp-action="Contests">Contests Dashboard</a>
-                            <a class="dropdown-item" asp-area="Administration" asp-controller="Application" asp-action="Settings">Application Settings</a>
-                        </div>
-                    </div>
-                </li>
-            }
-            <li class="nav-item d-flex flex-row align-items-center">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index"><div class="rounded-circle custom-header-avatar" style="background-image: url(@(user.AvatarUrl ?? @"/img/icon-avatar-default.png"));"></div></a>
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
-            </li>
-            <li class="nav-item">
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
-                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                </form>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-            </li>
-        }
-    </ul>
+<ul class="navbar-nav">
+    @if (this.SignInManager.IsSignedIn(this.User))
+    {
+        <li class="nav-item">
+            <div class="btn-group" role="group">
+
+                <div class="nav-link btn text-dark dropdown-toggle d-flex align-items-center p-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="rounded-circle custom-header-avatar" style="background-image: url(@(user.AvatarUrl ?? @"/img/icon-avatar-default.png"));"></div>
+                    <div class="mx-2">Hello @(this.User.Identity.Name)!</div>
+                </div>
+
+                <div role="menu" class="dropdown-menu" aria-labelledby="main">
+                    <form class="dropdown-item p-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new {area = string.Empty}))">
+                        <button type="submit" class="btn text-dark px-3">Logout</button>
+                    </form>
+
+                    <a class="dropdown-item px-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header px-3">Administration</div>
+                        <a class="dropdown-item px-3" asp-area="Administration" asp-controller="Dashboard" asp-action="Contests">Contests Dashboard</a>
+                        <a class="dropdown-item px-3" asp-area="Administration" asp-controller="Application" asp-action="Settings">Application Settings</a>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

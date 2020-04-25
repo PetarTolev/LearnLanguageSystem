@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace LearnLanguageSystem.Web.Areas.Administration.Controllers
+﻿namespace LearnLanguageSystem.Web.Areas.Administration.Controllers
 {
     using System.Linq;
 
