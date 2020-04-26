@@ -28,7 +28,7 @@
             await this.contactsService.AddContactAsync(model.Name, model.Email, model.Title, model.Content);
 
             this.TempData[Redirected] = true;
-            return this.RedirectToAction(nameof(this.ThankYou), new {name = model.Name});
+            return this.RedirectToAction(nameof(this.ThankYou), new { name = model.Name });
         }
 
         public IActionResult ThankYou(string name)

@@ -79,8 +79,7 @@
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            //todo: check isOpenRoom
-
+            // todo: check isOpenRoom
             var contestId = await this.contestsService.DeleteAsync(id);
 
             if (contestId == null)

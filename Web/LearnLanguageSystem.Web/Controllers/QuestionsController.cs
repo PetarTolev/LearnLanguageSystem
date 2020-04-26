@@ -54,7 +54,7 @@
 
             if (currentQuestionsCount == 10)
             {
-                this.TempData["Notification"] = $"You have reached the questions limit!";
+                this.TempData["Notification"] = "You have reached the questions limit!";
                 return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
             }
 

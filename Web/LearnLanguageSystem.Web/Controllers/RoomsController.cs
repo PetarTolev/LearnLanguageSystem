@@ -1,6 +1,5 @@
 ﻿namespace LearnLanguageSystem.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -39,6 +38,7 @@
         {
             var rooms = this.roomsService.GetAll<AllRoomsListViewModel>();
 
+            // todo: add current room if exist
             return this.View(rooms);
         }
 
@@ -204,7 +204,20 @@
                 .ToList();
 
             this.roomHub.Clients.Users(usersIn).SendAsync("StartContest");
+            this.roomHub.Clients.Users(usersIn).SendAsync("RedirectUser", $"/Rooms/Play?roomId={roomId}");
 
+            return this.NoContent();
+        }
+
+        public IActionResult Play(string roomId)
+        {
+            var room = this.roomsService.GetById<RoomPlayViewModel>(roomId);
+
+            return this.View(room);
+        }
+
+        public IActionResult Send(RoomPlayViewModel model)
+        {
             return this.NoContent();
         }
     }
