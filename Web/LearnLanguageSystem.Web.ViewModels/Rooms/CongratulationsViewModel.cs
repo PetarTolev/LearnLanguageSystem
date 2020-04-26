@@ -4,6 +4,8 @@
     {
         public string UserName { get; set; }
 
+        public int UserTotalPoints { get; set; }
+
         public int Points { get; set; }
     }
 }

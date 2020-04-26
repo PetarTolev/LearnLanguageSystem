@@ -25,6 +25,8 @@ namespace LearnLanguageSystem.Data.Models
 
         public virtual Room Room { get; set; }
 
+        public int PointsFromContests { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 

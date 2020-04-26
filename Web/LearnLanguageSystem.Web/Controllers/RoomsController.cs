@@ -255,12 +255,14 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
+            user.PointsFromContests += totalPoints;
+            await this.userManager.UpdateAsync(user);
 
             this.TempData[Redirected] = true;
-            return this.RedirectToAction(nameof(this.Congratulations), new { points = totalPoints, userName = user.UserName });
+            return this.RedirectToAction(nameof(this.Congratulations), new { points = totalPoints, totalPoints = user.PointsFromContests, userName = user.UserName });
         }
 
-        public IActionResult Congratulations(int points, string userName)
+        public IActionResult Congratulations(int points,int totalPoints, string userName)
         {
             if (this.TempData[Redirected] == null)
             {
@@ -270,6 +272,7 @@
             var model = new CongratulationsViewModel
             {
                 UserName = userName,
+                UserTotalPoints = totalPoints,
                 Points = points,
             };
 
