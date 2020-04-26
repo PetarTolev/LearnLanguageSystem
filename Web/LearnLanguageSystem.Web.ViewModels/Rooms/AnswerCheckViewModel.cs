@@ -3,12 +3,10 @@
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
 
-    public class AnswerViewModel : IMapFrom<Answer>
+    public class AnswerCheckViewModel : IMapFrom<Answer>
     {
         public string Id { get; set; }
 
-        public string Content { get; set; }
-
-        public bool ChosenAnswer { get; set; }
+        public bool IsRight { get; set; }
     }
 }

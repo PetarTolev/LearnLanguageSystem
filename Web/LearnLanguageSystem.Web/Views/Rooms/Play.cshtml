@@ -44,7 +44,8 @@
 <form class="d-flex flex-column align-items-center mt-5" asp-area="" asp-controller="Rooms" asp-action="Send" method="post">
     <div id="carouselExampleControls" class="carousel slide d-none" data-interval="false" data-ride="carousel">
         <div class="carousel-inner">
-            <input type="hidden" asp-for="@Model.Contest.Name" />
+            <input type="hidden" asp-for="@Model.Contest.Id"/>
+            <input type="hidden" asp-for="@Model.Contest.Name"/>
             @for (var i = 0; i < Model.Contest.Questions.Count; i++)
             {
                 <div class="carousel-item">
@@ -52,18 +53,18 @@
 
                         <div>
                             <h3>@Model.Contest.Questions[i].Content</h3>
-                            <input type="hidden" asp-for="@Model.Contest.Questions[i].Content" />
-                            <input type="hidden" asp-for="@Model.Contest.Questions[i].Id" />
+                            <input type="hidden" asp-for="@Model.Contest.Questions[i].Content"/>
+                            <input type="hidden" asp-for="@Model.Contest.Questions[i].Id"/>
 
                             <ul class="d-flex flex-column mt-3">
                                 @for (var j = 0; j < Model.Contest.Questions[i].Answers.Count; j++)
                                 {
-                                <li>
-                                    <input style="width: 24px; height: 24px;" type="checkbox" asp-for="@Model.Contest.Questions[i].Answers[j].ChosenAnswer" />
-                                    <label style="font-size: 24px;" asp-for="@Model.Contest.Questions[i].Answers[j].Content">@Model.Contest.Questions[i].Answers[j].Content</label>
-                                    <input type="hidden" asp-for="@Model.Contest.Questions[i].Answers[j].Id" />
-                                    <input type="hidden" asp-for="@Model.Contest.Questions[i].Answers[j].Content" />
-                                </li>
+                                    <li>
+                                        <input style="width: 24px; height: 24px;" type="checkbox" asp-for="@Model.Contest.Questions[i].Answers[j].ChosenAnswer"/>
+                                        <label style="font-size: 24px;" asp-for="@Model.Contest.Questions[i].Answers[j].Content">@Model.Contest.Questions[i].Answers[j].Content</label>
+                                        <input type="hidden" asp-for="@Model.Contest.Questions[i].Answers[j].Id"/>
+                                        <input type="hidden" asp-for="@Model.Contest.Questions[i].Answers[j].Content"/>
+                                    </li>
                                 }
                             </ul>
                         </div>

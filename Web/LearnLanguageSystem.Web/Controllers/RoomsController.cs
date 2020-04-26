@@ -5,6 +5,7 @@
 
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
+    using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Rooms;
     using LearnLanguageSystem.Web.Hubs;
     using LearnLanguageSystem.Web.ViewModels.Rooms;
@@ -17,18 +18,23 @@
     [Authorize]
     public class RoomsController : BaseController
     {
+        private const string Redirected = "RedirectedFromPlay";
+
         private readonly IRoomsService roomsService;
+        private readonly IContestsService contestsService;
         private readonly IApplicationSettingsService applicationSettingsService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IHubContext<RoomHub> roomHub;
 
         public RoomsController(
             IRoomsService roomsService,
+            IContestsService contestsService,
             IApplicationSettingsService applicationSettingsService,
             UserManager<ApplicationUser> userManager,
             IHubContext<RoomHub> roomHub)
         {
             this.roomsService = roomsService;
+            this.contestsService = contestsService;
             this.applicationSettingsService = applicationSettingsService;
             this.userManager = userManager;
             this.roomHub = roomHub;
@@ -216,9 +222,58 @@
             return this.View(room);
         }
 
-        public IActionResult Send(RoomPlayViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> Send(RoomPlayViewModel model)
         {
-            return this.NoContent();
+            var questions = this.contestsService.GetQuestions<ContestCheckViewModel>(model.Contest.Id);
+
+            var totalPoints = 0;
+
+            foreach (var question in model.Contest.Questions)
+            {
+                var dbQuestion = questions.Questions.FirstOrDefault(x => x.Id == question.Id);
+
+                if (dbQuestion == null)
+                {
+                    return this.BadRequest();
+                }
+
+                foreach (var answer in question.Answers)
+                {
+                    var dbAnswer = dbQuestion.Answers.FirstOrDefault(x => x.Id == answer.Id);
+
+                    if (dbAnswer == null)
+                    {
+                        return this.BadRequest();
+                    }
+
+                    if (dbAnswer.IsRight == answer.ChosenAnswer && dbAnswer.IsRight)
+                    {
+                        totalPoints += 10;
+                    }
+                }
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            this.TempData[Redirected] = true;
+            return this.RedirectToAction(nameof(this.Congratulations), new { points = totalPoints, userName = user.UserName });
+        }
+
+        public IActionResult Congratulations(int points, string userName)
+        {
+            if (this.TempData[Redirected] == null)
+            {
+                return this.NotFound();
+            }
+
+            var model = new CongratulationsViewModel
+            {
+                UserName = userName,
+                Points = points,
+            };
+
+            return this.View(model);
         }
     }
 }

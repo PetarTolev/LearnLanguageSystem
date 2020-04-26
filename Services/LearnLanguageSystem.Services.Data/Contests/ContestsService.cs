@@ -1,4 +1,6 @@
-﻿namespace LearnLanguageSystem.Services.Data.Contests
+﻿using LearnLanguageSystem.Web.ViewModels.Rooms;
+
+namespace LearnLanguageSystem.Services.Data.Contests
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -29,6 +31,13 @@
             => this.contestsRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == contestId)
+                .To<T>()
+                .FirstOrDefault();
+
+        public T GetQuestions<T>(string id)
+            => this.contestsRepository
+                .All()
+                .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefault();
 

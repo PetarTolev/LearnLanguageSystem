@@ -4,10 +4,13 @@
     using System.Threading.Tasks;
 
     using LearnLanguageSystem.Data.Models;
+    using LearnLanguageSystem.Web.ViewModels.Rooms;
 
     public interface IContestsService
     {
         T GetById<T>(string contestId);
+
+        T GetQuestions<T>(string id);
 
         string GetCreatorId(string contestId);
 
