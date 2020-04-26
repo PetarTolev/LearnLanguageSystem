@@ -17,22 +17,21 @@
 <table class="table table-hover text-center">
     <thead>
         <tr>
-            @*<th>#</th>*@
             <th>Name</th>
             <th>Questions Count</th>
             <th>Delete</th>
             <th>Open/Close</th>
+            @if (Model.Contests.Any(x => x.RoomId != null))
+            {
+                <th>Enter room</th>
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (var contest in Model.Contests)
         {
             <tr id="Container_@contest.Id">
-                @*<td id="contestId">
-                    @contest.Id
-                </td>*@
-
-                <td>
+               <td>
                     <a asp-controller="Contests" asp-action="Edit" asp-route-id="@contest.Id">@contest.Name</a>
                 </td>
 
@@ -49,12 +48,19 @@
                     <td>
                         <a class="btn btn-primary" asp-controller="Rooms" asp-action="Close" asp-route-roomId="@contest.RoomId">Close</a>
                     </td>
+                    <td>
+                        <a class="btn btn-primary mt-1" asp-controller="Rooms" asp-action="Index" asp-route-id="@contest.RoomId">Enter</a>
+                    </td>
                 }
                 else
                 {
                     <td>
                         <a class="btn btn-outline-primary" asp-controller="Rooms" asp-action="Open" asp-route-contestId="@contest.Id" id="open">Open</a>
                     </td>
+                    @if (Model.Contests.Any(x => x.RoomId != null))
+                    {
+                        <td></td>
+                    }
                 }
             </tr>
         }
