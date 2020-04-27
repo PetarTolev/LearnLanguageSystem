@@ -8,7 +8,7 @@
     var user = await this.UserManager.GetUserAsync(this.User);
 }
 
-<div class="d-flex align-items-center justify-content-center" style="height: 500px">
+<div class="d-flex align-items-center justify-content-center" style="height: 550px">
     
     <div class="d-flex flex-column align-items-center justify-content-between w-50 h-50" style="border: 2px solid #dee2e6; border-radius: 8px;">
         @if (this.TempData["Notification"] != null)
@@ -30,11 +30,12 @@
             <h3>Join Room</h3>
 
             <form method="post" asp-area="" asp-controller="Rooms" asp-action="Join">
+                
                 <div class="d-flex flex-column align-items-center">
-                    <input class="form-control" autofocus placeholder="Enter access code..." type="number" asp-for="@Model.AccessCode"/>
-                    <button class="btn btn-primary mt-3 px-3">Join</button>
+                    <input class="form-control" autofocus placeholder="Enter access code..." type="number" asp-for="@Model.AccessCode" />
+                    <span class="text-danger" asp-validation-for="@Model.AccessCode"></span>
+                    <button class="btn btn-primary mt-3 px-3 text-center">Join</button>
                 </div>
-                <span class="text-danger" asp-validation-for="@Model.AccessCode"></span>
             </form>
         </div>
     </div>

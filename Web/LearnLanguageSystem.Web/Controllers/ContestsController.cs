@@ -4,6 +4,7 @@
 
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Contests;
+    using LearnLanguageSystem.Services.Data.Rooms;
     using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Contests;
     using Microsoft.AspNetCore.Authorization;
@@ -14,13 +15,16 @@
     public class ContestsController : BaseController
     {
         private readonly IContestsService contestsService;
+        private readonly IRoomsService roomsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ContestsController(
             IContestsService contestsService,
+            IRoomsService roomsService,
             UserManager<ApplicationUser> userManager)
         {
             this.contestsService = contestsService;
+            this.roomsService = roomsService;
             this.userManager = userManager;
         }
 
@@ -79,7 +83,11 @@
         [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
-            // todo: check isOpenRoom
+            if (this.roomsService.IsExistRoomWithThisContest(id))
+            {
+                return this.BadRequest();
+            }
+
             var contestId = await this.contestsService.DeleteAsync(id);
 
             if (contestId == null)
@@ -94,9 +102,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var contests = this.contestsService.GetOwned<ContestViewModel>(user.Id);
-
-            var model = new ContestsListViewModel { Contests = contests };
+            var model = this.contestsService.GetOwned<ContestViewModel>(user.Id);
 
             return this.View(model);
         }

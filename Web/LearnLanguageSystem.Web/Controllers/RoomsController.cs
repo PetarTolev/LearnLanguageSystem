@@ -7,6 +7,7 @@
     using LearnLanguageSystem.Services.Data.ApplicationSettings;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Rooms;
+    using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.Hubs;
     using LearnLanguageSystem.Web.ViewModels.Rooms;
     using LearnLanguageSystem.Web.ViewModels.Users;
@@ -118,13 +119,13 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ModelStateValidation]
         public async Task<IActionResult> Join(RoomJoinInputModel model)
         {
             var codeLength = this.applicationSettingsService.GetAccessCodeLength();
 
             if (model.AccessCode.ToString().Length != codeLength)
             {
-                // todo: extract in attribute
                 this.ModelState.AddModelError("AccessCode", $"Access code length must be {codeLength} numbers.");
                 return this.View(model);
             }
@@ -272,7 +273,7 @@
             return this.RedirectToAction(nameof(this.Congratulations), new { points = totalPoints, totalPoints = user.PointsFromContests, userName = user.UserName });
         }
 
-        public IActionResult Congratulations(int points,int totalPoints, string userName)
+        public IActionResult Congratulations(int points, int totalPoints, string userName)
         {
             if (this.TempData[Redirected] == null)
             {

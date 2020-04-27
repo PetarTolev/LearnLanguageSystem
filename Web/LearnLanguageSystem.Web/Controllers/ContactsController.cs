@@ -23,6 +23,7 @@
 
         [HttpPost]
         [ModelStateValidation]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ContactInputModel model)
         {
             await this.contactsService.AddContactAsync(model.Name, model.Email, model.Title, model.Content);

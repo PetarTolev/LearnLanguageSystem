@@ -1,6 +1,4 @@
-﻿using LearnLanguageSystem.Web.ViewModels.Rooms;
-
-namespace LearnLanguageSystem.Services.Data.Contests
+﻿namespace LearnLanguageSystem.Services.Data.Contests
 {
     using System.Collections.Generic;
     using System.Linq;

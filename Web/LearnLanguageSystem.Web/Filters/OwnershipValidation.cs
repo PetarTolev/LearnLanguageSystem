@@ -14,7 +14,10 @@
         private readonly IContestsService contestsService;
         private readonly IQuestionsService questionsService;
 
-        public OwnershipValidation(UserManager<ApplicationUser> userManager, IContestsService contestsService, IQuestionsService questionsService)
+        public OwnershipValidation(
+            UserManager<ApplicationUser> userManager,
+            IContestsService contestsService,
+            IQuestionsService questionsService)
         {
             this.userManager = userManager;
             this.contestsService = contestsService;
