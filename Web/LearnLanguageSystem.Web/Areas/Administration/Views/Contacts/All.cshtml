@@ -1,0 +1,19 @@
+﻿@model ICollection<LearnLanguageSystem.Web.ViewModels.Administration.Contacts.AllContactsViewModel>
+@{
+    ViewData["Title"] = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row justify-content-center">
+        @foreach (var contact in Model)
+        {
+            <div class="card col-10 mt-3 p-0">
+                <h5 class="card-header">@contact.Name / @contact.Email</h5>
+                <div class="card-body">
+                    <h5 class="card-title">@contact.Title</h5>
+                    <p class="card-text">@(contact.Content.Length > 150 ? contact.Content.Substring(0, 150) + "..." : contact.Content)</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        }
+    </div>

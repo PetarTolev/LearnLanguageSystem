@@ -249,7 +249,7 @@
 
                     if (dbAnswer.IsRight == answer.ChosenAnswer && dbAnswer.IsRight)
                     {
-                        totalPoints += 10;
+                        totalPoints += 10; // todo: remove points
                     }
                 }
             }
