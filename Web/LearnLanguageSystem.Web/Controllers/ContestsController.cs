@@ -65,7 +65,7 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ModelStateValidation]
-        public async Task<IActionResult> ChangeName(ChangeNameInputModel model)
+        public async Task<IActionResult> ChangeName(ContestViewModel model)
         {
             var isSuccessfully = await this.contestsService.ChangeNameAsync(model.Id, model.Name);
 
