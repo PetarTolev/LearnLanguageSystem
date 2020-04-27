@@ -6,8 +6,6 @@ setupConnection = () => {
         .build();
 
     connection.on("AddUserToRoom", (model) => {
-        var avatarUrl = model.avatarUrl == null ? "/img/icon-avatar-default.png" : model.avatarUrl;
-
         var rowElm = document.createElement("tr");
         rowElm.setAttribute("id", `${model.id}`);
 
@@ -15,7 +13,7 @@ setupConnection = () => {
         avatarElm.setAttribute("class", "d-flex justify-content-center");
         var avatarDivElm = document.createElement("div");
         avatarDivElm.setAttribute("class", "rounded-circle custom-circle");
-        avatarDivElm.setAttribute("style", `background-image: url(${avatarUrl});`);
+        avatarDivElm.setAttribute("style", `background-image: url(${model.avatarUrl});`);
         avatarElm.appendChild(avatarDivElm);
         rowElm.appendChild(avatarElm);
 

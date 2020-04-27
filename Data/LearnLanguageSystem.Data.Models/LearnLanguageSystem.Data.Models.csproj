@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\LearnLanguageSystem.Common\LearnLanguageSystem.Common.csproj" />
     <ProjectReference Include="..\LearnLanguageSystem.Data.Common\LearnLanguageSystem.Data.Common.csproj" />
   </ItemGroup>
   

@@ -1,7 +1,7 @@
 ﻿@inject UserManager<ApplicationUser> UserManager
 @{
     var user = await this.UserManager.GetUserAsync(this.User);
-    var avatar = user.AvatarUrl ?? @"/img/icon-avatar-default.png";
+    var avatar = user.AvatarUrl;
 }
 
 <form class="d-flex flex-column" asp-area="" asp-controller="Users" asp-action="ChangeAvatar" enctype="multipart/form-data">

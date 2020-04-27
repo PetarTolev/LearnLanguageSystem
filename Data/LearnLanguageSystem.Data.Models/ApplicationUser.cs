@@ -4,8 +4,8 @@ namespace LearnLanguageSystem.Data.Models
     using System;
     using System.Collections.Generic;
 
+    using LearnLanguageSystem.Common;
     using LearnLanguageSystem.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
@@ -17,6 +17,7 @@ namespace LearnLanguageSystem.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Contests = new HashSet<Contest>();
+            this.AvatarUrl = GlobalConstants.DefaultUserAvatarUrl;
         }
 
         public string AvatarUrl { get; set; }
