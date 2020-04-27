@@ -82,7 +82,7 @@
             return contest.Id;
         }
 
-        public async Task<string> ChangeNameAsync(string id, string newName)
+        public async Task<bool> ChangeNameAsync(string id, string newName)
         {
             var contest = this.contestsRepository
                 .All()
@@ -90,7 +90,7 @@
 
             if (contest == null)
             {
-                return null;
+                return false;
             }
 
             contest.Name = newName;
@@ -98,10 +98,10 @@
             this.contestsRepository.Update(contest);
             await this.contestsRepository.SaveChangesAsync();
 
-            return contest.Id;
+            return true;
         }
 
-        public async Task<string> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             var contest = this.contestsRepository
                 .All()
@@ -112,7 +112,7 @@
 
             if (contest == null)
             {
-                return null;
+                return false;
             }
 
             foreach (var question in contest.Questions)
@@ -128,7 +128,7 @@
             this.contestsRepository.HardDelete(contest);
             await this.contestsRepository.SaveChangesAsync();
 
-            return contest.Id;
+            return true;
         }
     }
 }

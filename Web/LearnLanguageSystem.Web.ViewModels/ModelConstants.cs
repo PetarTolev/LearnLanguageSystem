@@ -9,17 +9,5 @@
             public const int MinLength = 3;
             public const int MaxLength = 30;
         }
-
-        public class Questions
-        {
-            public const int NameMinLength = 3;
-            public const int NameMaxLength = 70;
-        }
-
-        public class Answers
-        {
-            public const int NameMinLength = 3;
-            public const int NameMaxLength = 70;
-        }
     }
 }

@@ -7,7 +7,6 @@
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            // todo: refactor chack by passing parameter from outside
             if (!context.ActionArguments.TryGetValue("id", out _))
             {
                 var controller = (BaseController)context.Controller;

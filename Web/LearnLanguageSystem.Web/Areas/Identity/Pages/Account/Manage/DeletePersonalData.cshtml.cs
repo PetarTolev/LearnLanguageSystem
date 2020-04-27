@@ -73,19 +73,20 @@ namespace LearnLanguageSystem.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            var userId = await this.userManager.GetUserIdAsync(user);
+
             var contests = this.contestsService.GetOwned(user.Id);
             foreach (var contest in contests)
             {
-                var deleteContestId = await this.contestsService.DeleteAsync(contest.Id);
+                var isSuccessfully = await this.contestsService.DeleteAsync(contest.Id);
 
-                if (deleteContestId == null)
+                if (!isSuccessfully)
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
                 }
             }
 
             var result = await this.userManager.DeleteAsync(user);
-            var userId = await this.userManager.GetUserIdAsync(user);
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");

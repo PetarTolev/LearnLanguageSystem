@@ -22,8 +22,8 @@
 
         Task<string> CreateAsync(string name, string contestId);
 
-        Task<string> ChangeNameAsync(string id, string newName);
+        Task<bool> ChangeNameAsync(string id, string newName);
 
-        Task<string> DeleteAsync(string id);
+        Task<bool> DeleteAsync(string id);
     }
 }

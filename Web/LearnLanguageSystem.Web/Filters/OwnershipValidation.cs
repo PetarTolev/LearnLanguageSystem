@@ -3,7 +3,6 @@
     using LearnLanguageSystem.Common;
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Contests;
-    using LearnLanguageSystem.Services.Data.Questions;
     using LearnLanguageSystem.Web.Controllers;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Filters;
@@ -12,47 +11,33 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IContestsService contestsService;
-        private readonly IQuestionsService questionsService;
 
         public OwnershipValidation(
             UserManager<ApplicationUser> userManager,
-            IContestsService contestsService,
-            IQuestionsService questionsService)
+            IContestsService contestsService)
         {
             this.userManager = userManager;
             this.contestsService = contestsService;
-            this.questionsService = questionsService;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var controller = (BaseController)context.Controller;
             var contestId = context.ActionArguments["id"] as string;
-            string creatorId = string.Empty;
-
-            var controllerName = controller.ControllerContext.ActionDescriptor.ControllerName;
-            if (controllerName == "Contests")
-            {
-                creatorId = this.contestsService.GetCreatorId(contestId);
-            }
-            else if (controllerName == "Questions")
-            {
-                creatorId = this.questionsService.GetCreatorId(contestId);
-            }
+            var creatorId = this.contestsService.GetCreatorId(contestId);
 
             if (creatorId == null)
             {
-                context.Result = controller.NotFound();
+                context.Result = controller.RedirectToAction("NotFound", "Errors", new { Message = "Contest not exist." });
                 return;
             }
 
-            // todo: Refactor
             var user = this.userManager.GetUserAsync(controller.User).GetAwaiter().GetResult();
             var isAdmin = this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName).GetAwaiter().GetResult();
 
             if (!isAdmin && user.Id != creatorId)
             {
-                context.Result = controller.Forbid();
+                context.Result = controller.RedirectToAction("Forbid", "Errors", new { Message = "You have not created this contest. You are not allowed to make changes." });
             }
         }
     }

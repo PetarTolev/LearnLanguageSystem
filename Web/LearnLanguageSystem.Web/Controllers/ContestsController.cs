@@ -29,9 +29,7 @@
         }
 
         public IActionResult Create()
-        {
-            return this.View();
-        }
+            => this.View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -44,7 +42,7 @@
 
             if (contestId == null)
             {
-                return this.View();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
@@ -58,7 +56,7 @@
 
             if (contest == null)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors", "Contest not exist!");
             }
 
             return this.View(contest);
@@ -69,11 +67,11 @@
         [ModelStateValidation]
         public async Task<IActionResult> Edit(ContestViewModel model)
         {
-            var contestId = await this.contestsService.ChangeNameAsync(model.Id, model.Name);
+            var isSuccessfully = await this.contestsService.ChangeNameAsync(model.Id, model.Name);
 
-            if (contestId == null)
+            if (!isSuccessfully)
             {
-                return this.NotFound();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             return this.RedirectToAction(nameof(this.MyContests));
@@ -85,14 +83,14 @@
         {
             if (this.roomsService.IsExistRoomWithThisContest(id))
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
-            var contestId = await this.contestsService.DeleteAsync(id);
+            var isSuccessfully = await this.contestsService.DeleteAsync(id);
 
-            if (contestId == null)
+            if (!isSuccessfully)
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors", new { Message = "Contest was not deleted." });
             }
 
             return this.NoContent();
