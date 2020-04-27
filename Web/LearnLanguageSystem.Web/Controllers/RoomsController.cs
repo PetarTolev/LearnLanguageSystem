@@ -247,15 +247,25 @@
                         return this.BadRequest();
                     }
 
-                    if (dbAnswer.IsRight == answer.ChosenAnswer && dbAnswer.IsRight)
+                    if (dbAnswer.IsRight == answer.ChosenAnswer)
                     {
-                        totalPoints += 10; // todo: remove points
+                        totalPoints += 5;
+                    }
+                    else
+                    {
+                        totalPoints -= 5;
                     }
                 }
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
             user.PointsFromContests += totalPoints;
+
+            if (user.PointsFromContests < 0)
+            {
+                user.PointsFromContests = 0;
+            }
+
             await this.userManager.UpdateAsync(user);
 
             this.TempData[Redirected] = true;

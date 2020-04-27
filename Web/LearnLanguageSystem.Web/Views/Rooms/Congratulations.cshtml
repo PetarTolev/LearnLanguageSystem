@@ -5,5 +5,5 @@
 }
 
 <h1>Congratulations, @Model.UserName</h1>
-<h2>You win @Model.Points points</h2>
+<h2>You @(Model.Points < 0 ? "lose" : "win") @Model.Points points</h2>
 <h3>You have @Model.UserTotalPoints total points.</h3>
