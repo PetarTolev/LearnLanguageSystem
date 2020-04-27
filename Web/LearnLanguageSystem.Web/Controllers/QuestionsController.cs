@@ -55,7 +55,7 @@
             if (currentQuestionsCount == 10)
             {
                 this.TempData["Notification"] = "You have reached the questions limit!";
-                return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
+                return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = contestId });
             }
 
             var questionsCountForAdd = questionsCount.Value;
@@ -92,7 +92,7 @@
                 await this.answersService.CreateAsync(questionId, question.Four.Content, question.Four.IsRight);
             }
 
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = model.Id });
+            return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = model.Id });
         }
 
         [IdExistValidation]
@@ -120,7 +120,7 @@
                 return this.NotFound();
             }
 
-            return this.RedirectToAction(nameof(ContestsController.Edit), "Contests", new { id = contestId });
+            return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = contestId });
         }
 
         [IdExistValidation]

@@ -45,12 +45,12 @@
                 return this.RedirectToAction("BadRequest", "Errors");
             }
 
-            return this.RedirectToAction(nameof(this.Edit), new { id = contestId });
+            return this.RedirectToAction(nameof(this.Details), new { id = contestId });
         }
 
         [IdExistValidation]
         [ServiceFilter(typeof(OwnershipValidation))]
-        public IActionResult Edit(string id)
+        public IActionResult Details(string id)
         {
             var contest = this.contestsService.GetById<ContestViewModel>(id);
 
@@ -65,7 +65,7 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ModelStateValidation]
-        public async Task<IActionResult> Edit(ContestViewModel model)
+        public async Task<IActionResult> ChangeName(ChangeNameInputModel model)
         {
             var isSuccessfully = await this.contestsService.ChangeNameAsync(model.Id, model.Name);
 
