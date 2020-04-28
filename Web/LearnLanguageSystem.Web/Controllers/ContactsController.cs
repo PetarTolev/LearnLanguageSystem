@@ -36,7 +36,7 @@
         {
             if (this.TempData[Redirected] == null)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             return this.View((object)name);

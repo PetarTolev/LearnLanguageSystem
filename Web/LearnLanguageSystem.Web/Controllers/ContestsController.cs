@@ -51,6 +51,12 @@
 
         public async Task<IActionResult> Details(string id)
         {
+            if (this.roomsService.IsExistRoomWithThisContest(id))
+            {
+                this.TempData["Notification"] = "You cannot modify a contest while there is an open room with it.";
+                return this.RedirectToAction(nameof(this.MyContests));
+            }
+
             var creatorId = this.contestsService.GetCreatorId(id);
             var user = await this.userManager.GetUserAsync(this.User);
             var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
@@ -98,7 +104,8 @@
 
             if (this.roomsService.IsExistRoomWithThisContest(id))
             {
-                return this.RedirectToAction("BadRequest", "Errors");
+                this.TempData["Notification"] = "You cannot delete a contest while there is an open room with it.";
+                return this.RedirectToAction(nameof(this.MyContests));
             }
 
             var isSuccessfully = await this.contestsService.DeleteAsync(id);

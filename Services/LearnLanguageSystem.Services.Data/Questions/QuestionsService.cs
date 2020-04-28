@@ -42,15 +42,18 @@
                 .FirstOrDefault();
 
         public string GetCreatorId(string id)
-        {
-            var creatorId = this.questionRepository
+            => this.questionRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .Select(x => x.Contest.CreatorId)
                 .FirstOrDefault();
 
-            return creatorId;
-        }
+        public string GetContestId(string id)
+            => this.questionRepository
+                .All()
+                .Where(x => x.Id == id)
+                .Select(x => x.ContestId)
+                .FirstOrDefault();
 
         public async Task<string> UpdateAsync(QuestionEditViewModel model)
         {
@@ -78,13 +81,13 @@
             return question.ContestId;
         }
 
-        public async Task<string> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             var question = this.GetWithAnswer(id);
 
             if (question == null)
             {
-                return null;
+                return false;
             }
 
             foreach (var answer in question.Answers)
@@ -95,7 +98,7 @@
             this.questionRepository.HardDelete(question);
             await this.questionRepository.SaveChangesAsync();
 
-            return question.ContestId;
+            return true;
         }
 
         private Question GetWithAnswer(string id)

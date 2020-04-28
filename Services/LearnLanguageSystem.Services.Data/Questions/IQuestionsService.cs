@@ -12,8 +12,10 @@
 
         string GetCreatorId(string id);
 
+        string GetContestId(string id);
+
         Task<string> UpdateAsync(QuestionEditViewModel model);
 
-        Task<string> DeleteAsync(string id);
+        Task<bool> DeleteAsync(string id);
     }
 }

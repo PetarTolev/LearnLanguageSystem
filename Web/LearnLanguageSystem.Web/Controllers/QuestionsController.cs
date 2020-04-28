@@ -1,4 +1,6 @@
-﻿namespace LearnLanguageSystem.Web.Controllers
+﻿using LearnLanguageSystem.Services.Data.Rooms;
+
+namespace LearnLanguageSystem.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -19,6 +21,7 @@
         private const int MaxCount = 10;
         private readonly IQuestionsService questionsService;
         private readonly IAnswersService answersService;
+        private readonly IRoomsService roomsService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IContestsService contestsService;
 
@@ -26,10 +29,12 @@
             IContestsService contestsService,
             IQuestionsService questionsService,
             IAnswersService answersService,
+            IRoomsService roomsService,
             UserManager<ApplicationUser> userManager)
         {
             this.questionsService = questionsService;
             this.answersService = answersService;
+            this.roomsService = roomsService;
             this.userManager = userManager;
             this.contestsService = contestsService;
         }
@@ -37,6 +42,12 @@
         [ModelStateValidation]
         public async Task<IActionResult> Add(QuestionCountInputModel inputModel)
         {
+            if (this.roomsService.IsExistRoomWithThisContest(inputModel.Id))
+            {
+                this.TempData["Notification"] = "You cannot add a question while there is an open room with contest.";
+                return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
+            }
+
             var creatorId = this.contestsService.GetCreatorId(inputModel.Id);
             var user = await this.userManager.GetUserAsync(this.User);
             var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
@@ -102,6 +113,14 @@
 
         public async Task<IActionResult> Edit(string id)
         {
+            var contestId = this.questionsService.GetContestId(id);
+
+            if (this.roomsService.IsExistRoomWithThisContest(contestId))
+            {
+                this.TempData["Notification"] = "You cannot modify a questions while there is an open room with contest.";
+                return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
+            }
+
             var creatorId = this.questionsService.GetCreatorId(id);
             var user = await this.userManager.GetUserAsync(this.User);
             var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
@@ -115,7 +134,7 @@
 
             if (question == null)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             return this.View(question);
@@ -138,7 +157,7 @@
 
             if (contestId == null)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = contestId });
@@ -146,6 +165,14 @@
 
         public async Task<IActionResult> Delete(string id)
         {
+            var contestId = this.questionsService.GetContestId(id);
+
+            if (this.roomsService.IsExistRoomWithThisContest(contestId))
+            {
+                this.TempData["Notification"] = "You cannot delete a question while there is an open room with contest.";
+                return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
+            }
+
             var creatorId = this.questionsService.GetCreatorId(id);
             var user = await this.userManager.GetUserAsync(this.User);
             var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
@@ -155,11 +182,11 @@
                 return this.RedirectToAction("Forbid", "Errors");
             }
 
-            var contestId = await this.questionsService.DeleteAsync(id);
+            var isSuccessfully = await this.questionsService.DeleteAsync(id);
 
-            if (contestId == null)
+            if (!isSuccessfully)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             return this.NoContent();
