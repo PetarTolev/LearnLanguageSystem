@@ -78,6 +78,15 @@
         [ModelStateValidation]
         public async Task<IActionResult> Add(ContestQuestionsListInputModel model)
         {
+            var creatorId = this.contestsService.GetCreatorId(model.Id);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (!isAdmin && creatorId != user.Id)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             foreach (var question in model.Questions)
             {
                 var questionId = await this.questionsService.CreateAsync(model.Id, question.Content);
@@ -91,10 +100,17 @@
             return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = model.Id });
         }
 
-        [IdExistValidation]
-        [ServiceFilter(typeof(OwnershipValidation))]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
+            var creatorId = this.questionsService.GetCreatorId(id);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (!isAdmin && creatorId != user.Id)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             var question = this.questionsService.GetById<QuestionEditViewModel>(id);
 
             if (question == null)
@@ -109,6 +125,15 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(QuestionEditViewModel model)
         {
+            var creatorId = this.questionsService.GetCreatorId(model.Id);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (!isAdmin && creatorId != user.Id)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             var contestId = await this.questionsService.UpdateAsync(model);
 
             if (contestId == null)
@@ -119,10 +144,17 @@
             return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = contestId });
         }
 
-        [IdExistValidation]
-        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
+            var creatorId = this.questionsService.GetCreatorId(id);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (!isAdmin && creatorId != user.Id)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             var contestId = await this.questionsService.DeleteAsync(id);
 
             if (contestId == null)

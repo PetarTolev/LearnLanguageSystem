@@ -10,7 +10,7 @@ function deleteConfirm(id, route) {
         url: `${route}?id=${id}`,
         contentType: "application/json; charset=utf-8",
         headers: { 'X-CSRF-TOKEN': token },
-        success: function () {
+        success: function() {
             $(`#Container_${id}`).remove();
             $('#deleteModal').modal('hide');
 
