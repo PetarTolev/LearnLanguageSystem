@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using LearnLanguageSystem.Common;
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Rooms;
@@ -48,10 +49,17 @@
             return this.RedirectToAction(nameof(this.Details), new { id = contestId });
         }
 
-        [IdExistValidation]
-        [ServiceFilter(typeof(OwnershipValidation))]
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
+            var creatorId = this.contestsService.GetCreatorId(id);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (!isAdmin && user.Id != creatorId)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             var contest = this.contestsService.GetById<ContestViewModel>(id);
 
             if (contest == null)
@@ -77,10 +85,17 @@
             return this.RedirectToAction(nameof(this.MyContests));
         }
 
-        [IdExistValidation]
-        [ServiceFilter(typeof(OwnershipValidation))]
         public async Task<IActionResult> Delete(string id)
         {
+            var creatorId = this.contestsService.GetCreatorId(id);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (!isAdmin && user.Id != creatorId)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             if (this.roomsService.IsExistRoomWithThisContest(id))
             {
                 return this.RedirectToAction("BadRequest", "Errors");

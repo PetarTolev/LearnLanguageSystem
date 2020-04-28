@@ -14,6 +14,5 @@
             public const int MinQuestionsCount = 1;
             public const int MaxQuestionsCount = 10;
         }
-
     }
 }

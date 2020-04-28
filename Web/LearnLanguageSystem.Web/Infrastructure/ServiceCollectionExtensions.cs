@@ -39,7 +39,6 @@
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
-                .AddScoped<OwnershipValidation>()
                 .AddScoped<Random>()
                 .AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration["SendGrid:ApiKey"]))
                 .AddTransient<IEmailSender, NullMessageSender>()
