@@ -1,0 +1,11 @@
+﻿@model JoinedRoomViewModel
+
+@if (Model != null)
+{
+    <div class="list-group-item d-flex justify-content-around align-items-center mb-2">
+        <div>@Model.ContestName</div>
+        <div>@Model.ContestCreatorUsername</div>
+        <div>@Model.UsersCount</div>
+        <a class="btn btn-primary" asp-area="" asp-controller="Rooms" asp-action="Index" asp-route-id="@Model.Id">Enter</a>
+    </div>
+}
