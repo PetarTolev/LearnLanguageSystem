@@ -13,9 +13,13 @@
 
         public string CreatorId { get; set; }
 
-        [Required]
-        [StringLength(ModelConstants.Contests.MaxLength, MinimumLength = ModelConstants.Contests.MinLength, ErrorMessage = ModelConstants.NameLengthError)]
+        [Required(ErrorMessage = ModelConstants.RequiredError)]
+        [StringLength(ModelConstants.Contests.MaxNameLength, MinimumLength = ModelConstants.Contests.MinNameLength, ErrorMessage = ModelConstants.Contests.NameLengthError)]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = ModelConstants.RequiredError)]
+        [Range(ModelConstants.Contests.MinQuestionsCount, ModelConstants.Contests.MaxQuestionsCount, ErrorMessage = ModelConstants.Contests.QuestionsCountError)]
+        public int QuestionCount { get; set; }
 
         public string RoomId { get; set; }
 

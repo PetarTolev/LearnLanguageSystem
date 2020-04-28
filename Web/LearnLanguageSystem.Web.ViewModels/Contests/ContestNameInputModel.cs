@@ -4,8 +4,8 @@
 
     public class ContestNameInputModel
     {
-        [Required]
-        [StringLength(ModelConstants.Contests.MaxLength, MinimumLength = ModelConstants.Contests.MinLength, ErrorMessage = ModelConstants.NameLengthError)]
+        [Required(ErrorMessage = ModelConstants.RequiredError)]
+        [StringLength(ModelConstants.Contests.MaxNameLength, MinimumLength = ModelConstants.Contests.MinNameLength, ErrorMessage = ModelConstants.Contests.NameLengthError)]
         public string Name { get; set; }
     }
 }

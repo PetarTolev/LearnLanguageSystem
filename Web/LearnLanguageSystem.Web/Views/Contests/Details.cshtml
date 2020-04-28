@@ -12,12 +12,12 @@
 
     @if (this.TempData["Notification"] != null)
     {
-        <div class="alert alert-info w-100">
+        <div class="alert alert-info w-75">
             @this.TempData["Notification"]
         </div>
     }
 
-    <div class="alert alert-danger w-50 mt-3 @(Model.Questions.Any() ? "d-none" : "")" role="alert" id="emptyNotification">
+    <div class="alert alert-danger mt-3 @(Model.Questions.Any() ? "d-none" : "")" role="alert" id="emptyNotification">
         No added questions...
     </div>
 
@@ -97,8 +97,9 @@
                 </div>
                 <div class="modal-body d-flex flex-column justify-content-center align-items-center">
                     <form class="d-flex flex-column justify-content-center align-items-center" asp-controller="Questions" asp-action="Add" method="get">
-                        <input type="hidden" name="contestId" value="@Model.Id" />
-                        <input class="form-control" type="number" name="questionsCount" placeholder="Enter questions count..." value="" />
+                        <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
+                        <input class="form-control" type="number" asp-for="@Model.QuestionCount" placeholder="Enter questions count..." value="" />
+                        <span class="text-danger" asp-validation-for="@Model.QuestionCount"></span>
                         <button class="btn btn-primary mt-2" type="submit">Add questions</button>
                     </form>
                 </div>

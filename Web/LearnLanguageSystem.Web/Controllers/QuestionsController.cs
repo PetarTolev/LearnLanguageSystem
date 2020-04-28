@@ -34,34 +34,30 @@
             this.contestsService = contestsService;
         }
 
-        public async Task<IActionResult> Add(string contestId, int? questionsCount)
+        [ModelStateValidation]
+        public async Task<IActionResult> Add(QuestionCountInputModel inputModel)
         {
-            if (contestId == null || questionsCount == 0 || questionsCount == null)
-            {
-                return this.BadRequest();
-            }
-
-            var creatorId = this.contestsService.GetCreatorId(contestId);
+            var creatorId = this.contestsService.GetCreatorId(inputModel.Id);
             var user = await this.userManager.GetUserAsync(this.User);
             var isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
 
             if (!isAdmin && creatorId != user.Id)
             {
-                return this.Forbid();
+                return this.RedirectToAction("Forbid", "Errors");
             }
 
-            var currentQuestionsCount = this.contestsService.GetQuestionsCount(contestId);
+            var currentQuestionsCount = this.contestsService.GetQuestionsCount(inputModel.Id);
 
             if (currentQuestionsCount == 10)
             {
                 this.TempData["Notification"] = "You have reached the questions limit!";
-                return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { id = contestId });
+                return this.RedirectToAction(nameof(ContestsController.Details), "Contests", new { inputModel.Id });
             }
 
-            var questionsCountForAdd = questionsCount.Value;
-            var reminingQuestionsCount = MaxCount - (currentQuestionsCount + questionsCountForAdd);
+            var questionsCountForAdd = inputModel.QuestionCount;
+            var remainingQuestionsCount = MaxCount - (currentQuestionsCount + questionsCountForAdd);
 
-            if (reminingQuestionsCount < 0)
+            if (remainingQuestionsCount < 0)
             {
                 var allowedQuestionsCount = MaxCount - currentQuestionsCount;
                 this.TempData["Notification"] = $"You have exceeded the questions limit. You can only add {allowedQuestionsCount} questions.";
@@ -70,7 +66,7 @@
 
             var model = new ContestQuestionsListInputModel
             {
-                Id = contestId,
+                Id = inputModel.Id,
                 Questions = new QuestionInputModel[questionsCountForAdd],
             };
 
