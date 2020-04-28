@@ -19,11 +19,11 @@
                 </div>
 
                 <div role="menu" class="dropdown-menu" aria-labelledby="main">
-                    <form class="dropdown-item p-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new {area = string.Empty}))">
-                        <button type="submit" class="btn text-dark px-3">Logout</button>
-                    </form>
+                    <a class="btn dropdown-item px-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
 
-                    <a class="dropdown-item px-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                    <form class="dropdown-item p-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new {area = string.Empty}))">
+                        <button type="submit" class="btn text-dark w-100 text-left">Logout</button>
+                    </form>
 
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
