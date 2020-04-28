@@ -6,6 +6,9 @@
 <h1>Settings</h1>
 
 <form asp-area="Administration" asp-controller="Application" asp-action="Settings">
-    <input class="form-control w-25" type="number" asp-for="@Model.AccessCodeLength" value="@Model.AccessCodeLength" />
+    <div>
+        <input class="form-control w-25" type="number" asp-for="@Model.AccessCodeLength" value="@Model.AccessCodeLength" />
+        <span class="text-danger" asp-validation-for="AccessCodeLength"></span>
+    </div>
     <button class="btn btn-primary mt-3">Save</button>
 </form>

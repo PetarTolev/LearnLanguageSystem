@@ -26,7 +26,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             var url = await this.cloudinaryService.Upload(model.Avatar);

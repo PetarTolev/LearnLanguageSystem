@@ -78,21 +78,21 @@
 
             if (this.roomsService.IsExistRoomWithThisContest(contestId))
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             var roomId = await this.roomsService.OpenAsync(contestId);
 
             if (roomId == null)
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             var isSuccessfullyAdded = await this.roomsService.AddUserAsync(roomId, user);
 
             if (!isSuccessfullyAdded)
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             return this.RedirectToAction(nameof(RoomsController.Index), new { id = roomId });
@@ -108,7 +108,7 @@
 
             if (!isDeleted)
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             await this.roomHub.Clients.Users(usersIn).SendAsync("RedirectUser", "/");
@@ -117,9 +117,7 @@
         }
 
         public IActionResult Join()
-        {
-            return this.View();
-        }
+            => this.View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -157,7 +155,7 @@
 
                 if (!isSuccessfullyAdded)
                 {
-                    return this.BadRequest();
+                    return this.RedirectToAction("BadRequest", "Errors");
                 }
             }
 
@@ -188,7 +186,7 @@
 
             if (currentUser.Id != userId && ownerId != currentUser.Id)
             {
-                return this.Forbid();
+                return this.RedirectToAction("Forbid", "Errors");
             }
 
             var userForKick = await this.userManager.FindByIdAsync(userId);
@@ -197,7 +195,7 @@
 
             if (!isSuccessfullyRemoved)
             {
-                return this.BadRequest();
+                return this.RedirectToAction("BadRequest", "Errors");
             }
 
             var usersIn = this.roomsService.GetUsersInIds(roomId).ToList();
@@ -248,7 +246,7 @@
 
                 if (dbQuestion == null)
                 {
-                    return this.BadRequest();
+                    return this.RedirectToAction("BadRequest", "Errors");
                 }
 
                 foreach (var answer in question.Answers)
@@ -257,7 +255,7 @@
 
                     if (dbAnswer == null)
                     {
-                        return this.BadRequest();
+                        return this.RedirectToAction("BadRequest", "Errors");
                     }
 
                     if (dbAnswer.IsRight == answer.ChosenAnswer)
@@ -289,7 +287,7 @@
         {
             if (this.TempData[Redirected] == null)
             {
-                return this.NotFound();
+                return this.RedirectToAction("NotFound", "Errors");
             }
 
             var model = new CongratulationsViewModel
