@@ -32,34 +32,40 @@
         {
             <tr id="Container_@contest.Id">
                 <td>
-                    <a asp-controller="Contests" asp-action="Details" asp-route-id="@contest.Id">@contest.Name</a>
+                    <a class="@(contest.RoomId == null ? "" : "btn disabled")" asp-controller="Contests" asp-action="Details" asp-route-id="@contest.Id">@contest.Name</a>
                 </td>
 
                 <td>
                     <span class="badge badge-primary badge-pill">@contest.Questions.Count</span>
                 </td>
 
-                @if (contest.RoomId != null)
+                @if (contest.RoomId == null)
                 {
-                    <td></td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="del('contestForDeleteId', '@contest.Id')">Delete</button>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" asp-controller="Rooms" asp-action="Open" asp-route-contestId="@contest.Id" id="open">Open</a>
+                    </td>
+                    @if (Model.Any(x => x.RoomId != null))
+                    {
+                        <td>
+                            <a class="btn btn-primary disabled">Enter</a>
+                        </td>
+                    }
+                }
+                else
+                {
+                    <td>
+                        <a class="btn btn-danger disabled">Delete</a>
+                    </td>
                     <td>
                         <a class="btn btn-primary" asp-controller="Rooms" asp-action="Close" asp-route-roomId="@contest.RoomId">Close</a>
                     </td>
                     <td>
                         <a class="btn btn-primary" asp-controller="Rooms" asp-action="Index" asp-route-id="@contest.RoomId">Enter</a>
                     </td>
-                }
-                else
-                    {<td>
-                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="del('contestForDeleteId', '@contest.Id')">Delete</button>
-                     </td>
-                    <td>
-                        <a class="btn btn-outline-primary" asp-controller="Rooms" asp-action="Open" asp-route-contestId="@contest.Id" id="open">Open</a>
-                    </td>
-                    @if (Model.Any(x => x.RoomId != null))
-                    {
-                        <td></td>
-                    }
                 }
             </tr>
         }
