@@ -7,7 +7,7 @@
     public class QuestionInputModel
     {
         [Required]
-        [StringLength(300, MinimumLength = 3)]
+        [StringLength(ModelConstants.Questions.MaxContentLength, MinimumLength = ModelConstants.Questions.MinContentLength, ErrorMessage = ModelConstants.Questions.ContentLengthError)]
         public string Content { get; set; }
 
         [Required]

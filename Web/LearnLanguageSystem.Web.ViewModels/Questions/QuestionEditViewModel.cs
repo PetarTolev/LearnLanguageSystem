@@ -1,6 +1,7 @@
 ﻿namespace LearnLanguageSystem.Web.ViewModels.Questions
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
@@ -10,6 +11,8 @@
     {
         public string Id { get; set; }
 
+        [Required]
+        [StringLength(ModelConstants.Questions.MaxContentLength, MinimumLength = ModelConstants.Questions.MinContentLength, ErrorMessage = ModelConstants.Questions.ContentLengthError)]
         public string Content { get; set; }
 
         public IList<AnswerViewModel> Answers { get; set; }

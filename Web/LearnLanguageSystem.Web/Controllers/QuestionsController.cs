@@ -1,6 +1,4 @@
-﻿using LearnLanguageSystem.Services.Data.Rooms;
-
-namespace LearnLanguageSystem.Web.Controllers
+﻿namespace LearnLanguageSystem.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -9,6 +7,7 @@ namespace LearnLanguageSystem.Web.Controllers
     using LearnLanguageSystem.Services.Data.Answers;
     using LearnLanguageSystem.Services.Data.Contests;
     using LearnLanguageSystem.Services.Data.Questions;
+    using LearnLanguageSystem.Services.Data.Rooms;
     using LearnLanguageSystem.Web.Filters;
     using LearnLanguageSystem.Web.ViewModels.Questions;
     using Microsoft.AspNetCore.Authorization;
@@ -44,7 +43,7 @@ namespace LearnLanguageSystem.Web.Controllers
         {
             if (this.roomsService.IsExistRoomWithThisContest(inputModel.Id))
             {
-                this.TempData["Notification"] = "You cannot add a question while there is an open room with contest.";
+                this.TempData["Notification"] = "You can’t add questions while contest is active.";
                 return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
             }
 
@@ -117,7 +116,7 @@ namespace LearnLanguageSystem.Web.Controllers
 
             if (this.roomsService.IsExistRoomWithThisContest(contestId))
             {
-                this.TempData["Notification"] = "You cannot modify a questions while there is an open room with contest.";
+                this.TempData["Notification"] = "You can’t modify question while contest is active.";
                 return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
             }
 
@@ -169,7 +168,7 @@ namespace LearnLanguageSystem.Web.Controllers
 
             if (this.roomsService.IsExistRoomWithThisContest(contestId))
             {
-                this.TempData["Notification"] = "You cannot delete a question while there is an open room with contest.";
+                this.TempData["Notification"] = "You can’t delete question while contest is active.";
                 return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
             }
 

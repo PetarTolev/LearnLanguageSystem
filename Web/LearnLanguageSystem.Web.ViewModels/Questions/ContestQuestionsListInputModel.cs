@@ -8,8 +8,6 @@
         [Required]
         public string Id { get; set; }
 
-        [MinLength(1)]
-        [MaxLength(10)]
         public IList<QuestionInputModel> Questions { get; set; }
     }
 }

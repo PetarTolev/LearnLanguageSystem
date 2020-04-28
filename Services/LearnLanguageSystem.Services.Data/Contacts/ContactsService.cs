@@ -17,7 +17,7 @@
             this.emailContactRepository = emailContactRepository;
         }
 
-        public async Task AddContactAsync(string name, string email, string title, string content)
+        public async Task<bool> AddContactAsync(string name, string email, string title, string content)
         {
             var emailContact = new EmailContact
             {
@@ -29,6 +29,8 @@
 
             await this.emailContactRepository.AddAsync(emailContact);
             await this.emailContactRepository.SaveChangesAsync();
+
+            return true;
         }
 
         public ICollection<T> GetAll<T>()

@@ -53,7 +53,7 @@
         {
             if (this.roomsService.IsExistRoomWithThisContest(id))
             {
-                this.TempData["Notification"] = "You cannot modify a contest while there is an open room with it.";
+                this.TempData["Notification"] = "You can’t make changes to the contest while it’s active.";
                 return this.RedirectToAction(nameof(this.MyContests));
             }
 
@@ -104,7 +104,7 @@
 
             if (this.roomsService.IsExistRoomWithThisContest(id))
             {
-                this.TempData["Notification"] = "You cannot delete a contest while there is an open room with it.";
+                this.TempData["Notification"] = "You can’t delete contest while it’s active.";
                 return this.RedirectToAction(nameof(this.MyContests));
             }
 

@@ -5,7 +5,7 @@
     public class AnswerInputModel
     {
         [Required]
-        [StringLength(300, MinimumLength = 3)]
+        [StringLength(ModelConstants.Answers.MaxContentLength, MinimumLength = ModelConstants.Answers.MinContentLength, ErrorMessage = ModelConstants.Answers.ContentLengthError)]
         public string Content { get; set; }
 
         public bool IsRight { get; set; }

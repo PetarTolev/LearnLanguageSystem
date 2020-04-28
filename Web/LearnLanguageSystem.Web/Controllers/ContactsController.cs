@@ -26,7 +26,12 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ContactInputModel model)
         {
-            await this.contactsService.AddContactAsync(model.Name, model.Email, model.Title, model.Content);
+            var isSuccessfully = await this.contactsService.AddContactAsync(model.Name, model.Email, model.Title, model.Content);
+
+            if (!isSuccessfully)
+            {
+                return this.RedirectToAction("BadRequest", "Errors");
+            }
 
             this.TempData[Redirected] = true;
             return this.RedirectToAction(nameof(this.ThankYou), new { name = model.Name });

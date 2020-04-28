@@ -5,7 +5,7 @@
 
     public interface IContactsService
     {
-        Task AddContactAsync(string name, string email, string title, string content);
+        Task<bool> AddContactAsync(string name, string email, string title, string content);
 
         ICollection<T> GetAll<T>();
     }

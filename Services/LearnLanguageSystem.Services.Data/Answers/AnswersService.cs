@@ -14,7 +14,7 @@
             this.answersRepository = answersRepository;
         }
 
-        public async Task<string> CreateAsync(string questionId, string content, bool isRight)
+        public async Task<bool> CreateAsync(string questionId, string content, bool isRight)
         {
             var answer = new Answer
             {
@@ -26,7 +26,7 @@
             await this.answersRepository.AddAsync(answer);
             await this.answersRepository.SaveChangesAsync();
 
-            return answer.Id;
+            return true;
         }
     }
 }

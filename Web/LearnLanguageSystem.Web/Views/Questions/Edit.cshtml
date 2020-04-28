@@ -14,6 +14,8 @@
             <label class="input-group-text">Question Content</label>
             <input type="text" class="form-control" asp-for="Content" />
         </div>
+        <span class="text-danger" asp-validation-for="Content"></span>
+
         <hr />
 
         <div class="input-group">
@@ -23,6 +25,8 @@
                 <input type="checkbox" asp-for="Answers[0].IsRight" />
             </div>
         </div>
+        
+        <span class="text-danger" asp-validation-for="Answers[0].Content"></span>
 
         <div class="input-group">
             <label class="input-group-text">Answer 2</label>
@@ -32,6 +36,8 @@
             </div>
         </div>
 
+        <span class="text-danger" asp-validation-for="Answers[1].Content"></span>
+
         <div class="input-group">
             <label class="input-group-text">Answer 3</label>
             <input type="text" class="form-control" asp-for="Answers[2].Content" />
@@ -40,6 +46,8 @@
             </div>
         </div>
 
+        <span class="text-danger" asp-validation-for="Answers[2].Content"></span>
+
         <div class="input-group">
             <label class="input-group-text">Answer 4</label>
             <input type="text" class="form-control" asp-for="Answers[3].Content" />
@@ -47,6 +55,9 @@
                 <input type="checkbox" asp-for="Answers[3].IsRight" />
             </div>
         </div>
+
+        <span class="text-danger" asp-validation-for="Answers[3].Content"></span>
+
         <br />
     </div>
 
