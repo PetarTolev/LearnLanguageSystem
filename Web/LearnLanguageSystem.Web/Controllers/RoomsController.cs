@@ -45,7 +45,6 @@
         {
             var rooms = this.roomsService.GetAll<AllRoomsListViewModel>();
 
-            // todo: add current room if exist
             return this.View(rooms);
         }
 
@@ -70,6 +69,13 @@
 
         public async Task<IActionResult> Open(string contestId)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+            if (user.RoomId != null)
+            {
+                this.TempData["Notification"] = "You can’t be in several rooms at the same time.";
+                return this.RedirectToAction(nameof(ContestsController.MyContests), "Contests");
+            }
+
             if (this.roomsService.IsExistRoomWithThisContest(contestId))
             {
                 return this.BadRequest();
@@ -81,8 +87,6 @@
             {
                 return this.BadRequest();
             }
-
-            var user = await this.userManager.GetUserAsync(this.User);
 
             var isSuccessfullyAdded = await this.roomsService.AddUserAsync(roomId, user);
 
@@ -204,14 +208,22 @@
             return this.NoContent();
         }
 
-        public IActionResult Start(string roomId)
+        public async Task<IActionResult> Start(string roomId)
         {
+            var ownerId = this.roomsService.GetOwnerId(roomId);
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (ownerId != user.Id)
+            {
+                return this.RedirectToAction("Forbid", "Errors");
+            }
+
             var usersIn = this.roomsService
                 .GetUsersInIds(roomId)
                 .ToList();
 
-            this.roomHub.Clients.Users(usersIn).SendAsync("StartContest");
-            this.roomHub.Clients.Users(usersIn).SendAsync("RedirectUser", $"/Rooms/Play?roomId={roomId}");
+            await this.roomHub.Clients.Users(usersIn).SendAsync("StartContest");
+            await this.roomHub.Clients.Users(usersIn).SendAsync("RedirectUser", $"/Rooms/Play?roomId={roomId}");
 
             return this.NoContent();
         }
