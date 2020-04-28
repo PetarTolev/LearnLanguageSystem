@@ -22,17 +22,23 @@
                    .Select(x => x.AccessCodeLength)
                    .FirstOrDefault();
 
-        public async Task ChangeAccessCodeLength(int newLength)
+        public async Task<bool> ChangeAccessCodeLength(int newLength)
         {
             var applicationSetting = this.applicationSettings
                 .All()
-                .Where(x => x.Id == 1)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Id == 1);
+
+            if (applicationSetting == null)
+            {
+                return false;
+            }
 
             applicationSetting.AccessCodeLength = newLength;
 
             this.applicationSettings.Update(applicationSetting);
             await this.applicationSettings.SaveChangesAsync();
+
+            return true;
         }
     }
 }

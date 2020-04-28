@@ -6,6 +6,6 @@
     {
         int GetAccessCodeLength();
 
-        Task ChangeAccessCodeLength(int newLength);
+        Task<bool> ChangeAccessCodeLength(int newLength);
     }
 }

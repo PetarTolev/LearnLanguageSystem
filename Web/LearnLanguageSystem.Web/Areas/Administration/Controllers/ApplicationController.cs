@@ -19,10 +19,7 @@
         {
             var codeLength = this.applicationSettingsService.GetAccessCodeLength();
 
-            var model = new SettingsViewModel
-            {
-                AccessCodeLength = codeLength,
-            };
+            var model = new SettingsViewModel { AccessCodeLength = codeLength };
 
             return this.View(model);
         }
@@ -30,7 +27,12 @@
         [HttpPost]
         public async Task<IActionResult> Settings(SettingsViewModel model)
         {
-            await this.applicationSettingsService.ChangeAccessCodeLength(model.AccessCodeLength);
+            var isSuccessfully = await this.applicationSettingsService.ChangeAccessCodeLength(model.AccessCodeLength);
+
+            if (!isSuccessfully)
+            {
+                return this.RedirectToAction("BadRequest", "Errors");
+            }
 
             return this.RedirectToAction(nameof(this.Settings));
         }

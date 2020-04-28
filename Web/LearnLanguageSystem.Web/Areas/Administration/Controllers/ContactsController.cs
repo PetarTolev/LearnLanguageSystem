@@ -24,6 +24,7 @@
 
         public IActionResult Details()
         {
+            //todo
             throw new NotImplementedException();
         }
     }

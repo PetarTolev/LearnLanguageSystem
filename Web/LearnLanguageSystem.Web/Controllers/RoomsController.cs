@@ -124,14 +124,6 @@
         [ModelStateValidation]
         public async Task<IActionResult> Join(RoomJoinInputModel model)
         {
-            var codeLength = this.applicationSettingsService.GetAccessCodeLength();
-
-            if (model.AccessCode.ToString().Length != codeLength)
-            {
-                this.ModelState.AddModelError("AccessCode", $"Access code length must be {codeLength} numbers.");
-                return this.View(model);
-            }
-
             var room = this.roomsService.GetByCode(model.AccessCode);
 
             if (room == null)
