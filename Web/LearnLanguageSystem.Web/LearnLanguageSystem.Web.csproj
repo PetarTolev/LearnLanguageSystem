@@ -46,4 +46,8 @@
     <ProjectReference Include="..\LearnLanguageSystem.Web.Infrastructure\LearnLanguageSystem.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\LearnLanguageSystem.Web.ViewModels\LearnLanguageSystem.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
 </Project>

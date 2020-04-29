@@ -27,7 +27,6 @@
             public const string ContentLengthError = "Content must be between {2} and {1} symbols!";
             public const int MinContentLength = 3;
             public const int MaxContentLength = 300;
-
         }
 
         public class Contacts

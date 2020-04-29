@@ -1,7 +1,11 @@
-﻿@model IList<RankingUserViewModel>
+﻿@using LearnLanguageSystem.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model IList<RankingUserViewModel>
+@inject UserManager<ApplicationUser> UserManager 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentUser = await this.UserManager.GetUserAsync(this.User);
 }
 
 <style>
@@ -29,7 +33,7 @@
         {
             var user = Model[i];
 
-            <tr>
+            <tr class="@(currentUser?.UserName == user.UserName ? "table-info" : "")">
                 <td>@(i+1)</td>
                 <td><div class="avatar" style="background-image: url(@user.AvatarUrl)"></div></td>
                 <td>@user.UserName</td>
