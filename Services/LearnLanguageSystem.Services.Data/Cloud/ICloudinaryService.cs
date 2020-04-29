@@ -6,8 +6,10 @@
 
     public interface ICloudinaryService
     {
-        Task<string> Upload(IFormFile file);
+        Task<string> UploadAsync(IFormFile file);
 
-        void Delete();
+        Task DeleteAsync(string id);
+
+        string GetId(string url);
     }
 }

@@ -16,7 +16,7 @@
             this.cloudinary = cloudinary;
         }
 
-        public async Task<string> Upload(IFormFile file)
+        public async Task<string> UploadAsync(IFormFile file)
         {
             byte[] destinationFile;
 
@@ -41,10 +41,19 @@
             return uploadResult.SecureUri.AbsoluteUri;
         }
 
-        public void Delete()
+        public async Task DeleteAsync(string id)
         {
-            //todo
-            throw new System.NotImplementedException();
+            await this.cloudinary.DestroyAsync(new DeletionParams(id));
+        }
+
+        public string GetId(string url)
+        {
+            var start = url.LastIndexOf('/') + 1;
+            var end = url.LastIndexOf('.') - start;
+
+            var id = url.Substring(start, end);
+
+            return id;
         }
     }
 }

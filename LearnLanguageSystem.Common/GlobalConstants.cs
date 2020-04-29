@@ -7,6 +7,6 @@
         public const string AdministratorRoleName = "Administrator";
 
         public const string DefaultUserAvatarUrl =
-            "https://res.cloudinary.com/dqjmykgq8/image/upload/v1587996532/avatardefault_92824_qwnwsu.svg";
+            "https://res.cloudinary.com/dqjmykgq8/image/upload/v1587996532/avatardefault.svg";
     }
 }

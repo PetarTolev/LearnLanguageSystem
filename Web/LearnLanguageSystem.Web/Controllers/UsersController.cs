@@ -29,7 +29,7 @@
                 return this.RedirectToAction("NotFound", "Errors");
             }
 
-            var url = await this.cloudinaryService.Upload(model.Avatar);
+            var url = await this.cloudinaryService.UploadAsync(model.Avatar);
 
             var user = await this.userManager.GetUserAsync(this.User);
 
