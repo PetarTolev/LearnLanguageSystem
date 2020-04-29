@@ -35,8 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationSettingsTests\" />
-    <Folder Include="ContactsTests\" />
+    <Folder Include="ApplicationSettings\" />
   </ItemGroup>
 
 </Project>
