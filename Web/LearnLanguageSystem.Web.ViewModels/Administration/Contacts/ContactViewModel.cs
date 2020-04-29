@@ -3,7 +3,7 @@
     using LearnLanguageSystem.Data.Models;
     using LearnLanguageSystem.Services.Mapping;
 
-    public class AllContactsViewModel : IMapFrom<EmailContact>
+    public class ContactViewModel : IMapFrom<EmailContact>
     {
         public int Id { get; set; }
 

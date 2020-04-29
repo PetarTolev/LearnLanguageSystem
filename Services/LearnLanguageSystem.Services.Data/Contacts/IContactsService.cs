@@ -8,5 +8,7 @@
         Task<bool> AddContactAsync(string name, string email, string title, string content);
 
         ICollection<T> GetAll<T>();
+
+        T GetById<T>(int id);
     }
 }

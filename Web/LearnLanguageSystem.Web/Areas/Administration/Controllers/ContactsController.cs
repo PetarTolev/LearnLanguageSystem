@@ -1,7 +1,5 @@
 ﻿namespace LearnLanguageSystem.Web.Areas.Administration.Controllers
 {
-    using System;
-
     using LearnLanguageSystem.Services.Data.Contacts;
     using LearnLanguageSystem.Web.ViewModels.Administration.Contacts;
     using Microsoft.AspNetCore.Mvc;
@@ -22,10 +20,16 @@
             return this.View(model);
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            //todo
-            throw new NotImplementedException();
+            var model = this.contactsService.GetById<ContactViewModel>(id);
+
+            if (model == null)
+            {
+                return this.RedirectToAction("BadRequest", "Errors");
+            }
+
+            return this.View(model);
         }
     }
 }

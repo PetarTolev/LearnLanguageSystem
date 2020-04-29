@@ -1,4 +1,4 @@
-﻿@model ICollection<LearnLanguageSystem.Web.ViewModels.Administration.Contacts.AllContactsViewModel>
+﻿@model ICollection<AllContactsViewModel>
 @{
     ViewData["Title"] = "All";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@contact.Title</h5>
                     <p class="card-text">@(contact.Content.Length > 150 ? contact.Content.Substring(0, 150) + "..." : contact.Content)</p>
-                    <a href="#" class="btn btn-primary">Details</a>
+                    <a class="btn btn-primary" asp-area="Administration" asp-controller="Contacts" asp-action="Details" asp-route-id="@contact.Id">Details</a>
                 </div>
             </div>
         }

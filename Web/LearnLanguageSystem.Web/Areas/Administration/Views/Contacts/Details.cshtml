@@ -1,0 +1,17 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mt-5 p-0">
+    <h5 class="card-header">@Model.Name / @Model.Email</h5>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Content</p>
+        <div class="d-flex justify-content-end">
+            <a href="#" class="btn btn-danger">Delete</a>
+            <a href="#" class="btn btn-secondary ml-2">Reply</a>
+        </div>
+    </div>
+</div>
