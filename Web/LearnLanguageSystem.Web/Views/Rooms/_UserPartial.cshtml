@@ -7,9 +7,13 @@
 
     @if (Model.IsOwner)
     {
-        if (Model.CurrentUserId != Model.ContestCreatorId)
+        if (Model.Id != Model.ContestCreatorId)
         {
             <td><a class="btn btn-danger" asp-area="" asp-controller="Rooms" asp-action="Kick" asp-route-userId="@Model.Id" asp-route-roomId="@Model.RoomId">Kick</a></td>
+        }
+        else
+        {
+            <td></td>
         }
     }
     else if (Model.IsMe)
