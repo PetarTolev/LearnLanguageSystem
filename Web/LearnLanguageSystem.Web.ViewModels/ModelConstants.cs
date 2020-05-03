@@ -10,7 +10,7 @@
 
         public class Contests
         {
-            public const string QuestionsCountError = "Questions count mus be between {2} and {1} symbols!";
+            public const string QuestionsCountError = "Questions count mus be between {1} and {2} symbols!";
             public const int MinQuestionsCount = 1;
             public const int MaxQuestionsCount = 10;
         }

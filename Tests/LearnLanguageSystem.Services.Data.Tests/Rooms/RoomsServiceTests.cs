@@ -69,7 +69,7 @@
 
             this.Room.Users.Add(userIn);
 
-            var applicationSettings = new LearnLanguageSystem.Data.Models.ApplicationSettings
+            var applicationSettings = new ApplicationSettings
             {
                 Id = 1,
                 AccessCodeLength = 4,
